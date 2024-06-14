@@ -1,0 +1,131 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template mod_zatuk/video-list-item
+    Example context (json):
+    {
+       "classes" :"",
+       "videos" : "true",
+       "thumbnail" : "",
+       "videoid" : "12",
+       "path" : "/path",
+       "title" : "Name",
+       "id" : "10",
+       "uniqid" : "5",
+       "divider" : "",
+       "status" : "",
+       "deleteoption" : ""
+    }
+}}
+<div class="pl-0 list-group list-group-flush">
+    <div class="card-deck dashboard-card-deck {{#classes}}{{/classes}}" data-region="card-deck" role="list">
+    {{#videos}}
+        <div class="card dashboard-card" role="listitem"
+            data-region="course-content"
+            data-course-id="{{{id}}}">
+            <a href="#" tabindex="-1">
+                <div class="card-img dashboard-card-img {{#status}} renderervideo {{/status}}" style='background-image: url("{{{thumbnail}}}");' data-id="{{videoid}}" data-zatukurl="{{path}}" data-title="{{title}}" >
+                    <span class="sr-only">{{#str}}aria:courseimage, core_course{{/str}}</span>
+                </div>
+            </a>
+            <div class="card-body pr-1 course-info-container" id="course-info-container-{{id}}-{{uniqid}}">
+                <div class="d-flex align-items-start">
+                    <div class="w-100 text-truncate">
+                    <span class="sr-only">
+                            {{#str}}aria:coursename, core_course{{/str}}
+                        </span>
+                       <h5> {{title}} </h5>
+                        <div class="text-muted muted d-flex mb-1 flex-wrap">
+                            {{#divider}}{{/divider}}
+                            <span class="sr-only">
+                                {{#str}}aria:courseshortname, core_course{{/str}}
+                            </span>
+                            <div>
+                                {{#status}}
+                                {{# str}}publishedon, mod_zatuk {{/ str}} {{{timecreated}}}
+                                {{/status}}
+                                {{^status}}
+                                {{# str}}uploadedon, mod_zatuk {{/ str}}: {{{timecreated}}}
+                                {{/status}}
+                            </div>
+                        </div>
+                    </div>
+                    {{^status}}
+                    {{#deleteoption}}
+                        <div class="ml-auto dropdown">
+                            <i class="icon fa fa-clock-o fa-fw " aria-hidden="true"></i>
+                            <button class="btn btn-link btn-icon icon-size-3 coursemenubtn"
+                                type="button"
+                                data-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="false">
+                                {{#pix}} i/moremenu, core {{/pix}}
+                                    <span class="sr-only">
+                                        {{#str}} aria:courseactions, mod_zatuk {{/str}} {{{fullname}}}
+                                    </span>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item deleteuploadedvideo"  href="#"
+                                    data-action="deletevideo"
+                                    data-id="{{ id }}"
+                                    aria-controls="favorite-icon-{{ id }}-{{ uniqid }}"
+                                    >
+                                    {{#str}} deletevideo, mod_zatuk {{/str}}
+                                    <div class="sr-only">
+                                        {{#str}} aria:deletevideo, mod_zatuk {{/str}} {{{fullname}}}
+                                    </div>
+                                </a>
+                                <a class="dropdown-item edituploadedvideo"  href="#"
+                                    data-action="uploadvideo"
+                                    data-id="{{ id }}"
+                                    aria-controls="favorite-icon-{{ id }}-{{ uniqid }}"
+                                    >
+                                    {{#str}} editvideo, mod_zatuk {{/str}}
+                                    <div class="sr-only">
+                                        {{#str}} aria:editvideo, mod_zatuk {{/str}} {{{fullname}}}
+                                    </div>
+                                </a>
+                                <a class="dropdown-item movetozatuk"  href="#"
+                                    data-action="movetozatuk"
+                                    data-id="{{ id }}"
+                                    aria-controls="favorite-icon-{{ id }}-{{ uniqid }}"
+                                    >
+                                    {{#str}} movetozatuk, mod_zatuk {{/str}}
+                                    <div class="sr-only">
+                                        {{#str}} aria:movetozatuk, mod_zatuk {{/str}}
+                                    </div>
+                                </a>
+                            </div>
+                            
+                        </div>
+                    {{/deleteoption}}
+                {{/status}}
+                </div>
+            </div>
+        </div>
+    {{/videos}}
+    </div>
+</div>
+
+{{#js}}
+    require(['mod_zatuk/deletevideo'], function(s) {
+        s.init();
+    });
+{{/js}}
+
+{{#js}}
+    require(['mod_zatuk/upload'], function(s) {
+        s.init();
+    });
+{{/js}}
