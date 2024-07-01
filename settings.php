@@ -23,7 +23,13 @@
  */
 defined('MOODLE_INTERNAL') || die;
 global $ADMIN, $PAGE;
-if (!(CLI_SCRIPT && WS_SERVER)) {
+if (!defined('CLI_SCRIPT')) {
+    define('CLI_SCRIPT', false);
+}
+if (!defined('WS_SERVER')) {
+    define('WS_SERVER', false);
+}
+if (!CLI_SCRIPT && !WS_SERVER) {
     if ($ADMIN->fulltree) {
         $urlparam = (object)$PAGE->url->params();
         if (!empty($urlparam)) {
