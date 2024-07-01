@@ -17,7 +17,7 @@
 /**
  * This file contains the forms to create and edit an instance of this module
  *
- * @since Moodle 2.0
+ * @since      Moodle 2.0
  * @package    mod_zatuk
  * @copyright  2023 Moodle India
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -38,8 +38,6 @@ class mod_zatuk_mod_form extends moodleform_mod {
     public function definition() {
         global $CFG, $DB, $PAGE, $OUTPUT;
         $mform = $this->_form;
-
-        $enableanalytics = get_config('repository_zatuk', 'enableanalytics');
 
         $mform->addElement('header', 'general', get_string('general', 'form'));
         $mform->addElement('text', 'name', get_string('name'), ['size' => '48']);
@@ -75,28 +73,8 @@ class mod_zatuk_mod_form extends moodleform_mod {
         $mform->addElement('text', 'height', get_string('height', 'zatuk'), ['size' => 3]);
         $mform->setType('height', PARAM_INT);
 
-        if ($enableanalytics) {
-            $mform->addElement('advcheckbox', 'enableanalytics', get_string('enableanalytics', 'zatuk'), null, null, [0, 1]);
-            $mform->setType('enableanalytics', PARAM_BOOL);
-            $mform->setDefault('enableanalytics', 1);
-        }
         $this->standard_coursemodule_elements();
         $this->add_action_buttons();
-    }
-    /**
-     * function add_completion_rules
-     */
-    public function add_completion_rules() {
-        $mform = $this->_form;
-        $mform->addElement('checkbox', 'completionvideoenabled', ' ', get_string('completionvideo', 'zatuk'));
-        return ['completionvideoenabled'];
-    }
-    /**
-     * function completion_rule_enabled
-     * @param array $data
-     */
-    public function completion_rule_enabled($data) {
-        return (!empty($data['completionvideoenabled']) && $data['completionvideoenabled'] != 0);
     }
     /**
      * function validation
@@ -133,13 +111,7 @@ class mod_zatuk_mod_form extends moodleform_mod {
         if (!$data) {
             return $data;
         }
-        if (!empty($data->completionunlocked)) {
-            // Turn off completion settings if the checkboxes aren't ticked.
-            $autocompletion = !empty($data->completion) && $data->completion == COMPLETION_TRACKING_AUTOMATIC;
-            if (empty($data->completionvideoenabled) || !$autocompletion) {
-                $data->completionvideoenabled = 0;
-            }
-        }
+
         return $data;
     }
 }

@@ -17,7 +17,7 @@
 /**
  * mod_zatuk renderer class
  *
- * @since Moodle 2.0
+ * @since      Moodle 2.0
  * @package    mod_zatuk
  * @copyright  2023 Moodle India
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -25,7 +25,6 @@
 
 namespace mod_zatuk\output;
 defined('MOODLE_INTERNAL') || die;
-use mod_zatuk\local\filters as filters;
 use html_writer;
 use user_course_details;
 use html_table;
@@ -33,14 +32,14 @@ use moodle_url;
 
 require_once($CFG->dirroot.'/mod/zatuk/locallib.php');
 /**
- * class filters
+ * class renderer
  */
 class renderer extends \plugin_renderer_base {
 
     /**
      * Defer to template.
      *
-     * @param coursestats $page
+     * @param object $page
      * @return string html for the page
      */
     public function render_player($page) {
@@ -53,7 +52,7 @@ class renderer extends \plugin_renderer_base {
      */
     public function uploadedvideos() {
         $condition = ['tableid' => 'zatuk_uploaded_videos_data', 'function' => 'zatuk_uploaded_videos_data'];
-        return $this->render_from_template('mod_zatuk/zatukVideos', $condition);
+        return $this->render_from_template('mod_zatuk/zatuk_videos', $condition);
     }
     /**
      * function zatukvideos
@@ -61,31 +60,7 @@ class renderer extends \plugin_renderer_base {
      */
     public function zatukvideos() {
         $condition = ['tableid' => 'get_zatuk_data', 'function' => 'get_zatuk_data'];
-        return $this->render_from_template('mod_zatuk/zatukVideos', $condition);
-    }
-
-    /**
-     * function coursestats
-     * @param string||null $courseid
-     * @param string||null $params
-     * @param string||null $search
-     */
-    public function coursestats($courseid = null, $params = null, $search = null) {
-        $coursevideossql = "SELECT cm.course, c.fullname,
-         COUNT(s.name) AS totalvideos, COUNT(cm.id) AS activevideos FROM {zatuk} s
-            JOIN {course_modules} cm ON cm.instance = s.id
-            AND cm.module = (SELECT id FROM {modules} WHERE name = 'zatuk')
-            JOIN {course} c ON c.id = cm.course WHERE cm.visible = '1'";
-        if (!is_null($courseid) && $courseid > 1) {
-            $coursevideossql .= " AND cm.course = {$courseid} ";
-        }
-        if ($search != '') {
-            $sql .= " AND c.fullname LIKE '%". $search ."%' ";
-        }
-        $coursevideossql .= " GROUP BY cm.course";
-        $coursescount = count($this->db->get_records_sql($coursevideossql));
-        $courses = $this->db->get_records_sql($coursevideossql, [], $params["start"], $params["length"]);
-        return compact('courses', 'coursescount');
+        return $this->render_from_template('mod_zatuk/zatuk_videos', $condition);
     }
     /**
      * function viewsinfo
@@ -121,7 +96,7 @@ class renderer extends \plugin_renderer_base {
         $total = $zatukinfo['total'];
         $data = [];
         foreach ($content as $zatuk) {
-            $data[] = [$this->render_from_template('mod_zatuk/videocard', $zatuk)];
+            $data[] = [$this->render_from_template('mod_zatuk/video_card', $zatuk)];
         }
         $outputs = [
             "draw" => isset($params['draw']) ? intval($params['draw']) + 1 : 1,
@@ -151,7 +126,7 @@ class renderer extends \plugin_renderer_base {
             $data['timecreated'] = date('d M Y', $video->timecreated);
             $data['status'] = $video->status == 0 ? get_string('notsynced', 'zatuk') :
              get_string('syncedat', 'zatuk').date('d M Y', $video->uploaded_on);
-            $tdata[] = [$this->render_from_template('mod_zatuk/videocard', $data)];
+            $tdata[] = [$this->render_from_template('mod_zatuk/video_card', $data)];
         }
         $outputs = [
             "draw" => isset($params['draw']) ? intval($params['draw']) + 1 : 1,
@@ -163,7 +138,7 @@ class renderer extends \plugin_renderer_base {
     }
     /**
      * function render_uploadedvideos
-     * @param stdclass $output  // uploadedvideos
+     * @param object $output  // uploadedvideos
      */
     public function render_uploadedvideos($output) {
 
@@ -172,7 +147,6 @@ class renderer extends \plugin_renderer_base {
     }
     /**
      * function get_thumbnail_url
-     * @param int $logoitemid
      */
     public function get_thumbnail_url() {
         global $DB;

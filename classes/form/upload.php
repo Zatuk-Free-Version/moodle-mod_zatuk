@@ -17,14 +17,14 @@
 /**
  * mod_zatuk video upload form
  *
- * @since Moodle 2.0
+ * @since      Moodle 2.0
  * @package    mod_zatuk
  * @copyright  2023 Moodle India
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 namespace mod_zatuk\form;
 defined('MOODLE_INTERNAL') || die;
-require_once("$CFG->libdir/externallib.php");
+require_once($CFG->libdir.'/externallib.php');
 require_once($CFG->dirroot.'/mod/zatuk/lib.php');
 
 use core_form\dynamic_form;
@@ -144,7 +144,9 @@ class upload extends dynamic_form {
         if (!empty($validateddata)) {
             $zatuk = new tp;
             $id = $zatuk->insert_zatuk_content($validateddata, $tags, $context);
-            $this->save_stored_file('filepath', $context->id, 'mod_zatuk', 'video',  $id);
+            if ((int)$validateddata->id <= 0 || is_null($validateddata->id)) {
+                $this->save_stored_file('filepath', $context->id, 'mod_zatuk', 'video',  $id);
+            }
             if ($id) {
                 $params = [
                 'context' => $context,

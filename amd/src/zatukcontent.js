@@ -29,7 +29,8 @@ define(
     'core/str',
     'mod_zatuk/zatuk_repository',
     'mod_zatuk/renderzatuk',
-    'core/custom_interaction_events'
+    'core/custom_interaction_events',
+    'core/modal_factory'
 ],
 function(
     $,
@@ -39,8 +40,23 @@ function(
     Str,
     zatukVideosRepository,
     RenderZatuk,
-    CustomEvents
+    CustomEvents,
+    ModalFactory
 ) {
+
+    const confirmbox = (message) => {
+     ModalFactory.create({
+        body: message,
+        type: ModalFactory.types.ALERT,
+        buttons: {
+            ok: Str.get_string('Thank_you'),
+        },
+        removeOnClose: true,
+      })
+      .done(function(modal) {
+        modal.show();
+      });
+    };
     var length, videosOffset, StatusFilter, SortFilter, SearchFilter;
     var limit = 10;
     var SELECTORS = {
@@ -53,7 +69,7 @@ function(
         SEARCH_QUERY: '[data-filter="searchfilter"]'
     };
     var TEMPLATES = {
-        ZATUK_LIST_CONTENT: 'mod_zatuk/video-list-item'
+        ZATUK_LIST_CONTENT: 'mod_zatuk/video_list_item'
     };
     var DEFAULT_PAGED_CONTENT_CONFIG = {
         pagingbar: true,
@@ -92,7 +108,6 @@ function(
     /**
      * Get the default context to render the paged content mustache
      * template.
-     *
      * @return {object}
      */
     var getDefaultTemplateContext = function() {
@@ -115,7 +130,6 @@ function(
         zatukVideos.forEach(function(zatukVideo) {
             templateContext.videos.push(zatukVideo);
         });
-        // console.log(templateContext);
         return templateContext;
     };
     /**
@@ -403,12 +417,14 @@ function(
                     // fancy loading placeholder to shine.
                     html.removeClass('hidden');
                     loadingPlaceholder.addClass('hidden');
-
                     if (!hasContent) {
                         // If we didn't get any data then show the empty data message.
                         hideContent(root);
+                        var confirmA = '<div class="d-flex justify-content-center align-items-center';
+                        var confirmB = 'flex-column w-100 p-3 zatuknodatadialogue_content">';
+                        var confirmC = '<div class="icon"></div><h4 class="my-3"> No Records Found.</h4></div>';
+                        confirmbox(confirmA + confirmB + confirmC);
                     }
-
                     return hasContent;
                 })
                 .catch(function() {

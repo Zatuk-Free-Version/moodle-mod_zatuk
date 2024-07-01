@@ -22,45 +22,28 @@
  */
 define(['jquery',
         'core/str',
-        'media_videojs/video-lazy',
-        'core/ajax'],
-        function($, Str,videojs, Ajax){
-            return {
-                load: function(args){
-                    var values = JSON.parse(args);
-                    const player = videojs(values.identifier);
-                    var myVideoPlayer = document.getElementById('mod_zatuk_form_video');
-                    player.src({
-                        src: values.src,
-                        type: 'application/x-mpegURL'
-                    });
-                     player.hlsQualitySelector({
-                       displayCurrentQuality: true,
-                    });
-                    if(typeof(myVideoPlayer) != 'undefined'  && myVideoPlayer !== null){
-                        myVideoPlayer.onloadedmetadata = function() {
-                        };
-                        myVideoPlayer.addEventListener('loadedmetadata', function () {
-                            $('#zatuk_duration').val(myVideoPlayer.duration.toFixed(0));
-                        });
-                    }
-                    player.on("pause", function() {
-                        var currenttime = player.currentTime();
-                        var lengthOfVideo = player.duration();
-                            var promises = Ajax.call([{
-                                methodname: 'mod_zatukattempts',
-                                args: {
-                                    moduleid:values.cm,
-                                    courseid:values.course,
-                                    duration:lengthOfVideo,
-                                    currenttime: currenttime,
-                                    event:'pause'
-                                },
-                            }]);
-                            promises[0].done(function() {
-                            }).fail(function() {
-                            });
-                    });
+        'media_videojs/video-lazy'],
+function($, Str,videojs){
+    return {
+        load: function(args){
+            var values = JSON.parse(args);
+            const player = videojs(values.identifier);
+            var myVideoPlayer = document.getElementById('mod_zatuk_form_video');
+            player.src({
+                src: values.src,
+                type: 'application/x-mpegURL'
+            });
+             player.hlsQualitySelector({
+               displayCurrentQuality: true,
+            });
+            if(typeof(myVideoPlayer) != 'undefined'  && myVideoPlayer !== null){
+                myVideoPlayer.onloadedmetadata = function() {
+                };
+                myVideoPlayer.addEventListener('loadedmetadata', function () {
+                    $('#zatuk_duration').val(myVideoPlayer.duration.toFixed(0));
+                });
             }
-        };
-    });
+
+        }
+    };
+});

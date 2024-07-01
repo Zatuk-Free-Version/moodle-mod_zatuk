@@ -17,7 +17,7 @@
 /**
  * mod_zatuk player class
  *
- * @since Moodle 2.0
+ * @since      Moodle 2.0
  * @package    mod_zatuk
  * @copyright  2023 Moodle India
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -56,8 +56,8 @@ class player implements renderable, templatable {
     private $height = 268;
     /**
      * function __construct
-     * @param stdclass $zatukinstance
-     * @param stdclass $cm
+     * @param \stdclass $zatukinstance
+     * @param \stdclass $cm
      */
     public function __construct($zatukinstance, $cm) {
 
@@ -69,7 +69,7 @@ class player implements renderable, templatable {
     }
     /**
      * function export_for_template
-     * @param stdclass $ouput  //renderer_base
+     * @param \stdclass $ouput  //renderer_base
      */
     public function export_for_template($ouput) {
         return $this->data;

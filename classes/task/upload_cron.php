@@ -47,6 +47,6 @@ class upload_cron extends \core\task\scheduled_task {
      */
     public function execute() {
         $uploader = new \mod_zatuk\lib\uploader();
-        $uploader->videossync();
+        $uploader->publish_video();
     }
 }

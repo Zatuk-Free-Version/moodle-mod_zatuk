@@ -17,6 +17,7 @@
 /**
  * mod_zatuk uploadedvideos class
  *
+ * @since     Moodle 2.0
  * @package   mod_zatuk
  * @copyright 2021 2023 Moodle India
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -53,19 +54,18 @@ class uploadedvideos implements renderable, templatable {
      * Export this data so it can be used as the context for a mustache template.
      *
      * @param \renderer_base $output
-     * @return stdClass
      */
     public function export_for_template(renderer_base $output) {
 
         $data = new \stdClass();
 
         $data->all = true;
-        $datalength = (new \mod_zatuk\zatuk)->uploadedvideodata();
+        $datalength = (new \mod_zatuk\zatuk)->zatuk_uploaded_video_data();
         $data->length = $datalength['length'];
         $data->statusfilter = 'all';
         $condition = (is_siteadmin() ||
                       has_capability('mod/zatuk:editingteacher', $this->context) ||
-                      has_capability('mod/zatuk:manageactions', $systemcontext)
+                      has_capability('mod/zatuk:manageactions', $this->context)
                     );
         $data->addcapability = $condition ? true : false;
         return $data;

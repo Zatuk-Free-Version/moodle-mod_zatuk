@@ -17,6 +17,7 @@
 /**
  * zatuk module capability definition
  *
+ * @since     Moodle 2.0
  * @package   mod_zatuk
  * @copyright 2021 2023 Moodle India
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -33,10 +34,8 @@ $capabilities = [
             'user' => CAP_ALLOW,
         ],
     ],
-
     'mod/zatuk:addinstance' => [
         'riskbitmask' => RISK_XSS,
-
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
         'archetypes' => [
@@ -45,29 +44,12 @@ $capabilities = [
         ],
         'clonepermissionsfrom' => 'moodle/course:manageactivities',
     ],
-
     'mod/zatuk:create' => [
         'riskbitmask' => RISK_XSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => [
             'student' => CAP_ALLOW,
-        ],
-    ],
-    'mod/zatuk:canrate' => [
-        'riskbitmask' => RISK_SPAM,
-        'captype' => 'write',
-        'contextlevel' => CONTEXT_MODULE,
-        'archetypes' => [
-            'student' => CAP_ALLOW,
-        ],
-    ],
-    'mod/zatuk:viewreports' => [
-        'riskbitmask' => RISK_XSS,
-        'captype' => 'read',
-        'contextlevel' => CONTEXT_MODULE,
-        'archetypes' => [
-            'manager' => CAP_ALLOW,
         ],
     ],
     'mod/zatuk:viewuploadedvideos' => [
@@ -86,25 +68,8 @@ $capabilities = [
             'manager' => CAP_ALLOW,
         ],
     ],
-    'mod/zatuk:deletevideos' => [
-        'riskbitmask' => RISK_XSS,
-        'captype' => 'read',
-        'contextlevel' => CONTEXT_MODULE,
-        'archetypes' => [
-            'manager' => CAP_ALLOW,
-        ],
-    ],
-
     'mod/zatuk:deletevideo' => [
         'riskbitmask' => RISK_SPAM | RISK_XSS,
-        'captype' => 'write',
-        'contextlevel' => CONTEXT_SYSTEM,
-        'archetypes' => [
-            'manager' => CAP_ALLOW,
-        ],
-    ],
-
-    'mod/zatuk:myaddinstance' => [
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => [
@@ -143,7 +108,6 @@ $capabilities = [
             'manager' => CAP_ALLOW,
         ],
     ],
-
     'mod/zatuk:editingteacher' => [
         'riskbitmask' => RISK_SPAM | RISK_XSS,
         'captype' => 'write',

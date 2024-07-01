@@ -17,15 +17,17 @@
 /**
  * zatuk module version information
  *
+ * @since      Moodle 2.0
  * @package    mod_zatuk
  * @copyright  2023 Moodle India
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @since      Moodle 3.0
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2021031623.86;       // The current module version (Date: YYYYMMDDXX).
-$plugin->requires  = 2016051900;   // Requires this Moodle version.
-$plugin->component = 'mod_zatuk';        // Full name of the plugin (used for diagnostics).
-$plugin->cron      = 0;
+$plugin->version = 2022041900.07;
+$plugin->requires = 2022041900.00; // Moodle 4.0.
+$plugin->supported = [400, 440];
+$plugin->component = 'mod_zatuk';
+$plugin->maturity = MATURITY_STABLE;
+$plugin->release = '4.x (Build: 2022041900.00)';

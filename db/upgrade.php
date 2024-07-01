@@ -16,7 +16,7 @@
 
 /**
  * zatuk module upgrade code
- *
+ * @since      Moodle 2.0
  * @package   mod_zatuk
  * @copyright 2023 Moodle India
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -77,7 +77,7 @@ function xmldb_zatuk_upgrade($oldversion) {
             $table->add_field('timecreated', XMLDB_TYPE_INTEGER, '10', null, null, null, '0');
             $table->add_field('usercreated', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
             $table->add_key('primary', XMLDB_KEY_PRIMARY, ['id']);
-            $result = $dbman->create_table($table);
+            $dbman->create_table($table);
         }
         upgrade_mod_savepoint(true, 2016052311, 'zatuk');
     }
@@ -118,7 +118,7 @@ function xmldb_zatuk_upgrade($oldversion) {
             $table->add_field('status', XMLDB_TYPE_INTEGER, '1', null, null, null, '0');
             $table->add_field('timemodified', XMLDB_TYPE_INTEGER, '10', null, null, null, '0');
             $table->add_key('primary', XMLDB_KEY_PRIMARY, ['id']);
-            $result = $dbman->create_table($table);
+            $dbman->create_table($table);
         }
         upgrade_mod_savepoint(true, 2021031619, 'zatuk');
     }
@@ -169,14 +169,6 @@ function xmldb_zatuk_upgrade($oldversion) {
             $dbman->add_field($table, $field2);
         }
         upgrade_mod_savepoint(true, 2021031623.64, 'zatuk');
-    }
-    if ($oldversion < 2021031623.80) {
-        $table = new xmldb_table('zatuk');
-        $field = new xmldb_field('completionvideoenabled', XMLDB_TYPE_INTEGER, 2, null, null, null, '0');
-        if (!$dbman->field_exists($table, $field)) {
-            $dbman->add_field($table, $field);
-        }
-        upgrade_mod_savepoint(true, 2021031623.80, 'zatuk');
     }
 
     if ($oldversion < 2021031623.84) {

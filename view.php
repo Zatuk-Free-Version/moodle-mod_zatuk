@@ -17,6 +17,7 @@
 /**
  * zatuk module main user interface
  *
+ * @since     Moodle 2.0
  * @package   mod_zatuk
  * @copyright 2021 2023 Moodle India
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -51,12 +52,11 @@ $PAGE->set_pagelayout('incourse');
 $PAGE->set_title($course->shortname.': '.$zatuk->name);
 $PAGE->set_heading($zatuk->name);
 $PAGE->requires->jquery();
-$PAGE->requires->js('/mod/zatuk/js/highcharts.js', true);
-$PAGE->requires->js('/mod/zatuk/js/heatmap.js', true);
-$PAGE->requires->js('/mod/zatuk/js/data.js', true);
 $params = json_encode(['identifier' => 'my_video_1', 'src' => $zatuk->externalurl, 'cm' => $cm->id, 'course' => $cm->course]);
 $PAGE->requires->js_call_amd('mod_zatuk/player', 'load', [$params]);
-
+// Completion.
+$completion = new completion_info($course);
+$completion->set_module_viewed($cm);
 echo $OUTPUT->header();
 
     $params = [

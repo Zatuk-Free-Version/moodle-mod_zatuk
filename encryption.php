@@ -17,6 +17,7 @@
 /**
  * This file is used to get encryption token.
  *
+ * @since     Moodle 2.0
  * @package   mod_zatuk
  * @copyright 2021 2023 Moodle India
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -25,14 +26,13 @@
 require_once('../../config.php');
 global $CFG;
 require_login();
+require_capability('mod/zatuk:view', context_system::instance());
 require_once($CFG->dirroot.'/repository/zatuk/zatuklib.php');
-
 $apikey = trim(get_config('repository_zatuk', 'zatuk_key'));
 $secret  = trim(get_config('repository_zatuk', 'zatuk_secret'));
 $apiurl = trim(get_config('repository_zatuk', 'zatuk_api_url'));
 $emailaddress  = trim(get_config('repository_zatuk', 'email'));
 $username  = trim(get_config('repository_zatuk', 'name'));
-$zatuk = new phpzatuk($apiurl, $apikey, $secret, $emailaddress, $username);
+$zatuk = new phpzatuk($apiurl, $apikey, $secret);
 $url = required_param('uri',  PARAM_RAW);
-
 echo $zatuk->get_encryption_token($url);

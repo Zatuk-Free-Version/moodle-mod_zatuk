@@ -22,9 +22,16 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 defined('MOODLE_INTERNAL') || die;
-$urlparam = (object)$PAGE->url->params();
-$section = $urlparam->section;
-if ($section == 'modsettingzatuk') {
-    return redirect($CFG->wwwroot.'/mod/zatuk/index.php');
+global $ADMIN, $PAGE;
+if (!(CLI_SCRIPT && WS_SERVER)) {
+    if ($ADMIN->fulltree) {
+        $urlparam = (object)$PAGE->url->params();
+        if (!empty($urlparam)) {
+            if (isset($urlparam->section) &&  $urlparam->section == 'modsettingzatuk') {
+                return redirect($CFG->wwwroot.'/mod/zatuk/index.php');
+            }
+        }
+    }
 }
+
 

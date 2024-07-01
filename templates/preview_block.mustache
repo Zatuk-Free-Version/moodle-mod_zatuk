@@ -12,17 +12,13 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template mod_zatuk/zatukVideos
+    @template mod_zatuk/preview_block
     Example context (json):
     {
-      "tableid":"123",
-      "function":"zatukfunction",
-      "nodatastring":"no data found"
-
+        "zatukurl": "https://zatukurl.com",
+        "title": "title",
+        "id": "5"
     }
 }}
-<table id="{{tableid}}" class="dataTable generaltable" data-function='{{function}}' data-pagelength='10' data-nodatastring="{{nodatastring}}">
-	<thead style='display:none'>
-		<th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th>
-	</thead>
-</table>
+<video src="{{zatukurl}}" data-title='{{title}}' id="rendervideo_{{id}}" class="zatuk_video video-js vjs-default-skin vjs-big-play-centered vjs-layout-medium" autoplay 
+controls preload="auto" width="450" height="250"></video>

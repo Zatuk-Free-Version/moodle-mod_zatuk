@@ -12,7 +12,7 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template mod_zatuk/videocard
+    @template mod_zatuk/video_card
     Example context (json):
     {
        "delete_enable" :"true",
@@ -32,21 +32,15 @@
     			<i class="fa fa-trash" aria-hidden="true"></i>
     		</span>
     	{{/ delete_enable}}
-            <div class="card main_card">
-                <img class="card-img-top renderervideo" src="{{thumbnail}}" alt="{{title}}" data-id="{{videoid}}" data-zatukurl="{{path}}" data-title="{{title}}" class="w-100" height="150px">
-                <div class="card-block">
-                    <h6 class="card-title">{{{title}}}</h6>
-                    
-                    <div class="card-text">
-                        <p class="te_mt upload">{{#str}}uploadedby,mod_zatuk{{/str}} <span class="upload_by_clr"> {{usercreated}} {{#str}}on{{/str}},mod_zatuk {{timecreated}} </span></p>
-                    </div>
+        <div class="card main_card">
+            <img class="card-img-top renderervideo" src="{{thumbnail}}" alt="{{title}}" data-id="{{videoid}}" data-zatukurl="{{path}}" data-title="{{title}}" class="w-100" height="150px">
+            <div class="card-block">
+                <h6 class="card-title">{{{title}}}</h6>
+
+                <div class="card-text">
+                    <p class="te_mt upload">{{#str}}uploadedby,mod_zatuk{{/str}} <span class="zatuk_upload_by_clr"> {{usercreated}} {{#str}}on{{/str}},mod_zatuk {{timecreated}} </span></p>
                 </div>
             </div>
-			<!-- <div class="card-title col-md-6"><b>{{{title}}}</b></div>
-			<div class="col-md-6" style="text-align: end">{{{status}}}</div> -->
-		
-    	<!-- <div><p>{{{tagsname}}}</p></div>
-    	<div><img src="{{thumbnail}}" alt="{{title}}" class="thumbnail_img" height="100px" width="100px"></div>
-		<div><p>Uploaded by <b>{{username}}</b> on {{timecreated}}</p></div> -->
+        </div>
   	</div>
 </div>

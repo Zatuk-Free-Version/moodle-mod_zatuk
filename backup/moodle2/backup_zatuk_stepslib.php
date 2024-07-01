@@ -17,7 +17,7 @@
 /**
  * Defines backup_zatuk_activity_structure_step class
  *
- * @since Moodle 2.0
+ * @since      Moodle 2.0
  * @package    mod_zatuk
  * @copyright  2023 Moodle India
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -25,10 +25,6 @@
 
 /**
  * Define all the backup steps that will be used by the backup_zatuk_activity_task
- */
-
-/**
- * Define the complete content structure for backup, with file and id annotations
  */
 class backup_zatuk_activity_structure_step extends backup_activity_structure_step {
     /**

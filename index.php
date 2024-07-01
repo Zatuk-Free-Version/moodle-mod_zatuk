@@ -17,6 +17,7 @@
 /**
  * Displays information about all uploaded videos.
  *
+ * @since     Moodle 2.0
  * @package   mod_zatuk
  * @copyright 2021 2023 Moodle India
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -26,7 +27,7 @@ require('../../config.php');
 global $OUTPUT, $CFG, $PAGE;
 require_login();
 $systemcontext = context_system::instance();
-
+require_capability('mod/zatuk:view', context_system::instance());
 $PAGE->requires->js_call_amd('mod_zatuk/zatukcontent', 'init', ['[data-region="zatuk-list-container"]', 10]);
 $PAGE->requires->js_call_amd('mod_zatuk/zatukcontent', 'registerSelector');
 $PAGE->requires->js_call_amd('mod_zatuk/upload', 'init');
@@ -55,7 +56,7 @@ $condition = (is_siteadmin() ||
 if ($condition) {
     echo $zatukoutput->render($uploadedvideos);
 } else {
-    moodle_exception(get_string('nopermissions', 'mod_zatuk'));
+    throw new moodle_exception(get_string('nopermissions', 'mod_zatuk'));
 }
 
 echo $OUTPUT->footer();

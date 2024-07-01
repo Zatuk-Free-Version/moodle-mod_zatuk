@@ -17,6 +17,7 @@
 /**
  * Language File.
  *
+ * @since     Moodle 2.0
  * @package   mod_zatuk
  * @copyright 2021 2023 Moodle India
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -33,7 +34,6 @@ $string['createurl'] = 'Create a URL';
 $string['displayoptions'] = 'Available display options';
 $string['displayselect'] = 'Display';
 $string['displayselect_help'] = 'This setting, together with the URL file type and whether the browser allows embedding, determines how the URL is displayed. Options may include:
-
 * Automatic - The best display option for the URL is selected automatically
 * Embed - The URL is displayed within the page below the navigation bar together with the URL description and any blocks
 * Open - Only the URL is displayed in the browser window
@@ -41,7 +41,7 @@ $string['displayselect_help'] = 'This setting, together with the URL file type a
 * In frame - The URL is displayed within a frame below the navigation bar and URL description
 * New window - The URL is displayed in a new browser window with menus and an address bar';
 $string['displayselectexplain'] = 'Choose display type, unfortunately not all types are suitable for all URLs.';
-$string['externalurl'] = 'Browse Video';
+$string['externalurl'] = 'External URL';
 $string['framesize'] = 'Frame height';
 $string['invalidstoredurl'] = 'Cannot display this resource, URL is invalid.';
 $string['chooseavariable'] = 'Choose a variable...';
@@ -75,95 +75,69 @@ $string['zatuk:addinstance'] = 'Add a new zatuk module';
 $string['zatuk:view'] = 'View';
 $string['zatuk:canrate'] = 'Rate';
 $string['zatuk:create'] = 'Create';
-$string['zatuk:deletevideos'] = 'Delete Videos';
-$string['zatuk:viewallvideos'] = 'View All Videos';
-$string['zatuk:viewreports'] = 'View Reports';
-$string['zatuk:viewuploadedvideos'] = 'View Uploaded Videos';
-$string['zatuk:deletevideo'] = 'Delete Video';
-$string['zatuk:editingteacher'] = 'Editing Teacher';
-$string['zatuk:editvideo'] = 'Edit Video';
-$string['zatuk:manageactions'] = 'Manage Actions';
-$string['zatuk:myaddinstance'] = 'Add Instance';
-$string['zatuk:uploadvideo'] = 'Upload Video';
-$string['zatuk:viewuploadedvideo'] = 'View Uploaded Video';
-$string['zatuk:viewvideos'] = 'View Videos';
+$string['zatuk:viewallvideos'] = 'View all videos';
+$string['zatuk:viewuploadedvideos'] = 'View uploaded videos';
+$string['zatuk:deletevideo'] = 'Delete video';
+$string['zatuk:editingteacher'] = 'Editing teacher';
+$string['zatuk:editvideo'] = 'Edit video';
+$string['zatuk:manageactions'] = 'Manage actions';
+$string['zatuk:uploadvideo'] = 'Upload video';
+$string['zatuk:viewuploadedvideo'] = 'View uploaded video';
+$string['zatuk:viewvideos'] = 'View videos';
 $string['width'] = 'Width';
 $string['height'] = 'Height';
-$string['zatukanalyticsuser'] = 'Zatuk Analytics User';
-$string['zatukanalyticsemail'] = 'Zatuk Analytics user Email';
+$string['zatukanalyticsuser'] = 'Zatuk analytics user';
+$string['zatukanalyticsemail'] = 'Zatuk analytics user email';
 $string['appearence'] = 'Appearence';
-
-$string['specificstar'] = '{$a} Star';
-$string['postcomment'] = 'Post Review';
-$string['reviews'] = 'Reviews';
-$string['reviews_for'] = 'Reviews for "{$a}"';
-$string['writereview'] = 'Write a Review!';
-$string['enable_reviews'] = 'Enable Reviews';
 $string['configlocal_review_help'] = 'Enable reviews on the modules';
-
-$string['report'] = 'Report';
-$string['reports'] = 'Reports';
-$string['zatukreports'] = 'Zatuk Reports';
-
 $string['topviews'] = 'Most viewed';
-
 $string['fivemins'] = 'Most liked ( > 5 minutes)';
 $string['fivetotenmins'] = 'Most liked ( > 5 minutes AND < 10 minutes)';
 $string['abovetenmins'] = 'Most liked ( > 10 minutes)';
-$string['activevideos'] = 'Active/Total Videos';
-
-$string['streamedvideos'] = 'Streamed Minutes';
+$string['activevideos'] = 'Active/total videos';
+$string['streamedvideos'] = 'Streamed minutes';
 $string['totalviews'] = 'Total Views';
 $string['uploadedvideos'] = 'Videos';
-$string['uploadvideo'] = 'Upload Video';
+$string['uploadvideo'] = 'Upload video';
 $string['organization'] = 'Organization';
 $string['title'] = 'Title';
 $string['tags'] = 'Tags';
 $string['videodescription'] = 'Description';
 $string['titlerequired'] = 'Required';
 $string['filepath'] = 'Video';
-$string['filepathrequired'] = 'Video Required';
+$string['filepathrequired'] = 'Video required';
 $string['thumbnail'] = 'Thumbnail';
-$string['advancedfields'] = 'Advanced Fields';
-
+$string['advancedfields'] = 'Advanced fields';
 $string['standard'] = 'standard';
 $string['url'] = 'url';
 $string['views'] = 'Views';
-
 $string['picture'] = 'picture of ';
 $string['user'] = 'User ';
 $string['email'] = 'Email ';
 $string['rated'] = 'Rated ';
-$string['lastviewedon'] = ' Last Viewed on ';
+$string['lastviewedon'] = ' Last viewed on ';
 $string['view'] = 'View ';
-$string['lastviewed'] = 'Last Viewed ';
+$string['lastviewed'] = 'Last viewed ';
 $string['video'] = 'Video ';
 $string['date'] = 'Date ';
 $string['table'] = 'table';
-
 $string['videoname'] = 'Video name';
-
 $string['browsevideo'] = 'Browse video';
 $string['required'] = 'Required';
 $string['selectvideo'] = 'Select video';
-
 $string['week'] = 'Week';
 $string['month'] = 'Month';
 $string['year'] = 'Year';
 $string['custom'] = 'Custom';
 $string['all'] = 'All';
-$string['startdateenddate'] = 'Start Date - End Date';
+$string['startdateenddate'] = 'Start date - end date';
 $string['filter'] = 'Filter';
 $string['activities'] = 'Activities : ';
-
-// Summaryreport.
 $string['videossummary'] = 'Videos summary';
 $string['course'] = 'Course';
-$string['averagetime'] = 'Average Time';
-$string['uploadedon'] = 'Uploaded On';
-$string['uploadedby'] = 'Uploaded By';
-
-// TopReports.
+$string['averagetime'] = 'Average time';
+$string['uploadedon'] = 'Uploaded on';
+$string['uploadedby'] = 'Uploaded by';
 $string['graph'] = 'Graph';
 $string['reporttable'] = 'Report table';
 $string['activitystatus'] = 'Activity status';
@@ -173,56 +147,33 @@ $string['completedon'] = 'Completed on';
 $string['timeperiod'] = 'Time Period';
 $string['day'] = 'Day';
 $string['completedvideos'] = 'Completed videos';
-
-// Trendcharts.
-$string['studentparticipation'] = 'Student participation';
-$string['coursestats'] = 'Course stats';
-$string['totalvideos'] = 'Total videos';
-$string['activevideos'] = 'Active videos';
-
-// Videotrends.
 $string['videotrends'] = 'Video trends';
-
-// Viewsreport.
-$string['#ofattempts'] = '# of Attempts';
-
 $string['na'] = 'N/A';
-
-// Local/filters.
 $string['byactivity'] = 'By activity';
 $string['selected'] = 'selected';
 $string['manager'] = 'manager';
 $string['bycourse'] = 'By course';
-$string['querywrong'] = 'Sql Query Wrong!';
-
-// Local/zatuk.
+$string['querywrong'] = 'Sql query Wrong!';
 $string['disabled'] = 'disabled="disabled"';
-
-// Renderer.
 $string['completed'] = 'Completed';
 $string['notyetstarted'] = 'Not yet started';
 $string['inprogress'] = 'In progress';
-$string['notsynced'] = 'Not Synced';
+$string['notsynced'] = 'Not synced';
 $string['syncedat'] = 'Synced at ';
-
 $string['noreport'] = 'Report doesnt exist';
-
 $string['noofviewsbyuser'] = 'No. of views by user';
-
-// Js strings.
-$string['dailyhitsviews'] = 'Daily Hits/Views';
-$string['hitsviews'] = 'Hits/Views';
+$string['dailyhitsviews'] = 'Daily hits/Views';
+$string['hitsviews'] = 'Hits/views';
 $string['noofusers'] = 'Number of users';
 $string['tablesearch'] = 'Search...';
-$string['eventzatukactivityviewed'] = 'Zatuk Activity viewed';
-$string['eventvideoplayed'] = 'Video Played';
-$string['eventvideocompleted'] = 'Video Completed';
-$string['eventvideopaused'] = 'Video Paused';
+$string['eventzatukactivityviewed'] = 'Zatuk activity viewed';
+$string['eventvideoplayed'] = 'Video played';
+$string['eventvideocompleted'] = 'Video completed';
+$string['eventvideopaused'] = 'Video paused';
 $string['zatukingapp'] = 'Zatuk app';
 $string['recordsession'] = 'Record session';
 $string['nozatukrepository'] = 'Please enable zatuk repository to <u><a href="{$a}">continue</a></u>';
 $string['completionvideo'] = 'The user must complete the video.';
-
 $string['videocompleted'] = 'The user with id {$a->userid} completely viewed the zatuk activity having reportid {$a->objectid}.';
 $string['videoplayed'] = 'The user with id {$a->userid} plays the video having reportid {$a->objectid}.';
 $string['zatukpaused'] = 'The user with id {$a->userid} paused the video having reportid {$a->objectid}.';
@@ -231,63 +182,59 @@ $string['user'] = 'User';
 $string['video'] = 'Video';
 $string['attempts'] = '# of attempts';
 $string['status'] = 'Status';
-$string['completedon'] = 'Completed On';
-$string['lastviewdon'] = 'Last Viewed On';
-
-// Strings from block module.
+$string['completedon'] = 'Completed on';
+$string['lastviewdon'] = 'Last viewed on';
 $string['pluginname'] = 'Zatuk';
 $string['uploadedvideos'] = 'Uploaded videos';
-$string['uploadvideo'] = 'Upload Video';
+$string['uploadvideo'] = 'Upload video';
 $string['title'] = 'Title';
 $string['filepath'] = 'Video';
 $string['advancedfields'] = 'Advanced fields';
 $string['tags'] = 'Tags';
 $string['videodescription'] = 'Description';
 $string['thumbnail'] = 'Thumbnail';
-$string['filepathrequired'] = 'Video Required';
+$string['filepathrequired'] = 'Video required';
 $string['titlerequired'] = 'Required';
 $string['totalvideos'] = 'Total videos';
-$string['upload_videos'] = 'Upload Video';
+$string['upload_videos'] = 'Upload video';
 $string['deleteconfirm'] = 'Are you sure to delete this video?';
 $string['deletevideo'] = 'Delete video?';
 $string['selectcategory'] = 'Select category';
 $string['addvideo'] = 'Add Video';
 $string['novideosuploadedyet'] = 'No videos uploaded yet, please upload!';
 $string['zatukingnotyetset'] = 'No video available in streaming application, Please make sure streaming application settings are correct <a href='.$CFG->wwwroot.'/admin/repository.php?sesskey={$a}&action=edit&repos=zatuk>Here</a>';
-$string['eventvideouploaded'] = 'Video Uploaded';
-$string['eventvideosynced'] = 'Video Synced';
+$string['eventvideouploaded'] = 'Video uploaded';
+$string['eventvideosynced'] = 'Video synced';
 $string['inprogress'] = 'In progress videos';
 $string['allvideos'] = 'All videos';
 $string['published'] = 'Publised videos';
 $string['deletevideo'] = 'Delete video';
 $string['uploadeddate'] = 'Uploaded date';
 $string['nodata'] = 'No video available with given filters.';
-
-
-$string['uploadedby'] = 'Uploaded By';
+$string['uploadedby'] = 'Uploaded by';
 $string['on'] = 'On';
 $string['delete'] = 'Delete';
-$string['uploadvideo'] = 'Upload Video';
+$string['uploadvideo'] = 'Upload video';
 $string['publishedon'] = 'Published on';
 $string['uploadedon'] = 'Uploaded on';
 $string['uploadedvideos'] = 'Uploaded videos:';
 $string['syncvideos'] = 'Synced videos:';
 $string['totalvideos'] = 'Total videos:';
 $string['viewmore'] = 'View More';
-$string['saveandcontinue'] = 'Save & Continue';
+$string['saveandcontinue'] = 'Save & continue';
 $string['cancel'] = 'Cancel';
 $string['cannotcallclass'] = 'Cannot call a class as a function';
 $string['expression'] = 'Super expression must either be null or a function, not ';
 $string['notinitialised'] = 'this hasnt been initialised - super() hasnt been called';
-$string['unloaddetails'] = 'Before unload Details updated';
+$string['unloaddetails'] = 'Before unload details updated';
 $string['completedduration'] = 'completed duration is 0';
 $string['notintrested'] = 'Not inserted';
-$string['Pauselog'] = 'Pauselog Details updated';
-$string['notupdated'] = 'Not Updated';
+$string['Pauselog'] = 'Pauselog details updated';
+$string['notupdated'] = 'Not updated';
 $string['uploaderror'] = 'Error in upload';
 $string['public'] = 'Public';
-$string['editvideo'] = 'Edit Video';
-$string['movetozatuk'] = 'Move To Zatuk';
+$string['editvideo'] = 'Edit video';
+$string['movetozatuk'] = 'Move to zatuk';
 $string['enableanalytics'] = 'Enable Analytics';
 $string['enableanalyticsdesc'] = 'By default it will be enabled.';
 $string['Zatuk'] = 'Zatuk';
@@ -297,5 +244,20 @@ $string['actionpermission'] = 'Sorry, but you do not currently have permissions 
 $string['nopermissions'] = 'Sorry, but you do not currently have permissions to do that.';
 $string['videouploadedby'] = 'Video is uploaded by userid {$a->userid} with status {$a->objectid}';
 $string['views'] = 'Views';
-$string['not_synced'] = 'Not Synced';
+$string['not_synced'] = 'Not synced';
 $string['synced_at'] = 'Synced at';
+$string['privacy:metadata:organization'] = 'Category under organization';
+$string['privacy:metadata:videoid'] = 'Uploded video id';
+$string['privacy:metadata:title'] = 'Uploded  video title';
+$string['privacy:metadata:description'] = 'Uploded  video description';
+$string['privacy:metadata:tags'] = 'Tags created under organization';
+$string['privacy:metadata:filename'] = 'Uploaded video file name';
+$string['privacy:metadata:filepath'] = 'Uploaded video file path';
+$string['privacy:metadata:organisationname'] = 'name of the category under organization';
+$string['privacy:metadata:tagsname'] = 'Name of tags under organization';
+$string['privacy:metadata:status'] = 'Status of the uploaded video';
+$string['privacy:metadata:published'] = 'Published status of the uploaded video';
+$string['privacy:metadata:usercreated'] = 'ID of the submission author';
+$string['preview'] = 'Preview';
+$string['loading'] = 'Loading...';
+

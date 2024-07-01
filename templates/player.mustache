@@ -19,13 +19,13 @@
         "isview": "true",
     }
 }}
-<div class="col-lg-8 col-md-7 view_left_wrapper">
+<div class="col-lg-8 col-md-7 zatuk_view_left_wrapper">
     <div class='w-100'>
         <video id='my_video_1' class='w-100 video-js vjs-default-skin vjs-big-play-centered' controls preload='auto'
           data-setup='{"playbackRates": [0.5, 1, 1.5, 2]}' width="800" height="450">
         </video>
     </div>
-    <div class="w-100 course_detail_container d-flex justify-content-between align-items-center flex-row flex-wrap'">
+    <div class="w-100 zatuk_course_detail_container d-flex justify-content-between align-items-center flex-row flex-wrap'">
         <div class="overall_users mt-10">
         <div class='mytooltip'>
                 <div class='mytooltiptext'><span class='rating_tooltip' data-itemid={{itemid}} data-ratearea='zatuk'></span>
@@ -39,38 +39,3 @@
 
 <div id="heatcontainer" ></div>
 
-<pre id="csv" style="display:none">Day, Hour, Value
-M, 00:00,52
-M, 01:00,52
-M, 02:00,52
-M, 03:00,52
-M, 04:00,52
-M, 05:00,52
-M, 06:00,52
-M, 07:00,52
-M, 08:00,52
-M, 09:00,52
-M, 10:00,52
-M, 11:00,52
-M, 12:00,52
-M, 13:00,52
-M, 14:00,52
-M, 15:00,52
-M, 16:00,52
-M, 17:00,52
-M, 18:00,52
-M, 19:00,52
-M, 20:00,52
-M, 21:00,52
-M, 22:00,52
-M, 23:00,52
-M, 24:00,52
-
-</pre>
-{{#js}}
-    require(['jquery'], function($) {
-        $(window).bind('beforeunload', function() {
-            return 'Are you want to reload, Data will not be saved';
-        });
-    });
-{{/js}}

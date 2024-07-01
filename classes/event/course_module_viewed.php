@@ -17,20 +17,15 @@
 /**
  * The mod_zatuk course module viewed event.
  *
+ * @since      Moodle 2.0
  * @package    mod_zatuk
  * @copyright  2023 Moodle India
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 namespace mod_zatuk\event;
-
 /**
- * The mod_zatuk course module viewed event class.
- *
- * @package    mod_zatuk
- * @since      Moodle 2.7
- * @copyright  2023 Moodle India
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * class course_module_viewed
  */
 class course_module_viewed extends \core\event\course_module_viewed {
 

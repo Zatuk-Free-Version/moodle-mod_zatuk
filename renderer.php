@@ -17,7 +17,7 @@
 /**
  * zatuk module renderer.
  *
- * @since Moodle 2.0
+ * @since      Moodle 2.0
  * @package    mod_zatuk
  * @copyright  2023 Moodle India
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -33,7 +33,7 @@ class mod_zatuk_renderer extends plugin_renderer_base {
         $total = $zatukinfo['total'] ? $zatukinfo['total'] : 0;
         $data = [];
         foreach ($content as $zatuk) {
-            $data[] = $this->render_from_template('mod_zatuk/videocard', $zatuk);
+            $data[] = $this->render_from_template('mod_zatuk/video_card', $zatuk);
         }
         if (!empty($data)) {
             $data = [$this->handleemptyelements($data, $params['length'] - 1)];
@@ -77,7 +77,7 @@ class mod_zatuk_renderer extends plugin_renderer_base {
                           has_capability('mod/zatuk:editvideo', $systemcontext))
                         );
             $data['edit_enable'] = $conditionb ? true : false;
-            $tdata[] = $this->render_from_template('mod_zatuk/videocard', $data);
+            $tdata[] = $this->render_from_template('mod_zatuk/video_card', $data);
         }
         if (!empty($tdata)) {
             $tdata = [$this->handleemptyelements($tdata, $params['length'])];
@@ -92,7 +92,6 @@ class mod_zatuk_renderer extends plugin_renderer_base {
     }
     /**
      * function  get_thumbnail_url
-     * @param int $logoitemid
      */
     public function get_thumbnail_url() {
         global $DB;
@@ -126,7 +125,7 @@ class mod_zatuk_renderer extends plugin_renderer_base {
                      'function' => 'zatuk_uploaded_videos_data',
                      'nodatastring' => 'novideosuploadedyet',
                     ];
-         return $this->render_from_template('mod_zatuk/zatukVideos', $condition);
+         return $this->render_from_template('mod_zatuk/zatuk_videos', $condition);
     }
     /**
      * function  zatukvideos
@@ -136,7 +135,7 @@ class mod_zatuk_renderer extends plugin_renderer_base {
                             'function' => 'get_zatuk_data',
                             'nodatastring' => 'zatukingnotyetset',
                         ];
-        return $this->render_from_template('mod_zatuk/zatukVideos', $condition);
+        return $this->render_from_template('mod_zatuk/zatuk_videos', $condition);
     }
     /**
      * function  render_content
@@ -144,7 +143,7 @@ class mod_zatuk_renderer extends plugin_renderer_base {
     public function render_content() {
         $zatuk = new \mod_zatuk\zatuk();
         $content = $zatuk->mod_content();
-        return $this->render_from_template('mod_zatuk/blockcontent', $content);
+        return $this->render_from_template('mod_zatuk/block_content', $content);
     }
 }
 

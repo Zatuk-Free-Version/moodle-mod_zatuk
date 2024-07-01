@@ -17,20 +17,15 @@
 /**
  * mod_zatuk activity class
  *
- * @package   mod_zatuk
- * @copyright 2023 Moodle India
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @since      Moodle 2.0
+ * @package    mod_zatuk
+ * @copyright  2023 Moodle India
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 namespace mod_zatuk\search;
-
-
 /**
- * Search area for mod_zatuk activities.
- *
- * @package    mod_zatuk
- * @copyright  2016 Dan Poltawski
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * class activity
  */
 class activity extends \core_search\base_activity {
 
@@ -39,9 +34,8 @@ class activity extends \core_search\base_activity {
      *
      * Overwrites base_activity to add the provided URL as description.
      *
-     * @param stdClass $record
+     * @param \stdClass $record
      * @param array    $options
-     * @return \core_search\document
      */
     public function get_document($record, $options = []) {
         $doc = parent::get_document($record, $options);

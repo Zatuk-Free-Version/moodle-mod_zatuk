@@ -37,7 +37,7 @@ define(['jquery',
             ModalFactory.create({
                 title: data.title,
                 type: ModalFactory.types.DEFAULT,
-                body: Templates.render('mod_zatuk/previewblock', data),
+                body: Templates.render('mod_zatuk/preview_block', data),
             }).done(function(modal) {
                 modal.show();
                 modal.getRoot().on(ModalEvents.shown, function(){

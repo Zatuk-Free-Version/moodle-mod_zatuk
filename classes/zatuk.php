@@ -31,33 +31,39 @@ use context_system;
  * class zatuk
  */
 class zatuk {
+
+    /**
+     * @var object $db
+     */
+    public $db;
+    /**
+     * @var object $zatuklib
+     */
+    public $zatuklib;
+
     /**
      * function __construct
      *
      */
     public function __construct() {
-
         global $DB, $CFG;
         $this->db = $DB;
         require_once($CFG->dirroot.'/repository/zatuk/zatuklib.php');
-        $zatukconfig = get_config('repository_zatuk');
-        $apikey = $zatukconfig->zatuk_key;
-        $apiurl = $zatukconfig->zatuk_api_url;
-        $secret = $zatukconfig->zatuk_secret;
-        $email  = $zatukconfig->email;
-        $name = $zatukconfig->name;
-        $this->zatuklib = new \phpzatuk($apiurl, $apikey, $secret, '', '');
+        $apikey = trim(get_config('repository_zatuk', 'zatuk_key'));
+        $secret  = trim(get_config('repository_zatuk', 'zatuk_secret'));
+        $apiurl = trim(get_config('repository_zatuk', 'zatuk_api_url'));
+        $emailaddress  = trim(get_config('repository_zatuk', 'email'));
+        $username  = trim(get_config('repository_zatuk', 'name'));
+        $this->zatuklib = new \phpzatuk($apiurl, $apikey, $secret);
     }
     /**
-     * function uploadedVideoData
-     * @param array $search
-     * @param array $params
-     * @param array $onlycount
+     * function zatuk_uploaded_video_data
+     * @param object $params
+     * @param bool $onlycount
      */
-    public function uploadedvideodata($search=[], $params=[], $onlycount = true) {
-        global $DB, $OUTPUT, $USER;
-        $systemcontext = \context_system::instance();
-        $userid = $USER->id;
+    public function zatuk_uploaded_video_data($params = null, $onlycount = false) {
+        global $OUTPUT, $USER;
+        $systemcontext = context_system::instance();
         $curlparams = [];
         $videossql = "SELECT uv.id, uv.title, uv.timecreated,uv.videoid,uv.public,uv.status,uv.filepath AS itemid,
                      concat(u.firstname,' ',u.lastname) AS usercreated";
@@ -66,37 +72,42 @@ class zatuk {
 
         $uploadedvideossql = " FROM {zatuk_uploaded_videos} uv
                                JOIN {user} u on u.id = uv.usercreated WHERE 1=1 ";
+        $queryparams = [];
         if (!is_siteadmin() && has_capability('mod/zatuk:editingteacher', $systemcontext)) {
 
             $uploadedvideossql .= " AND CASE
-                                       WHEN  uv.public IS NULL THEN uv.usercreated = $USER->id
+                                       WHEN  uv.public IS NULL THEN uv.usercreated = :usercreated
                                        ELSE  uv.id  <> -1
                                     END ";
+            $queryparams['usercreated'] = $USER->id;
         }
         if (!empty($params->search)) {
-            $uploadedvideossql .= " AND uv.title LIKE '%{$params->search}%' ";
+
+            $uploadedvideossql .= " AND ".$this->db->sql_like('uv.title', ':titlesearch', false)." ";
+            $queryparams['titlesearch']  = '%'.$params->search.'%';
         }
-        if ($params->statusfilter == 'inprogress') {
-            $uploadedvideossql .= " AND uv.status=0";
-        } else if ($params->statusfilter == 'published') {
-            $uploadedvideossql .= " AND uv.status=1";
+        if (!empty($params->statusfilter) && $params->statusfilter == 'inprogress') {
+            $uploadedvideossql .= " AND uv.status = :pstatus";
+            $queryparams['pstatus'] = 0;
+        } else if (!empty($params->statusfilter) && $params->statusfilter == 'published') {
+            $uploadedvideossql .= " AND uv.status = :pstatus";
+            $queryparams['pstatus'] = 1;
         }
-        if ($params->sort == 'fullname') {
+        if (!empty($params->sort) && $params->sort == 'fullname') {
             $uploadedvideossql .= " ORDER BY uv.title ASC ";
-        } else if ($params->sort == 'uploadeddate') {
+        } else if (!empty($params->sort) && $params->sort == 'uploadeddate') {
             $uploadedvideossql .= " ORDER BY uv.timecreated DESC ";
         } else {
             $uploadedvideossql .= " ORDER BY uv.id DESC ";
         }
-
-        $total = $this->db->count_records_sql($countsql . $uploadedvideossql);
-
+        $total = $this->db->count_records_sql($countsql . $uploadedvideossql, $queryparams);
         if ($onlycount) {
             return ['data' => [], 'length' => $total];
         }
-
-        $uploadedvideos = $this->db->get_records_sql($videossql . $uploadedvideossql, [], $params->offset, $params->limit);
-        $videoids = $this->db->get_fieldset_sql($videoidsql . $uploadedvideossql . 'LIMIT ' . $params->offset .','. $params->limit);
+        $offset = (!empty($params->offset)) ? $params->offset : 0;
+        $limit = (!empty($params->limit)) ? $params->limit : 10;
+        $uploadedvideos = $this->db->get_records_sql($videossql . $uploadedvideossql, $queryparams, $offset, $limit);
+        $videoids = $this->db->get_fieldset_sql($videoidsql . $uploadedvideossql, $queryparams);
 
         $videoidsarray = json_encode(['ids' => $videoids]);
 
@@ -104,18 +115,23 @@ class zatuk {
 
         $curlparams['perpage'] = $total;
         $content = $this->zatuklib->get_videos($curlparams);
-
+        if (!empty($content['data'])) {
+            $content['data'] = array_combine(range(1, count($content['data'])), array_values($content['data']));
+        }
+        $returndata = [];
         foreach ($uploadedvideos as $data) {
-            $thumb = array_search($data->videoid, array_column($content['data'], 'videoid'));
+            if (!empty($content['data'])) {
+                $contentvideoids = array_column($content['data'], 'videoid');
+                $contentvideoids = array_combine(range(1, count($contentvideoids)), array_values($contentvideoids));
+                $thumb = array_search($data->videoid, $contentvideoids);
+            } else {
+                $thumb = 0;
+            }
             $image = $OUTPUT->image_url('video', 'mod_zatuk')->out(false);
-
-            if (isset($thumb) && $content['data'][$thumb]['videoid'] == $data->videoid) {
+            $videopath = '';
+            if ($thumb && $content['data'][$thumb]['videoid'] == $data->videoid) {
                 $image = $this->zatuklib->apiurl.$content['data'][$thumb]['thumbnail'];
                 $videopath = $content['data'][$thumb]['path'];
-            }
-            if ($data->status == 1 && $content['data'][$thumb]['status'] >= 2) {
-                $DB->delete_records('zatuk_uploaded_videos', ['id' => $data->id]);
-                continue;
             }
             if (!is_siteadmin() && has_capability('mod/zatuk:editingteacher', $systemcontext)) {
                 if ($data->public == "0" || $data->public == "") {
@@ -137,6 +153,7 @@ class zatuk {
                              'public' => $data->public,
                              'deleteoption' => $deleteoption,
                          ];
+
         }
         return ['data' => $returndata, 'length' => $total];
     }
@@ -156,7 +173,7 @@ class zatuk {
         $totalvideos = $content['meta']['total'];
         $uploadedvideos = $this->db->count_records('zatuk_uploaded_videos');
         $syncedvideos = $this->db->count_records('zatuk_uploaded_videos', ['status' => 1]);
-        $systemcontext = \context_system::instance();
+        $systemcontext = context_system::instance();
         $viewcap = is_siteadmin() || has_capability('mod/zatuk:viewvideos', $systemcontext);
         return ['totalVideos' => $totalvideos,
         'uploadedVideos' => $uploadedvideos,
@@ -171,7 +188,7 @@ class zatuk {
         try {
             $zatukdata = $this->db->get_record('zatuk_uploaded_videos', ['id' => $id], 'id, filepath', MUST_EXIST);
             $this->delete_file_instance($zatukdata->filepath, 'video');
-            $context = \context_system::instance();
+            $context = context_system::instance();
             $params = [
                 'context' => $context,
                 'objectid' => $id,
@@ -180,7 +197,7 @@ class zatuk {
             $event->trigger();
             $this->db->delete_records('zatuk_uploaded_videos', ['id' => $id]);
             return true;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return false;
         }
     }
@@ -210,23 +227,27 @@ class zatuk {
      */
     public function insert_zatuk_content($validateddata, $tags, $context) {
         global $_SESSION, $USER;
-        $systemcontext = \context_system::instance();
+        $uploaddata = mod_zatuk_get_api_formdata();
+        $organisations = (array)$uploaddata->organisations;
+        $tags = (array)$uploaddata->tags;
+        $systemcontext = context_system::instance();
         if (!empty($validateddata)) {
             $condition = (is_siteadmin() ||
                           has_capability('mod/zatuk:editingteacher', $systemcontext) ||
                           has_capability('mod/zatuk:manageactions', $systemcontext));
             if ($condition) {
-                if ($validateddata->id == 0) {
+                if ((int)$validateddata->id <= 0 || is_null($validateddata->id)) {
                     $insertdata = new stdClass();
                     $insertdata->videoid = uniqid();
                     $insertdata->title = $validateddata->title;
                     $insertdata->public = $validateddata->public;
                     $insertdata->organization = $validateddata->organization;
+                    $insertdata->organisationname = $organisations[$validateddata->organization];
                     $insertdata->tags = is_array($validateddata->tags) ? implode(',', $validateddata->tags) : $validateddata->tags;
                     $insertdata->description = $validateddata->description['text'];
                     $insertdata->filepath = $validateddata->filepath;
                     $insertdata->filename = $this->db->get_field_sql("SELECT filename FROM {files} WHERE
-                                               itemid = {$validateddata->filepath} AND filename != '.' ");
+                                                    itemid =:itemid AND filename != '.'", ['itemid' => $validateddata->filepath]);
                     if (empty($insertdata->title)) {
                         $insertdata->title = preg_replace('/\\.[^.\\s]{3,4}$/', '', $insertdata->filename);
                     }
@@ -246,6 +267,7 @@ class zatuk {
                     $insertdata->title = $validateddata->title;
                     $insertdata->public = $validateddata->public;
                     $insertdata->organization = $validateddata->organization;
+                    $insertdata->organisationname = $organisations[$validateddata->organization];
                     $insertdata->tags = is_array($validateddata->tags) ? implode(',', $validateddata->tags) : $validateddata->tags;
                     $insertdata->description = $validateddata->description['text'];
                     if (empty($insertdata->title)) {
@@ -265,11 +287,9 @@ class zatuk {
 
             } else {
                 throw new moodle_exception('actionpermission', 'mod_zatuk');
-                return false;
             }
         } else {
             throw new moodle_exception('uploaderror', 'mod_zatuk');
-            return false;
         }
 
     }
@@ -278,12 +298,12 @@ class zatuk {
      * @param int $id
      */
     public function set_data($id) {
-        global $DB, $CFG;
+        global $CFG;
         require_once($CFG->dirroot.'/mod/zatuk/lib.php');
         $uploaddata = mod_zatuk_get_api_formdata();
         $organisations = (array)$uploaddata->organisations;
         $tags = (array)$uploaddata->tags;
-        $data = $DB->get_record('zatuk_uploaded_videos', ['id' => $id], '*', MUST_EXIST);
+        $data = $this->db->get_record('zatuk_uploaded_videos', ['id' => $id], '*', MUST_EXIST);
         $row['id'] = $data->id;
         $row['title'] = $data->title;
         $row['description'] = ['text' => $data->description];
@@ -292,8 +312,8 @@ class zatuk {
         } else {
             $row['organization'] = $organisations;
         }
-        if ((int)$data->tags) {
-            $row['tags'] = (int)$data->tags;
+        if (!empty($data->tags)) {
+            $row['tags'] = $data->tags;
         } else {
             $row['tags'] = $tags;
         }
@@ -302,5 +322,4 @@ class zatuk {
         return $row;
     }
 }
-
 
