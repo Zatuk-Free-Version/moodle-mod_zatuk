@@ -38,7 +38,7 @@ class renderer  extends plugin_renderer_base {
      * Export this data so it can be used as the context for a mustache template.
      * @param array $zatukinfo
      * @param array $params
-     * @return stdClass
+     * @return array
      */
     public function zatukrender($zatukinfo, $params) {
         $content = $zatukinfo['returndata'] ? $zatukinfo['returndata'] : 0;
@@ -63,7 +63,7 @@ class renderer  extends plugin_renderer_base {
      * uploadrender
      * @param array $uploaddata
      * @param array $params
-     * @return stdClass
+     * @return array
      */
     public function uploadrender($uploaddata, $params) {
         global $DB;
@@ -137,7 +137,7 @@ class renderer  extends plugin_renderer_base {
      * function  get_thumbnail_url
      * @param int $logoitemid
      */
-    public function get_thumbnail_url($logoitemid) {
+    public function get_thumbnail_url($logoitemid = 0) {
         global $DB;
 
         $thumbnaillogourl = $this->image_url('video', 'mod_zatuk');

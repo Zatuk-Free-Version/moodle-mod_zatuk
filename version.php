@@ -34,3 +34,4 @@ $plugin->release = '4.x (Build: 2022041900.00)';
 $plugin->dependencies = [
     'repository_zatuk' => 2022041900.00,
 ];
+

@@ -34,8 +34,8 @@ class activity extends \core_search\base_activity {
      *
      * Overwrites base_activity to add the provided URL as description.
      *
-     * @param \stdClass $record
-     * @param array    $options
+     * @param object $record
+     * @param array  $options
      */
     public function get_document($record, $options = []) {
         $doc = parent::get_document($record, $options);

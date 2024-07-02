@@ -332,7 +332,7 @@ function zatuk_extend_navigation_course($navigation, $course, $context) {
 }
 /**
  * function mod_zatuk_get_browsevideo_form_html
- * @param stdclass $mform
+ * @param MoodleQuickForm $mform
  */
 function mod_zatuk_get_browsevideo_form_html($mform) {
     global $PAGE, $OUTPUT, $DB, $CFG;
