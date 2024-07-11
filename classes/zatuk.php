@@ -73,6 +73,7 @@ class zatuk {
         $uploadedvideossql = " FROM {zatuk_uploaded_videos} uv
                                JOIN {user} u on u.id = uv.usercreated WHERE 1=1 ";
         $queryparams = [];
+        $sortvideosql = '';
         if (!is_siteadmin() && has_capability('mod/zatuk:editingteacher', $systemcontext)) {
 
             $uploadedvideossql .= " AND CASE
@@ -95,19 +96,21 @@ class zatuk {
         }
         if (!empty($params->sort) && $params->sort == 'fullname') {
             $uploadedvideossql .= " ORDER BY uv.title ASC ";
-        } else if (!empty($params->sort) && $params->sort == 'uploadeddate') {
-            $uploadedvideossql .= " ORDER BY uv.timecreated DESC ";
-        } else {
-            $uploadedvideossql .= " ORDER BY uv.id DESC ";
         }
+         if (!empty($params->sort) && $params->sort == 'uploadeddate') {
+            $uploadedvideossql .= " ORDER BY uv.timecreated DESC ";
+        }
+
+        $sortvideosql = " ORDER BY uv.id DESC ";
+
         $total = $this->db->count_records_sql($countsql . $uploadedvideossql, $queryparams);
         if ($onlycount) {
             return ['data' => [], 'length' => $total];
         }
         $offset = (!empty($params->offset)) ? $params->offset : 0;
         $limit = (!empty($params->limit)) ? $params->limit : 10;
-        $uploadedvideos = $this->db->get_records_sql($videossql . $uploadedvideossql, $queryparams, $offset, $limit);
-        $videoids = $this->db->get_fieldset_sql($videoidsql . $uploadedvideossql, $queryparams);
+        $uploadedvideos = $this->db->get_records_sql($videossql . $uploadedvideossql.$sortvideosql, $queryparams, $offset, $limit);
+        $videoids = $this->db->get_fieldset_sql($videoidsql . $uploadedvideossql.$sortvideosql, $queryparams);
 
         $videoidsarray = json_encode(['ids' => $videoids]);
 
