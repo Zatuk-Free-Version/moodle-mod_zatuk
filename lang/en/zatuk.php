@@ -261,5 +261,13 @@ $string['privacy:metadata:usercreated'] = 'ID of the submission author';
 $string['preview'] = 'Preview';
 $string['loading'] = 'Loading...';
 $string['browse_video'] = 'Browse video';
+$string['filepathhelp'] = 'zatuk video.';
+$string['filepathhelp_help'] = 'Upload zatuk video to publish.';
+$string['organisationzatuk'] = 'Organizatio category';
+$string['organisationzatuk_help'] = 'Created categories under organizatio.';
+$string['tagszatukhelp'] = 'Organizatio tags ';
+$string['tagszatukhelp_help'] = 'Tags created under organization';
+$string['descriptionhelp'] = 'Description';
+$string['descriptionhelp_help'] = 'Zatuk video description';
 
 
