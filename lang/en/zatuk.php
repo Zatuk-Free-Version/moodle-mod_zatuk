@@ -22,7 +22,6 @@
  * @copyright 2021 2023 Moodle India
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 $string['abovetenmins'] = 'Most liked ( > 10 minutes)';
 $string['actionpermission'] = 'Sorry, but you do not currently have permissions to do that.';
 $string['activevideos'] = 'Active/total videos';
