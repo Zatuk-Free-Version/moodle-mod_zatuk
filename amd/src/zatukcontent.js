@@ -420,10 +420,9 @@ function(
                     if (!hasContent) {
                         // If we didn't get any data then show the empty data message.
                         hideContent(root);
-                        var confirmA = '<div class="d-flex justify-content-center align-items-center';
-                        var confirmB = 'flex-column w-100 p-3 zatuknodatadialogue_content">';
-                        var confirmC = '<div class="icon"></div><h4 class="my-3"> No Records Found.</h4></div>';
-                        confirmbox(confirmA + confirmB + confirmC);
+                        Str.get_string('norecordsmessage' ,'mod_zatuk').then((str) => {
+                           confirmbox(Str.get_string('finalzatuksmessage','mod_zatuk',str));
+                        });
                     }
                     return hasContent;
                 })

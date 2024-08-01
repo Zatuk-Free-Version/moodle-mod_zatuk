@@ -24,9 +24,10 @@
  */
 class mod_zatuk_renderer extends plugin_renderer_base {
     /**
-     * function  zatukrender
+     * Get zatuk data.
      * @param array $zatukinfo
      * @param array $params
+     * @return array
      */
     public function zatukrender($zatukinfo, $params) {
         $content = $zatukinfo['returndata'] ? $zatukinfo['returndata'] : 0;
@@ -47,9 +48,10 @@ class mod_zatuk_renderer extends plugin_renderer_base {
         return $outputs;
     }
     /**
-     * function  uploadrender
+     * Get uploaded zatuk data.
      * @param array $uploaddata
      * @param array $params
+     * @return array
      */
     public function uploadrender($uploaddata, $params) {
         global $DB;
@@ -91,7 +93,8 @@ class mod_zatuk_renderer extends plugin_renderer_base {
         return $outputs;
     }
     /**
-     * function  get_thumbnail_url
+     * Get thumbnail url.
+     * @return string
      */
     public function get_thumbnail_url() {
         global $DB;
@@ -104,6 +107,7 @@ class mod_zatuk_renderer extends plugin_renderer_base {
      * function  handleemptyelements
      * @param array $data
      * @param int $count
+     * @return array
      */
     public function handleemptyelements($data, $count) {
         if (count($data) == $count) {
@@ -128,7 +132,8 @@ class mod_zatuk_renderer extends plugin_renderer_base {
          return $this->render_from_template('mod_zatuk/zatuk_videos', $condition);
     }
     /**
-     * function  zatukvideos
+     * Get zatuk videos.
+     * @return string
      */
     public function zatukvideos() {
         $condition = ['tableid' => 'get_zatuk_data',
@@ -138,7 +143,8 @@ class mod_zatuk_renderer extends plugin_renderer_base {
         return $this->render_from_template('mod_zatuk/zatuk_videos', $condition);
     }
     /**
-     * function  render_content
+     * Get content.
+     * @return string
      */
     public function render_content() {
         $zatuk = new \mod_zatuk\zatuk();

@@ -44,25 +44,26 @@ class renderer extends \plugin_renderer_base {
         return parent::render_from_template('mod_zatuk/player', $data);
     }
     /**
-     * function uploadedvideos
-     *
+     * Upload zatuk videos.
+     * @return string
      */
     public function uploadedvideos() {
         $condition = ['tableid' => 'zatuk_uploaded_videos_data', 'function' => 'zatuk_uploaded_videos_data'];
         return $this->render_from_template('mod_zatuk/zatuk_videos', $condition);
     }
     /**
-     * function zatukvideos
-     *
+     * get zatuk videos.
+     * @return string
      */
     public function zatukvideos() {
         $condition = ['tableid' => 'get_zatuk_data', 'function' => 'get_zatuk_data'];
         return $this->render_from_template('mod_zatuk/zatuk_videos', $condition);
     }
     /**
-     * function viewsinfo
+     * View zatuk video info.
      * @param array $viewsdata
      * @param array $params
+     * @return array
      */
     public function viewsinfo($viewsdata, $params) {
         $viewsinfo = $viewsdata['views'];
@@ -84,9 +85,10 @@ class renderer extends \plugin_renderer_base {
         return $outputs;
     }
     /**
-     * function zatukrender
+     * Render zatuk video.
      * @param array $zatukinfo
      * @param array $params
+     * @return array
      */
     public function zatukrender($zatukinfo, $params) {
         $content = $zatukinfo['returndata'];
@@ -104,9 +106,10 @@ class renderer extends \plugin_renderer_base {
         return $outputs;
     }
     /**
-     * function uploadrender
+     * Render uploaded zatuk videos.
      * @param array $uploaddata
      * @param array $params
+     * @return array
      */
     public function uploadrender($uploaddata, $params) {
         global $DB;
@@ -134,8 +137,9 @@ class renderer extends \plugin_renderer_base {
         return $outputs;
     }
     /**
-     * function render_uploadedvideos
+     * Display video list.
      * @param object $output  // uploadedvideos
+     * @return string
      */
     public function render_uploadedvideos($output) {
 
@@ -143,7 +147,8 @@ class renderer extends \plugin_renderer_base {
 
     }
     /**
-     * function get_thumbnail_url
+     * Get thumbnail.
+     * @return string
      */
     public function get_thumbnail_url() {
         global $DB;
@@ -152,9 +157,10 @@ class renderer extends \plugin_renderer_base {
         return $thumbnaillogourl;
     }
     /**
-     * function handleemptyelements
+     * function to handle empty elements.
      * @param array $data
      * @param int $count
+     * @return array
      */
     public function handleemptyelements($data, $count) {
         if (count($data) == $count) {

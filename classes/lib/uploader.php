@@ -37,16 +37,16 @@ class uploader {
      */
     public $db;
     /**
-     * function __construct
-     *
+     * Uploader constructor
+     * @return void
      */
     public function __construct() {
         global $DB;
         $this->db = $DB;
     }
     /**
-     * function videosSync
-     *
+     * Publish zatuk videos from lms to zatuk site.
+     * @return bool|null|array
      */
     public function publish_video() {
         $videoinfosql = "SELECT uv.*, f.id as fileid FROM {zatuk_uploaded_videos} uv
@@ -102,10 +102,11 @@ class uploader {
         }
     }
     /**
-     * function get_zatuk_video_file_object
+     * Get zatuk video file data.
      * @param \stdclass $curlobj
      * @param int $fileid
      * @param string||null $filetype
+     * @return bool|\stored_file
      */
     public function get_zatuk_video_file_object(&$curlobj, $fileid, $filetype) {
         $fs = get_file_storage();
@@ -135,8 +136,9 @@ class uploader {
         return $fileinfo;
     }
     /**
-     * function videosSyncById
+     * Publish zatuk video based on video id
      * @param int $id
+     * @return bool|null|array
      */
     public function publish_video_by_id($id) {
         global $CFG;

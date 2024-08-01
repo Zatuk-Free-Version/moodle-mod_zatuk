@@ -53,9 +53,10 @@ class player implements renderable, templatable {
      */
     private $height = 268;
     /**
-     * function __construct
+     * Player constructor.
      * @param \stdclass $zatukinstance
      * @param \stdclass $cm
+     * @return void
      */
     public function __construct($zatukinstance, $cm) {
 
@@ -66,15 +67,16 @@ class player implements renderable, templatable {
         $this->set_height();
     }
     /**
-     * function export_for_template
+     * Export data from template.
      * @param \stdclass $ouput  //renderer_base
+     * @return string|array
      */
     public function export_for_template($ouput) {
         return $this->data;
     }
     /**
-     * function set_width
-     *
+     * Set width
+     * @return string|array|null
      */
     public function set_width() {
         if (isset($this->properties['width']) && $this->properties['width'] != '') {
@@ -83,8 +85,8 @@ class player implements renderable, templatable {
         $this->data['width'] = $this->width;
     }
     /**
-     * function set_height
-     *
+     * Set height
+     * @return string|array|null
      */
     public function set_height() {
         if (isset($this->properties['height']) && $this->properties['height'] != '') {

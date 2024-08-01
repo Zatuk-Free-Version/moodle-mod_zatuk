@@ -19,7 +19,7 @@
  *
  * @since     Moodle 2.0
  * @package   mod_zatuk
- * @copyright 2021 2023 Moodle India
+ * @copyright 2023 Moodle India
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -49,7 +49,8 @@ $capabilities = [
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => [
-            'student' => CAP_ALLOW,
+            'manager' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
         ],
     ],
     'mod/zatuk:viewuploadedvideos' => [
@@ -58,6 +59,7 @@ $capabilities = [
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => [
             'manager' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
         ],
     ],
     'mod/zatuk:viewallvideos' => [
@@ -66,6 +68,7 @@ $capabilities = [
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => [
             'manager' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
         ],
     ],
     'mod/zatuk:deletevideo' => [
@@ -74,6 +77,7 @@ $capabilities = [
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => [
             'manager' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
         ],
     ],
     'mod/zatuk:uploadvideo' => [
@@ -82,6 +86,7 @@ $capabilities = [
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => [
             'manager' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
         ],
     ],
     'mod/zatuk:editvideo' => [
@@ -90,6 +95,7 @@ $capabilities = [
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => [
             'manager' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
         ],
     ],
     'mod/zatuk:viewvideos' => [
@@ -98,6 +104,7 @@ $capabilities = [
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => [
             'manager' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
         ],
     ],
     'mod/zatuk:viewuploadedvideo' => [
@@ -106,9 +113,10 @@ $capabilities = [
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => [
             'manager' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
         ],
     ],
-    'mod/zatuk:editingteacher' => [
+    'mod/zatuk:iseditingteacher' => [
         'riskbitmask' => RISK_SPAM | RISK_XSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
@@ -121,6 +129,15 @@ $capabilities = [
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => [
+        ],
+    ],
+    'mod/zatuk:encryption' => [
+        'riskbitmask' => RISK_SPAM | RISK_XSS,
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_SYSTEM,
+        'archetypes' => [
+            'manager' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
         ],
     ],
 ];

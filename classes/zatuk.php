@@ -44,8 +44,8 @@ class zatuk {
     public $zatuklib;
 
     /**
-     * function __construct
-     *
+     * Zatuk Constructor
+     * @return void
      */
     public function __construct() {
         global $DB, $CFG;
@@ -59,9 +59,10 @@ class zatuk {
         $this->zatuklib = new phpzatuk($apiurl, $apikey, $secret);
     }
     /**
-     * function zatuk_uploaded_video_data
+     * Get zatuk uploaded videos from zatuk video table.
      * @param object $params
      * @param bool $onlycount
+     * @return array
      */
     public function zatuk_uploaded_video_data($params = null, $onlycount = false) {
         global $OUTPUT, $USER;
@@ -76,7 +77,7 @@ class zatuk {
                                JOIN {user} u on u.id = uv.usercreated WHERE 1=1 ";
         $queryparams = [];
         $sortvideosql = '';
-        if (!is_siteadmin() && has_capability('mod/zatuk:editingteacher', $systemcontext)) {
+        if (!is_siteadmin() && has_capability('mod/zatuk:iseditingteacher', $systemcontext)) {
 
             $uploadedvideossql .= " AND CASE
                                        WHEN  uv.public IS NULL THEN uv.usercreated = :usercreated
@@ -138,7 +139,7 @@ class zatuk {
                 $image = $this->zatuklib->apiurl.$content['data'][$thumb]['thumbnail'];
                 $videopath = $content['data'][$thumb]['path'];
             }
-            if (!is_siteadmin() && has_capability('mod/zatuk:editingteacher', $systemcontext)) {
+            if (!is_siteadmin() && has_capability('mod/zatuk:iseditingteacher', $systemcontext)) {
                 if ($data->public == "0" || $data->public == "") {
                     $deleteoption = true;
                 } else {
@@ -163,8 +164,8 @@ class zatuk {
         return ['data' => $returndata, 'length' => $total];
     }
     /**
-     * function mod_content
-     *
+     * get module content from api.
+     * @return array
      */
     public function mod_content() {
         $searchurl = $this->zatuklib->createsearchapiurl();
@@ -186,8 +187,9 @@ class zatuk {
         'viewcap' => $viewcap];
     }
     /**
-     * function delete_uploaded_video
+     * Delete uploaded zatuk video.
      * @param int $id
+     * @return bool
      */
     public function delete_uploaded_video($id) {
         try {
@@ -207,9 +209,10 @@ class zatuk {
         }
     }
     /**
-     * function delete_file_instance
+     * Delete uploaded zatuk file instnace.
      * @param int $itemid
      * @param string $filearea
+     * @return bool|null
      */
     private function delete_file_instance($itemid, $filearea) {
         $fileid = $this->db->get_field_sql("SELECT id FROM {files}
@@ -225,10 +228,11 @@ class zatuk {
         }
     }
     /**
-     * function insert_zatuk_content
+     * Insert zatuk content
      * @param object $validateddata
      * @param array $tags
      * @param object $context
+     * @return bool
      */
     public function insert_zatuk_content($validateddata, $tags, $context) {
         global $_SESSION, $USER;
@@ -238,7 +242,7 @@ class zatuk {
         $systemcontext = context_system::instance();
         if (!empty($validateddata)) {
             $condition = (is_siteadmin() ||
-                          has_capability('mod/zatuk:editingteacher', $systemcontext) ||
+                          has_capability('mod/zatuk:iseditingteacher', $systemcontext) ||
                           has_capability('mod/zatuk:manageactions', $systemcontext));
             if ($condition) {
                 if ((int)$validateddata->id <= 0 || is_null($validateddata->id)) {
@@ -299,8 +303,9 @@ class zatuk {
 
     }
     /**
-     * function set_data
+     * Describes to set zatuk video content data
      * @param int $id
+     * @return array
      */
     public function set_data($id) {
         global $CFG;

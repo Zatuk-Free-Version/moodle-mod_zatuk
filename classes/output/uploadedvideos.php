@@ -19,7 +19,7 @@
  *
  * @since     Moodle 2.0
  * @package   mod_zatuk
- * @copyright 2021 2023 Moodle India
+ * @copyright 2023 Moodle India
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -42,7 +42,7 @@ class uploadedvideos implements renderable, templatable {
      */
     protected $context;
     /**
-     *
+     * Uploadvideos constructor.
      * @param object $context
      * @return object
      */
@@ -58,16 +58,17 @@ class uploadedvideos implements renderable, templatable {
     public function export_for_template(renderer_base $output) {
 
         $data = new \stdClass();
-
+        $apikey = trim(get_config('repository_zatuk', 'zatuk_key'));
         $data->all = true;
         $datalength = (new \mod_zatuk\zatuk)->zatuk_uploaded_video_data();
         $data->length = $datalength['length'];
         $data->statusfilter = 'all';
         $condition = (is_siteadmin() ||
-                      has_capability('mod/zatuk:editingteacher', $this->context) ||
+                      has_capability('mod/zatuk:iseditingteacher', $this->context) ||
                       has_capability('mod/zatuk:manageactions', $this->context)
                     );
         $data->addcapability = $condition ? true : false;
+        $data->zatukrepoenabled = $apikey ? true : false;
         return $data;
     }
 }
