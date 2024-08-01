@@ -19,9 +19,10 @@
  *
  * @since     Moodle 2.0
  * @package   mod_zatuk
- * @copyright 2021 2023 Moodle India
+ * @copyright 2023 Moodle India
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 $string['abovetenmins'] = 'Most liked ( > 10 minutes)';
 $string['actionpermission'] = 'Sorry, but you do not currently have permissions to do that.';
 $string['activevideos'] = 'Active/total videos';
@@ -61,7 +62,7 @@ $string['date'] = 'Date ';
 $string['day'] = 'Day';
 $string['delete'] = 'Delete';
 $string['deleteconfirm'] = 'Are you sure to delete this video?';
-$string['deletevideo'] = 'Delete video?';
+$string['deletevideo'] = 'Delete video';
 $string['descriptionhelp'] = 'Description';
 $string['descriptionhelp_help'] = 'Zatuk video description';
 $string['disabled'] = 'disabled="disabled"';
@@ -79,6 +80,7 @@ $string['editvideo'] = 'Edit video';
 $string['email'] = 'Email ';
 $string['enableanalytics'] = 'Enable Analytics';
 $string['enableanalyticsdesc'] = 'By default it will be enabled.';
+$string['enablezatuk'] = 'Please enable zatuk repository.';
 $string['eventvideocompleted'] = 'Video completed';
 $string['eventvideopaused'] = 'Video paused';
 $string['eventvideoplayed'] = 'Video played';
@@ -91,8 +93,10 @@ $string['filepath'] = 'Video';
 $string['filepathhelp'] = 'zatuk video.';
 $string['filepathhelp_help'] = 'Upload zatuk video to publish.';
 $string['filepathrequired'] = 'Video required';
-$string['filepathrequired'] = 'Video required';
 $string['filter'] = 'Filter';
+$string['finalzatuksmessage'] = '<div class="d-flex justify-content-center align-items-center
+                                flex-column w-100 p-3 zatuknodatadialogue_content">
+                                <div class="icon"></div><h4 class="my-3">{$a}</h4></div>';
 $string['fivemins'] = 'Most liked ( > 5 minutes)';
 $string['fivetotenmins'] = 'Most liked ( > 5 minutes AND < 10 minutes)';
 $string['framesize'] = 'Frame height';
@@ -125,6 +129,7 @@ $string['nodata'] = 'No video available with given filters.';
 $string['noofusers'] = 'Number of users';
 $string['noofviewsbyuser'] = 'No. of views by user';
 $string['nopermissions'] = 'Sorry, but you do not currently have permissions to do that.';
+$string['norecordsmessage'] = 'No Records Found.';
 $string['noreport'] = 'Report doesnt exist';
 $string['not_synced'] = 'Not synced';
 $string['notinitialised'] = 'this hasnt been initialised - super() hasnt been called';
@@ -154,7 +159,6 @@ $string['printintro'] = 'Display URL description';
 $string['printintroexplain'] = 'Display URL description below content? Some display types may not display description even if enabled.';
 $string['privacy:metadata:description'] = 'Uploded  video description';
 $string['privacy:metadata:filename'] = 'Uploaded video file name';
-$string['privacy:metadata:filepath'] = 'Uploaded video file path';
 $string['privacy:metadata:organisationname'] = 'name of the category under organization';
 $string['privacy:metadata:organization'] = 'Category under organization';
 $string['privacy:metadata:published'] = 'Published status of the uploaded video';
@@ -230,8 +234,9 @@ $string['zatuk:addinstance'] = 'Add a new zatuk module';
 $string['zatuk:canrate'] = 'Rate';
 $string['zatuk:create'] = 'Create';
 $string['zatuk:deletevideo'] = 'Delete video';
-$string['zatuk:editingteacher'] = 'Editing teacher';
+$string['zatuk:iseditingteacher'] = 'Editing teacher';
 $string['zatuk:editvideo'] = 'Edit video';
+$string['zatuk:encryption'] = 'Encryption';
 $string['zatuk:manageactions'] = 'Manage actions';
 $string['zatuk:uploadvideo'] = 'Upload video';
 $string['zatuk:view'] = 'View';
@@ -241,6 +246,7 @@ $string['zatuk:viewvideos'] = 'View videos';
 $string['zatukanalyticsemail'] = 'Zatuk analytics user email';
 $string['zatukanalyticsuser'] = 'Zatuk analytics user';
 $string['zatukingapp'] = 'Zatuk app';
-$string['zatukingnotyetset'] = 'No video available in streaming application, Please make sure streaming application settings are correct <a href='.$CFG->wwwroot.'/admin/repository.php?sesskey={$a}&action=edit&repos=zatuk>Here</a>';
+$string['zatukingnotyetset'] = 'No video available in zatuk application, Please make sure streaming application settings are correct';
 $string['zatukinstance'] = 'The user with id {$a->userid} viewed the zatuk activity with course moduleid {$a->objectid}.';
 $string['zatukpaused'] = 'The user with id {$a->userid} paused the video having reportid {$a->objectid}.';
+

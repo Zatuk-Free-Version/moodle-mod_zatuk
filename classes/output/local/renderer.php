@@ -19,7 +19,7 @@
  *
  * @since     Moodle 2.0
  * @package   mod_zatuk
- * @copyright 2021 2023 Moodle India
+ * @copyright 2023 Moodle India
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -107,6 +107,7 @@ class renderer  extends plugin_renderer_base {
     }
     /**
      * uploadedvideos
+     * @return string
      */
     public function uploadedvideos() {
         $condition = ['tableid' => 'zatuk_uploaded_videos_data',
@@ -116,7 +117,8 @@ class renderer  extends plugin_renderer_base {
         return $this->render_from_template('mod_zatuk/zatuk_videos', $condition);
     }
     /**
-     * zatukvideos
+     * Display zatuk videos.
+     * @return string
      */
     public function zatukvideos() {
         $condition = ['tableid' => 'get_zatuk_data',
@@ -126,7 +128,8 @@ class renderer  extends plugin_renderer_base {
         return $this->render_from_template('mod_zatuk/zatuk_videos', $condition);
     }
     /**
-     * render_mod_content
+     * Render mod content
+     * @return string
      */
     public function render_mod_content() {
         $zatuk = new \mod_zatuk\zatuk();
@@ -134,8 +137,9 @@ class renderer  extends plugin_renderer_base {
         return $this->render_from_template('mod_zatuk/block_content', $content);
     }
     /**
-     * function  get_thumbnail_url
+     * Get thumbnail
      * @param int $logoitemid
+     * @return string
      */
     public function get_thumbnail_url($logoitemid = 0) {
         global $DB;

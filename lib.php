@@ -32,6 +32,7 @@
  * @param array $args
  * @param string||null $forcedownload
  * @param array $options
+ * @return bool | null
  */
 function mod_zatuk_pluginfile($course,
                             $cm,
@@ -61,6 +62,8 @@ function mod_zatuk_pluginfile($course,
  */
 function zatuk_supports($feature) {
     switch($feature) {
+        case FEATURE_MOD_ARCHETYPE;
+        return MOD_ARCHETYPE_RESOURCE;;
         case FEATURE_COMPLETION_TRACKS_VIEWS :
         case FEATURE_COMPLETION_HAS_RULES :
         case FEATURE_BACKUP_MOODLE2 :
@@ -84,7 +87,7 @@ function zatuk_get_post_actions() {
 }
 
 /**
- * Add url instance.
+ * Add zatuk instance.
  * @param object $data
  * @param object $mform
  * @return int new zatuk instance id
@@ -108,7 +111,7 @@ function zatuk_add_instance($data, $mform = null) {
 }
 
 /**
- * Update url instance.
+ * Update zatuk instance.
  * @param object $data
  * @param object $mform
  * @return bool true
@@ -132,7 +135,7 @@ function zatuk_update_instance($data, $mform = null) {
 }
 
 /**
- * Delete url instance.
+ * Delete zatuk instance.
  * @param int $id
  * @return bool true
  */
@@ -156,6 +159,7 @@ function zatuk_delete_instance($id) {
  * this activity in a course listing.
  *
  * @param object $coursemodule
+ * @return stdClass | bool |cached_cm_info
  */
 function zatuk_get_coursemodule_info($coursemodule) {
     global $CFG, $DB;
@@ -187,6 +191,7 @@ function zatuk_get_coursemodule_info($coursemodule) {
  * @param string $pagetype current page type
  * @param stdClass $parentcontext Block's parent context
  * @param stdClass $currentcontext Current context of block
+ * @return array
  */
 function zatuk_page_type_list($pagetype, $parentcontext, $currentcontext) {
     $modulepagetype = ['mod-url-*' => get_string('page-mod-url-x', 'url')];
@@ -197,6 +202,7 @@ function zatuk_page_type_list($pagetype, $parentcontext, $currentcontext) {
  * Export URL resource contents
  * @param object $cm
  * @param string||null $baseurl
+ * @return null|array
  */
 function zatuk_export_contents($cm, $baseurl) {
     global $CFG, $DB;
@@ -231,48 +237,13 @@ function zatuk_export_contents($cm, $baseurl) {
 }
 
 /**
- * Register the ability to handle drag and drop file uploads
- * @return array containing details of the files / types the mod can handle
- */
-function zatuk_dndupload_register() {
-    return ['types' => [
-                     ['identifier' => get_string('url', 'zatuk'), 'message' => get_string('createurl', 'url')],
-                 ]];
-}
-
-/**
- * Handle a file that has been uploaded
- * @param object $uploadinfo details of the file / content that has been uploaded
- * @return int instance id of the newly created mod
- */
-function zatuk_dndupload_handle($uploadinfo) {
-    // Gather all the required data.
-    $data = new stdClass();
-    $data->course = $uploadinfo->course->id;
-    $data->name = $uploadinfo->displayname;
-    $data->intro = '<p>'.$uploadinfo->displayname.'</p>';
-    $data->introformat = FORMAT_HTML;
-    $data->externalurl = clean_param($uploadinfo->content, PARAM_URL);
-    $data->timemodified = time();
-
-    // Set the display options to the site defaults.
-    $config = get_config('repository_zatuk');
-    $data->display = $config->display;
-    $data->popupwidth = $config->popupwidth;
-    $data->popupheight = $config->popupheight;
-    $data->printintro = $config->printintro;
-
-    return zatuk_add_instance($data);
-}
-
-/**
  * Mark the activity completed (if required) and trigger the course_module_viewed event.
  *
- * @param  stdClass $zatuk        url object
+ * @param  stdClass $zatuk       object
  * @param  stdClass $course     course object
  * @param  stdClass $cm         course module object
  * @param  stdClass $context    context object
- * @since Moodle 3.0
+ * @return void
  */
 function zatuk_view($zatuk, $course, $cm, $context) {
     $params = [
@@ -287,7 +258,7 @@ function zatuk_view($zatuk, $course, $cm, $context) {
     $event->trigger();
 }
 /**
- * extend an assigment navigation settings
+ * extend an zatuk navigation settings
  *
  * @param settings_navigation $settings
  * @param navigation_node $navref
@@ -321,19 +292,9 @@ function zatuk_extend_settings_navigation(settings_navigation $settings, navigat
 
 }
 /**
- * function zatuk_extend_navigation_course
- * @param stdclass $navigation
- * @param stdclass $course
- * @param stdclass $context
- */
-function zatuk_extend_navigation_course($navigation, $course, $context) {
-    global $USER, $DB;
-    $getanalyticsetting = $DB->get_record('config_plugins', ['plugin' => 'zatuk', 'name' => 'enableanalytics']);
-
-}
-/**
- * function mod_zatuk_get_browsevideo_form_html
+ * Browse zatuk videos while adding an actvity.
  * @param MoodleQuickForm $mform
+ * @return array|string
  */
 function mod_zatuk_get_browsevideo_form_html($mform) {
     global $PAGE, $OUTPUT, $DB, $CFG;
@@ -381,9 +342,10 @@ function mod_zatuk_get_browsevideo_form_html($mform) {
     return $OUTPUT->render_from_template('mod_zatuk/browse_video', $bvdata);
 }
 /**
- * function mod_zatuk_coursemodule_standard_elements
+ * Describes zatuk course module standard elements.
  * @param object $formwrapper
  * @param object $mform
+ * @return bool|void
  */
 function mod_zatuk_coursemodule_standard_elements($formwrapper, $mform) {
     global $CFG, $COURSE;
@@ -395,8 +357,8 @@ function mod_zatuk_coursemodule_standard_elements($formwrapper, $mform) {
     $mform->addElement('checkbox', 'recordsession', get_string('recordsession', 'mod_zatuk'));
 }
 /**
- * function mod_zatuk_get_api_formdata
- *
+ * get zatuk data like category and tags from api.
+ * @return stdClass
  */
 function mod_zatuk_get_api_formdata() {
     $zatukobj = new mod_zatuk\zatuk();

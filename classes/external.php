@@ -28,8 +28,6 @@ defined('MOODLE_INTERNAL') || die;
 
 require_once($CFG->libdir.'/externallib.php');
 require_once($CFG->dirroot.'/lib/completionlib.php');
-
-
 /**
  * class mod_zatuk_external
  */
@@ -110,13 +108,19 @@ class mod_zatuk_external extends external_api {
     /**
      * function tablecontentblock
      * @param string $args
+     * @return array
      */
     public static function tablecontentblock($args) {
         global $PAGE;
         require_login();
+        $params = self::validate_parameters(self::tablecontentblock_parameters(),
+                                            [
+                                                'args' => $args,
+                                            ]);
         self::validate_context(context_system::instance());
         $PAGE->set_context(\context_system::instance());
         $params = json_decode($args);
+
         $zatuk = new \mod_zatuk\zatuk();
         if ($params->args->action == "updatePreferences") {
             $countonly = true;
@@ -169,8 +173,13 @@ class mod_zatuk_external extends external_api {
     /**
      * function delete_video
      * @param int $id
+     * @return bool
      */
     public static function delete_video($id) {
+        $params = self::validate_parameters(self::delete_video_parameters(),
+                                            [
+                                                'id' => $id,
+                                            ]);
         $systemcontext = context_system::instance();
         self::validate_context(context_system::instance());
         if (is_siteadmin() && has_capability('mod/zatuk:deletevideo', $systemcontext)) {
@@ -203,9 +212,15 @@ class mod_zatuk_external extends external_api {
      * function update_video
      * @param string||null $videoid
      * @param string||null $zatukurl
+     * @return bool
      */
     public static function update_video($videoid, $zatukurl) {
         global $DB;
+        $params = self::validate_parameters(self::update_video_parameters(),
+                                            [
+                                                'videoid' => $videoid,
+                                                'zatukurl' => $zatukurl,
+                                            ]);
         $systemcontext = context_system::instance();
         self::validate_context(context_system::instance());
         try {
@@ -243,8 +258,13 @@ class mod_zatuk_external extends external_api {
     /**
      * function move_tozatuk
      * @param int $id
+     * @return bool
      */
     public static function move_tozatuk($id) {
+         $params = self::validate_parameters(self::move_tozatuk_parameters(),
+                                            [
+                                                'id' => $id,
+                                            ]);
         $systemcontext = context_system::instance();
         self::validate_context(context_system::instance());
         if (is_siteadmin() && has_capability('mod/zatuk:deletevideo', $systemcontext)) {
@@ -272,7 +292,7 @@ class mod_zatuk_external extends external_api {
     }
     /**
      * function validatezatukinstance
-     *
+     * @return bool
      */
     public static function validatezatukinstance() {
         $systemcontext = context_system::instance();

@@ -280,3 +280,7 @@ div[data-region="page-loader"] {
     height: 63px;
     margin: 0px 5px;
 }
+.zatukvideocardheader {
+
+    min-height: 152px;
+}
