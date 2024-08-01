@@ -36,6 +36,7 @@ class activity extends \core_search\base_activity {
      *
      * @param object $record
      * @param array  $options
+     * @return \core_search\document|bool
      */
     public function get_document($record, $options = []) {
         $doc = parent::get_document($record, $options);

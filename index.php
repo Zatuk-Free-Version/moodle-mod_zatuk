@@ -19,7 +19,7 @@
  *
  * @since     Moodle 2.0
  * @package   mod_zatuk
- * @copyright 2021 2023 Moodle India
+ * @copyright 2023 Moodle India
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -50,7 +50,7 @@ $zatukoutput = $PAGE->get_renderer('mod_zatuk');
 
 echo $OUTPUT->header();
 $condition = (is_siteadmin() ||
-     has_capability('mod/zatuk:editingteacher', $systemcontext) ||
+     has_capability('mod/zatuk:iseditingteacher', $systemcontext) ||
      has_capability('mod/zatuk:manageactions', $systemcontext)
    );
 

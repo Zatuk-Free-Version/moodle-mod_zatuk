@@ -39,8 +39,9 @@ use context_module;
  */
 class zatuk {
     /**
-     * function  can_participate
+     * Check to participate.
      * @param int $itemid
+     * @return array
      */
     public function can_participate($itemid) {
         global $USER, $DB;

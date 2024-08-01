@@ -19,7 +19,7 @@
  *
  * @since     Moodle 2.0
  * @package   mod_zatuk
- * @copyright 2021 2023 Moodle India
+ * @copyright 2023 Moodle India
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -27,7 +27,7 @@ require_once('../../config.php');
 use phpzatuk;
 global $CFG;
 require_login();
-require_capability('mod/zatuk:view', context_system::instance());
+require_capability('mod/zatuk:encryption', context_system::instance());
 require_once($CFG->dirroot.'/repository/zatuk/zatuklib.php');
 $apikey = trim(get_config('repository_zatuk', 'zatuk_key'));
 $secret  = trim(get_config('repository_zatuk', 'zatuk_secret'));

@@ -20,37 +20,44 @@
  * @copyright  2023 Moodle India
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-import $ from 'jquery';
-import videojs from 'media_videojs/video-lazy';
-import ModalEvents from 'core/modal_events';
-import Templates from 'core/templates';
-import Modal from 'core/modal';
-
-export const init = async () => {
-    $(document).on('click', '.renderervideo', function(){
-        var data = $(this).data();
-        const getData = async () => {
-            const modal = await Modal.create({
+define(['jquery',
+        'media_videojs/video-lazy',
+        'core/modal_events',
+        'core/modal_factory',
+        'core/templates'
+        ], function($,
+        videojs,
+        ModalEvents,
+        ModalFactory,
+        Templates) {
+    return {
+        init: function() {
+          $(document).on('click', '.renderervideo', function(){
+            var data = $(this).data();
+            ModalFactory.create({
                 title: data.title,
+                type: ModalFactory.types.DEFAULT,
                 body: Templates.render('mod_zatuk/preview_block', data),
-            });
-            modal.show();
-            modal.getRoot().on(ModalEvents.bodyRendered, function(){
-                const player = videojs('rendervideo_'+data.id);
-                player.src({
-                    autoplay:true,
-                    src: data.zatukurl,
-                    type: 'application/x-mpegURL'
+            }).done(function(modal) {
+                modal.show();
+                modal.getRoot().on(ModalEvents.shown, function(){
+                    const player = videojs('rendervideo_'+data.id);
+                    player.src({
+                        autoplay:true,
+                        src: data.zatukurl,
+                        type: 'application/x-mpegURL'
+                    });
+                    player.on('loadedmetadata', function() {
+                       $('#zatuk_duration').val(player.duration().toFixed(0));
+                    });
                 });
-                player.on('loadedmetadata', function() {
-                   $('#zatuk_duration').val(player.duration().toFixed(0));
+                modal.getRoot().on(ModalEvents.hidden, function(){
+                    var currentVideo = videojs('rendervideo_'+data.id);
+                    currentVideo.dispose();
                 });
-            });
-            modal.getRoot().on(ModalEvents.hidden, function(){
-                var currentVideo = videojs('rendervideo_'+data.id);
-                currentVideo.dispose();
-            });
-        };
-        getData();
-    });
-};
+            }.bind(this));
+          });
+
+        }
+    };
+});

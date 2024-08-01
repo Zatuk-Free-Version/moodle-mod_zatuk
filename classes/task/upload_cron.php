@@ -18,7 +18,7 @@
  * mod_zatuk upload_cron
  *
  * @package   mod_zatuk
- * @copyright 2021 2023 Moodle India
+ * @copyright 2023 Moodle India
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -42,8 +42,9 @@ class upload_cron extends \core\task\scheduled_task {
     }
 
     /**
-     * Do the job.
+     * Run zatuk upload video cron.
      * Throw exceptions on errors (the job will be retried).
+     * @return void
      */
     public function execute() {
         $uploader = new \mod_zatuk\lib\uploader();

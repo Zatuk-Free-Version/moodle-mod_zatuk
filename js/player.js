@@ -17,8 +17,6 @@ define(['jquery',
             load: function(args){
                 var values = JSON.parse(args);
                 const player = videojs(values.identifier);
-                var myVideoPlayer = document.getElementById(values.identifier);
-
                 player.src({
                     src: values.src,
                     type: 'application/x-mpegURL'
