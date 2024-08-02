@@ -267,7 +267,7 @@ class mod_zatuk_external extends external_api {
                                             ]);
         $systemcontext = context_system::instance();
         self::validate_context(context_system::instance());
-        if (is_siteadmin() && has_capability('mod/zatuk:deletevideo', $systemcontext)) {
+        if (is_siteadmin() && has_capability('mod/zatuk:uploadvideo', $systemcontext)) {
             $uploader = new \mod_zatuk\lib\uploader();
             $uploader->publish_video_by_id($id);
         } else {
