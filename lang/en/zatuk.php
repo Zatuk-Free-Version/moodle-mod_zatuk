@@ -41,6 +41,7 @@ $string['byactivity'] = 'By activity';
 $string['bycourse'] = 'By course';
 $string['cancel'] = 'Cancel';
 $string['cannotcallclass'] = 'Cannot call a class as a function';
+$string['choose_video'] = 'Choose video';
 $string['chooseavariable'] = 'Choose a variable...';
 $string['clicktoopen'] = 'Click {$a} link to open resource.';
 $string['completed'] = 'Completed';
@@ -55,7 +56,7 @@ $string['configrolesinparams'] = 'Enable if you want to include localized role n
 $string['configsecretphrase'] = 'This secret phrase is used to produce encrypted code value that can be sent to some servers as a parameter.  The encrypted code is produced by an md5 value of the current user IP address concatenated with your secret phrase. ie code = md5(IP.secretphrase). Please note that this is not reliable because IP address may change and is often shared by different computers.';
 $string['contentheader'] = 'Content';
 $string['course'] = 'Course';
-$string['createurl'] = 'Create a URL';
+$string['createurl'] = 'Create a url';
 $string['custom'] = 'Custom';
 $string['dailyhitsviews'] = 'Daily hits/Views';
 $string['date'] = 'Date ';
@@ -68,14 +69,14 @@ $string['descriptionhelp_help'] = 'Zatuk video description';
 $string['disabled'] = 'disabled="disabled"';
 $string['displayoptions'] = 'Available display options';
 $string['displayselect'] = 'Display';
-$string['displayselect_help'] = 'This setting, together with the URL file type and whether the browser allows embedding, determines how the URL is displayed. Options may include:
+$string['displayselect_help'] = 'This setting, together with the url file type and whether the browser allows embedding, determines how the url is displayed. Options may include:
 * Automatic - The best display option for the URL is selected automatically
-* Embed - The URL is displayed within the page below the navigation bar together with the URL description and any blocks
-* Open - Only the URL is displayed in the browser window
-* In pop-up - The URL is displayed in a new browser window without menus or an address bar
-* In frame - The URL is displayed within a frame below the navigation bar and URL description
-* New window - The URL is displayed in a new browser window with menus and an address bar';
-$string['displayselectexplain'] = 'Choose display type, unfortunately not all types are suitable for all URLs.';
+* Embed - The url is displayed within the page below the navigation bar together with the url description and any blocks
+* Open - Only the url is displayed in the browser window
+* In pop-up - The url is displayed in a new browser window without menus or an address bar
+* In frame - The url is displayed within a frame below the navigation bar and URL description
+* New window - The url is displayed in a new browser window with menus and an address bar';
+$string['displayselectexplain'] = 'Choose display type, unfortunately not all types are suitable for all urls.';
 $string['editvideo'] = 'Edit video';
 $string['email'] = 'Email ';
 $string['enableanalytics'] = 'Enable Analytics';
@@ -88,7 +89,7 @@ $string['eventvideosynced'] = 'Video synced';
 $string['eventvideouploaded'] = 'Video uploaded';
 $string['eventzatukactivityviewed'] = 'Zatuk activity viewed';
 $string['expression'] = 'Super expression must either be null or a function, not ';
-$string['externalurl'] = 'External URL';
+$string['externalurl'] = 'External url';
 $string['filepath'] = 'Video';
 $string['filepathhelp'] = 'zatuk video.';
 $string['filepathhelp_help'] = 'Upload zatuk video to publish.';
@@ -104,8 +105,8 @@ $string['graph'] = 'Graph';
 $string['height'] = 'Height';
 $string['hitsviews'] = 'Hits/views';
 $string['inprogress'] = 'In progress';
-$string['invalidstoredurl'] = 'Cannot display this resource, URL is invalid.';
-$string['invalidurl'] = 'Entered URL is invalid';
+$string['invalidstoredurl'] = 'Cannot display this resource, url is invalid.';
+$string['invalidurl'] = 'Entered url is invalid';
 $string['lastviewdon'] = 'Last viewed on';
 $string['lastviewed'] = 'Last viewed ';
 $string['lastviewedon'] = ' Last viewed on ';
@@ -143,10 +144,10 @@ $string['on'] = 'On';
 $string['organisationzatuk'] = 'Organizatio category';
 $string['organisationzatuk_help'] = 'Created categories under organizatio.';
 $string['organization'] = 'Organization';
-$string['page-mod-url-x'] = 'Any URL module page';
+$string['page-mod-url-x'] = 'Any url module page';
 $string['parameterinfo'] = '&amp;parameter=variable';
 $string['parametersheader'] = 'URL variables';
-$string['parametersheader_help'] = 'Some internal Moodle variables may be automatically appended to the URL. Type your name for the parameter into each text box(es) and then select the required matching variable.';
+$string['parametersheader_help'] = 'Some internal Moodle variables may be automatically appended to the url. Type your name for the parameter into each text box(es) and then select the required matching variable.';
 $string['picture'] = 'Picture';
 $string['pluginadministration'] = 'URL module administration';
 $string['pluginname'] = 'Zatuk';
@@ -155,8 +156,8 @@ $string['popupheightexplain'] = 'Specifies default height of popup windows.';
 $string['popupwidth'] = 'Pop-up width (in pixels)';
 $string['popupwidthexplain'] = 'Specifies default width of popup windows.';
 $string['preview'] = 'Preview';
-$string['printintro'] = 'Display URL description';
-$string['printintroexplain'] = 'Display URL description below content? Some display types may not display description even if enabled.';
+$string['printintro'] = 'Display url description';
+$string['printintroexplain'] = 'Display url description below content? Some display types may not display description even if enabled.';
 $string['privacy:metadata:description'] = 'Uploded  video description';
 $string['privacy:metadata:filename'] = 'Uploaded video file name';
 $string['privacy:metadata:organisationname'] = 'name of the category under organization';
@@ -182,7 +183,7 @@ $string['search:activity'] = 'Zatuk';
 $string['selectcategory'] = 'Select category';
 $string['selected'] = 'selected';
 $string['selectvideo'] = 'Select video';
-$string['serverurl'] = 'Server URL';
+$string['serverurl'] = 'Server url';
 $string['settings'] = 'Settings';
 $string['standard'] = 'standard';
 $string['startdateenddate'] = 'Start date - end date';
@@ -205,6 +206,7 @@ $string['topviews'] = 'Most viewed';
 $string['totalvideos'] = 'Total videos';
 $string['totalviews'] = 'Total Views';
 $string['unloaddetails'] = 'Before unload details updated';
+$string['update_video'] = 'Update video';
 $string['upload_videos'] = 'Upload video';
 $string['uploadedby'] = 'Uploaded by';
 $string['uploadeddate'] = 'Uploaded date';
@@ -212,7 +214,7 @@ $string['uploadedon'] = 'Uploaded on';
 $string['uploadedvideos'] = 'Uploaded videos';
 $string['uploaderror'] = 'Error in upload';
 $string['uploadvideo'] = 'Upload video';
-$string['url'] = 'url';
+$string['url'] = 'Url';
 $string['user'] = 'User ';
 $string['video'] = 'Video ';
 $string['videocompleted'] = 'The user with id {$a->userid} completely viewed the zatuk activity having reportid {$a->objectid}.';

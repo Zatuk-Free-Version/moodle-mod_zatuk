@@ -307,10 +307,10 @@ function mod_zatuk_get_browsevideo_form_html($mform) {
         $params = json_encode(['identifier' => 'mod_zatuk_form_video', 'src' => $extrenalurl]);
         $PAGE->requires->js_call_amd('mod_zatuk/player', 'load', [$params]);
         $class = '';
-        $straddlink = 'Update video';
+        $straddlink = get_string('update_video', 'mod_zatuk');
     } else {
         $class = 'hidden';
-        $straddlink = 'Choose video';
+        $straddlink = get_string('choose_video', 'mod_zatuk');
     }
 
     $clientid = uniqid();
