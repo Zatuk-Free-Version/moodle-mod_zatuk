@@ -41,19 +41,22 @@ class video_uploaded extends \core\event\base {
         $this->data['edulevel'] = \core\event\base::LEVEL_OTHER;
     }
     /**
-     * get_name
+     * Get name.
+     * @return string
      */
     public static function get_name() {
         return get_string('eventvideouploaded', 'mod_zatuk');
     }
     /**
-     * get_description
+     * Get description.
+     * @return string
      */
     public function get_description() {
         return get_string('videouploadedby', 'mod_zatuk', ['userid' => $this->userid, 'objectid' => $this->objectid]);
     }
     /**
-     * get_url
+     * Get url.
+     * @return \moodle_url
      */
     public function get_url() {
         return new moodle_url('mod/zatuk/index.php',

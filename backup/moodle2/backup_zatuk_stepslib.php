@@ -28,7 +28,9 @@
  */
 class backup_zatuk_activity_structure_step extends backup_activity_structure_step {
     /**
-     * Define the complete content structure for backup
+     * Defines the structure of the 'zatuk' element inside the zatuk.xml file
+     *
+     * @return backup_nested_element
      */
     protected function define_structure() {
 

@@ -15,35 +15,31 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * The mod_zatuk course module viewed event.
- *
+ * zatuk module upgrade code
  * @since      Moodle 2.0
- * @package    mod_zatuk
- * @copyright  2023 Moodle India
+ * @package   mod_zatuk
+ * @copyright 2023 Moodle India
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace mod_zatuk\event;
 /**
- * class course_module_viewed
+ * This is called at the beginning of the uninstallation process to give the module
+ * a chance to clean-up its hacks, bits etc. where possible.
+ *
  */
-class course_module_viewed extends \core\event\course_module_viewed {
-
-    /**
-     * Init method.
-     *
-     * @return void
-     */
-    protected function init() {
-        $this->data['objecttable'] = 'zatuk';
-        $this->data['crud'] = 'r';
-        $this->data['edulevel'] = \core\event\base::LEVEL_PARTICIPATING;
-    }
-    /**
-     * Get mapped object id.
-     * @return array
-     */
-    public static function get_objectid_mapping() {
-        return ['db' => 'zatuk', 'restore' => 'zatuk'];
+function xmldb_mod_zatuk_uninstall() {
+    global $DB;
+    // Delete all zatuk modules.
+    $sql = 'SELECT com.* FROM {course_modules} com
+            JOIN  {modules} mo ON mo.id = com.module
+            WHERE mo.name = :modulename';
+    $zatukmodules = $DB->get_records($sql, ['modulename' => 'zatuk']);
+    if ($zatukmodules) {
+        foreach ($zatukmodules as $module) {
+            if ((int)$module->id) {
+                course_delete_module((int)$module->id);
+            }
+        }
     }
 }
+

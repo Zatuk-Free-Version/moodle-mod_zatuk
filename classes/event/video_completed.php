@@ -41,19 +41,22 @@ class video_completed extends \core\event\base {
         $this->data['edulevel'] = \core\event\base::LEVEL_PARTICIPATING;
     }
     /**
-     * get_name
+     * Get name.
+     * @return string
      */
     public static function get_name() {
         return get_string('eventvideocompleted', 'mod_zatuk');
     }
     /**
-     * get_description
+     * Get description.
+     * @return string
      */
     public function get_description() {
         return get_string('videocompleted', 'mod_zatuk', ['userid' => $this->userid, 'objectid' => $this->objectid]);
     }
     /**
-     * get_url
+     * get url.
+     * @return \moodle_url
      */
     public function get_url() {
         return new moodle_url('/mod/zatuk/view.php',

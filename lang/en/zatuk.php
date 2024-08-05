@@ -117,7 +117,7 @@ $string['modulename_help'] = 'This zatuk module streams your media content to yo
 The tool streams video files in HLS format. So, you don’t feel like video-buffering, but you enjoy yourself with uninterrupted streaming with bitby bit loading. Just like your YouTube.  Keep the video files in different view formats like – Thumbnail or Directory.
 The same holds with the audio type.
 So create content specific to an organization, role, and user.
-With the APIs from the tool and a generated token from your Moodle LMS, you can sync the streaming application and the LMS, two ways. That way, you sync your Moodle LMS with the tool and the tool with your LMS.
+With the APIs from the tool and a generated token from your Moodle LMS, you can sync the zatuk application and the LMS, two ways. That way, you sync your Moodle LMS with the tool and the tool with your LMS.
 Use the tool on-premises or on the cloud.
 One of the top advantages of this tool is to reduce the load on your browser while fetching the videos. It has a repository from where you can upload files for streaming. And the contents are super safe as there is no scope for data sharing.';
 $string['modulename_link'] = 'mod/zatuk/view';
@@ -248,7 +248,7 @@ $string['zatuk:viewvideos'] = 'View videos';
 $string['zatukanalyticsemail'] = 'Zatuk analytics user email';
 $string['zatukanalyticsuser'] = 'Zatuk analytics user';
 $string['zatukingapp'] = 'Zatuk app';
-$string['zatukingnotyetset'] = 'No video available in zatuk application, Please make sure streaming application settings are correct';
+$string['zatukingnotyetset'] = 'No video available in zatuk application, Please make sure zatuk application settings are correct';
 $string['zatukinstance'] = 'The user with id {$a->userid} viewed the zatuk activity with course moduleid {$a->objectid}.';
 $string['zatukpaused'] = 'The user with id {$a->userid} paused the video having reportid {$a->objectid}.';
 

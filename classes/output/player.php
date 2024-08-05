@@ -54,7 +54,7 @@ class player implements renderable, templatable {
     private $height = 268;
     /**
      * Player constructor.
-     * @param \stdclass $zatukinstance
+     * @param object $zatukinstance
      * @param \stdclass $cm
      * @return void
      */
