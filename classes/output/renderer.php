@@ -26,6 +26,7 @@
 namespace mod_zatuk\output;
 defined('MOODLE_INTERNAL') || die;
 use html_writer;
+use moodle_url;
 
 require_once($CFG->dirroot.'/mod/zatuk/locallib.php');
 /**
@@ -44,16 +45,16 @@ class renderer extends \plugin_renderer_base {
         return parent::render_from_template('mod_zatuk/player', $data);
     }
     /**
-     * Upload zatuk videos.
-     * @return string
+     * Get all uploaded videos in lms.
+     * @return string html for the page
      */
     public function uploadedvideos() {
         $condition = ['tableid' => 'zatuk_uploaded_videos_data', 'function' => 'zatuk_uploaded_videos_data'];
         return $this->render_from_template('mod_zatuk/zatuk_videos', $condition);
     }
     /**
-     * get zatuk videos.
-     * @return string
+     * Get all published videos from zatuk.
+     * @return string html for the page
      */
     public function zatukvideos() {
         $condition = ['tableid' => 'get_zatuk_data', 'function' => 'get_zatuk_data'];
@@ -85,7 +86,7 @@ class renderer extends \plugin_renderer_base {
         return $outputs;
     }
     /**
-     * Render zatuk video.
+     * Render zatuk data.
      * @param array $zatukinfo
      * @param array $params
      * @return array
@@ -138,7 +139,7 @@ class renderer extends \plugin_renderer_base {
     }
     /**
      * Display video list.
-     * @param object $output  // uploadedvideos
+     * @param object $output
      * @return string
      */
     public function render_uploadedvideos($output) {
@@ -147,8 +148,8 @@ class renderer extends \plugin_renderer_base {
 
     }
     /**
-     * Get thumbnail.
-     * @return string
+     * Describes the uploaded video thumbnail.
+     * @return moodle_url|string
      */
     public function get_thumbnail_url() {
         global $DB;

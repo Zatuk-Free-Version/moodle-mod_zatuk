@@ -40,13 +40,15 @@ class video_deleted extends \core\event\base {
         $this->data['edulevel'] = \core\event\base::LEVEL_OTHER;
     }
     /**
-     * get_name
+     * Get name.
+     * @return string
      */
     public static function get_name() {
         return get_string('eventvideouploaded', 'mod_zatuk');
     }
     /**
-     * get_description
+     * Get description.
+     * @return \moodle_url
      */
     public function get_description() {
         return get_string('videouploadedby', 'mod_zatuk', ['userid' => $this->userid, 'objectid' => $this->objectid]);

@@ -148,6 +148,8 @@ class zatuk {
             } else {
                 $deleteoption = true;
             }
+            $apikey = trim(get_config('repository_zatuk', 'zatuk_key'));
+            $iszatukrepoenabled = ($apikey) ? true : false;
             $returndata[] = ['id' => $data->id,
                              'title' => $data->title,
                              'thumbnail' => $image,
@@ -158,6 +160,7 @@ class zatuk {
                              'status' => $data->status,
                              'public' => $data->public,
                              'deleteoption' => $deleteoption,
+                             'iszatukrepoenabled' => $iszatukrepoenabled,
                          ];
 
         }

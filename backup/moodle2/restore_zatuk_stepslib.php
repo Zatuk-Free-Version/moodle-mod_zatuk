@@ -42,7 +42,7 @@ class restore_zatuk_activity_structure_step extends restore_activity_structure_s
         return $this->prepare_activity_structure($paths);
     }
     /**
-     * process_zatuk
+     * Process the zatuk data.
      * @param object $data
      */
     protected function process_zatuk($data) {

@@ -46,7 +46,7 @@ class mod_zatuk_external extends external_api {
     }
 
     /**
-     * Trigger the course module viewed event and update the module completion status.
+     * View zatuk data.
      *
      * @param int $zatukid the zatuk instance id
      * @return array of warnings and status result
@@ -81,7 +81,7 @@ class mod_zatuk_external extends external_api {
     }
 
     /**
-     * Returns description of method result value
+     * Describes the view_zatuk return value.
      *
      * @return external_description
      */
@@ -106,7 +106,7 @@ class mod_zatuk_external extends external_api {
         );
     }
     /**
-     * function tablecontentblock
+     * Get zatuk uploaded video data.
      * @param string $args
      * @return array
      */
@@ -133,7 +133,7 @@ class mod_zatuk_external extends external_api {
 
     }
     /**
-     * function tablecontentblock returns.
+     * Describes the tablecontentblock return value.
      *
      */
     public static function tablecontentblock_returns() {
@@ -152,6 +152,7 @@ class mod_zatuk_external extends external_api {
                          'videoid' => new external_value(PARAM_RAW, 'Video unique id'),
                          'status' => new external_value(PARAM_BOOL, 'Video publish status'),
                          'deleteoption' => new external_value(PARAM_BOOL, 'Delete option'),
+                         'iszatukrepoenabled' => new external_value(PARAM_BOOL, 'Is zatuk repository enabled'),
                         ]
                     ), 'Data'
                 ),
@@ -171,7 +172,7 @@ class mod_zatuk_external extends external_api {
         );
     }
     /**
-     * function delete_video
+     * Delete zatuk video.
      * @param int $id
      * @return bool
      */
@@ -190,7 +191,7 @@ class mod_zatuk_external extends external_api {
         }
     }
     /**
-     * function delete_video_returns
+     * Describes the delete_video return value.
      *
      */
     public static function delete_video_returns() {
@@ -209,7 +210,7 @@ class mod_zatuk_external extends external_api {
         );
     }
     /**
-     * function update_video
+     * Update zatuk video based on video id.
      * @param string||null $videoid
      * @param string||null $zatukurl
      * @return bool
@@ -238,7 +239,7 @@ class mod_zatuk_external extends external_api {
         }
     }
     /**
-     * function update_video_returns
+     * Describes the update_video return value.
      *
      */
     public static function update_video_returns() {
@@ -256,12 +257,12 @@ class mod_zatuk_external extends external_api {
         );
     }
     /**
-     * function move_tozatuk
+     * Move zatuk video from lms to zatuk site based on id.
      * @param int $id
-     * @return bool
+     * @return bool|null
      */
     public static function move_tozatuk($id) {
-         $params = self::validate_parameters(self::move_tozatuk_parameters(),
+        $params = self::validate_parameters(self::move_tozatuk_parameters(),
                                             [
                                                 'id' => $id,
                                             ]);
@@ -275,7 +276,7 @@ class mod_zatuk_external extends external_api {
         }
     }
     /**
-     * function move_tozatuk_returns
+     * Describes the move_tozatuk return value.
      *
      */
     public static function move_tozatuk_returns() {
@@ -291,7 +292,7 @@ class mod_zatuk_external extends external_api {
         );
     }
     /**
-     * function validatezatukinstance
+     * Describes the zatuk instance validation.
      * @return bool
      */
     public static function validatezatukinstance() {
@@ -304,7 +305,7 @@ class mod_zatuk_external extends external_api {
         }
     }
     /**
-     * function validatezatukinstance_returns
+     * Describes the validatezatukinstance return value.
      *
      */
     public static function validatezatukinstance_returns() {

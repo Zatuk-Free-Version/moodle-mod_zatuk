@@ -23,9 +23,9 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-use core_admin\local\settings\linkable_settings_page;
-
 defined('MOODLE_INTERNAL') || die();
+
+use core_admin\local\settings\linkable_settings_page;
 
 // Add libraries.
 require_once($CFG->libdir.'/ddllib.php');

@@ -60,7 +60,7 @@ class renderer  extends plugin_renderer_base {
         return $outputs;
     }
     /**
-     * uploadrender
+     * Render uploaded videos.
      * @param array $uploaddata
      * @param array $params
      * @return array
@@ -106,24 +106,24 @@ class renderer  extends plugin_renderer_base {
         return $outputs;
     }
     /**
-     * uploadedvideos
+     * Get uploaded videos.
      * @return string
      */
     public function uploadedvideos() {
         $condition = ['tableid' => 'zatuk_uploaded_videos_data',
                       'function' => 'zatuk_uploaded_videos_data',
-                      'nodatastring' => 'novideosuploadedyet',
+                      'nodatastring' => get_string('novideosuploadedyet', 'mod_zatuk'),
                     ];
         return $this->render_from_template('mod_zatuk/zatuk_videos', $condition);
     }
     /**
-     * Display zatuk videos.
+     * Get zatuk videos.
      * @return string
      */
     public function zatukvideos() {
         $condition = ['tableid' => 'get_zatuk_data',
                       'function' => 'get_zatuk_data',
-                      'nodatastring' => 'zatukingnotyetset',
+                      'nodatastring' => get_string('zatukingnotyetset', 'mod_zatuk'),
                     ];
         return $this->render_from_template('mod_zatuk/zatuk_videos', $condition);
     }
