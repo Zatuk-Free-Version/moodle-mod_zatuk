@@ -104,7 +104,7 @@ class mod_zatuk_renderer extends plugin_renderer_base {
         return $thumbnaillogourl;
     }
     /**
-     * function  handleemptyelements
+     * Describes the empty element handle function.
      * @param array $data
      * @param int $count
      * @return array
@@ -122,12 +122,13 @@ class mod_zatuk_renderer extends plugin_renderer_base {
         return $returndata;
     }
     /**
-     * function  uploadedvideos
+     * Upload zatuk video.
+     * @return string
      */
     public function uploadedvideos() {
          $condition = ['tableid' => 'zatuk_uploaded_videos_data',
                      'function' => 'zatuk_uploaded_videos_data',
-                     'nodatastring' => 'novideosuploadedyet',
+                     'nodatastring' => get_string('novideosuploadedyet', 'mod_zatuk'),
                     ];
          return $this->render_from_template('mod_zatuk/zatuk_videos', $condition);
     }
@@ -138,12 +139,12 @@ class mod_zatuk_renderer extends plugin_renderer_base {
     public function zatukvideos() {
         $condition = ['tableid' => 'get_zatuk_data',
                             'function' => 'get_zatuk_data',
-                            'nodatastring' => 'zatukingnotyetset',
+                            'nodatastring' => get_string('zatukingnotyetset', 'mod_zatuk'),
                         ];
         return $this->render_from_template('mod_zatuk/zatuk_videos', $condition);
     }
     /**
-     * Get content.
+     * Render zatuk content.
      * @return string
      */
     public function render_content() {

@@ -24,15 +24,20 @@
  */
 
 /**
- * function mod_zatuk_pluginfile
- * @param stdclass $course
- * @param stdclass $cm
- * @param stdclass $context
- * @param string||null $filearea
- * @param array $args
- * @param string||null $forcedownload
- * @param array $options
- * @return bool | null
+ * Serves the files from the zatuk file areas
+ *
+ *
+ * @package  mod_zatuk
+ * @category files
+ *
+ * @param stdClass $course the course object
+ * @param stdClass $cm the course module object
+ * @param stdClass $context the workshop's context
+ * @param string $filearea the name of the file area
+ * @param array $args extra arguments (itemid, path)
+ * @param bool $forcedownload whether or not force download
+ * @param array $options additional options affecting the file serving
+ * @return bool|null false if the file not found, just send the file otherwise and do not return anything
  */
 function mod_zatuk_pluginfile($course,
                             $cm,
@@ -63,13 +68,19 @@ function mod_zatuk_pluginfile($course,
 function zatuk_supports($feature) {
     switch($feature) {
         case FEATURE_MOD_ARCHETYPE;
-        return MOD_ARCHETYPE_RESOURCE;;
+         return MOD_ARCHETYPE_RESOURCE;;
+        case FEATURE_MOD_INTRO :
         case FEATURE_COMPLETION_TRACKS_VIEWS :
         case FEATURE_COMPLETION_HAS_RULES :
         case FEATURE_BACKUP_MOODLE2 :
-        return true;
+         return true;
+        case FEATURE_GROUPS :
+        case FEATURE_GROUPINGS :
+         return false;
+        case FEATURE_MOD_PURPOSE:
+         return MOD_PURPOSE_CONTENT;
         default :
-        return null;
+         return null;
     }
 }
 /**
@@ -199,7 +210,7 @@ function zatuk_page_type_list($pagetype, $parentcontext, $currentcontext) {
 }
 
 /**
- * Export URL resource contents
+ * Export zatuk resource contents
  * @param object $cm
  * @param string||null $baseurl
  * @return null|array
@@ -258,10 +269,13 @@ function zatuk_view($zatuk, $course, $cm, $context) {
     $event->trigger();
 }
 /**
- * extend an zatuk navigation settings
+ * Extends the settings navigation with the zatuk settings
+
+ * This function is called when the context for the page is a zatuk module. This is not called by AJAX
+ * so it is safe to rely on the $PAGE.
  *
- * @param settings_navigation $settings
- * @param navigation_node $navref
+ * @param settings_navigation $settings 
+ * @param navigation_node $navref 
  * @return void
  */
 function zatuk_extend_settings_navigation(settings_navigation $settings, navigation_node $navref) {
