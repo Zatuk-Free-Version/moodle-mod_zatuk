@@ -274,8 +274,8 @@ function zatuk_view($zatuk, $course, $cm, $context) {
  * This function is called when the context for the page is a zatuk module. This is not called by AJAX
  * so it is safe to rely on the $PAGE.
  *
- * @param settings_navigation $settings 
- * @param navigation_node $navref 
+ * @param settings_navigation $settings
+ * @param navigation_node $navref
  * @return void
  */
 function zatuk_extend_settings_navigation(settings_navigation $settings, navigation_node $navref) {

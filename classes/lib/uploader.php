@@ -108,7 +108,7 @@ class uploader {
      * @param string||null $filetype
      * @return bool|\stored_file
      */
-    public function get_zatuk_video_file_object(&$curlobj, $fileid, $filetype) {
+    public function get_zatuk_video_file_object($curlobj, $fileid, $filetype) {
         $fs = get_file_storage();
         $fileinfo = $fs->get_file_by_id($fileid);
         $fileinfo->add_to_curl_request($curlobj, $filetype);

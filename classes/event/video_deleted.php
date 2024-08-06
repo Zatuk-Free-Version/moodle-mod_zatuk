@@ -48,7 +48,7 @@ class video_deleted extends \core\event\base {
     }
     /**
      * Get description.
-     * @return \moodle_url
+     * @return string
      */
     public function get_description() {
         return get_string('videouploadedby', 'mod_zatuk', ['userid' => $this->userid, 'objectid' => $this->objectid]);
