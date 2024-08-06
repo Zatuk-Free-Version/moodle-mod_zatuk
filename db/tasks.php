@@ -25,8 +25,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-/* List of handlers */
-
 $tasks = [
     [
         'classname' => 'mod_zatuk\task\upload_cron',

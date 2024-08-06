@@ -56,7 +56,7 @@ class video_synced extends \core\event\base {
     }
     /**
      * Get url
-     * @return string.
+     * @return \moodle_url.
      */
     public function get_url() {
         return new moodle_url('mod/zatuk/index.php',
