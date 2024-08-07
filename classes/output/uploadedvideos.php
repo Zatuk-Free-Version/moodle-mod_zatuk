@@ -30,10 +30,8 @@ use renderer_base;
 use templatable;
 use mod\zatuk;
 /**
- * Class containing data for myprofile mod.
+ * Class uploadedvideos.
  *
- * @copyright  2021 2023 Moodle India
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class uploadedvideos implements renderable, templatable {
 
