@@ -17,8 +17,8 @@
 /**
  * zatuk module upgrade code
  * @since      Moodle 2.0
- * @package   mod_zatuk
- * @copyright 2023 Moodle India
+ * @package    mod_zatuk
+ * @copyright  2023 Moodle India
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

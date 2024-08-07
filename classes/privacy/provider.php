@@ -33,8 +33,6 @@ require_once($CFG->dirroot.'/mod/zatuk/locallib.php');
 /**
  * Privacy API implementation for the zatuk activity module.
  *
- * @copyright  2023 Moodle India
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class provider implements
         \core_privacy\local\metadata\provider {
