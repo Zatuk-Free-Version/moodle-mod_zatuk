@@ -1,4 +1,3 @@
-<?php
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -15,19 +14,26 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Definition of log events.
+ * Defines zatuk configuration script.
  *
  * @since      Moodle 2.0
- * @package    mod_zatuk
  * @copyright  2023 Moodle India
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+import {get_string as getString} from 'core/str';
+import ModalFactory from 'core/modal_factory';
 
-defined('MOODLE_INTERNAL') || die();
-
-$logs = [
-    ['module' => 'zatuk', 'action' => 'view', 'mtable' => 'zatuk', 'field' => 'name'],
-    ['module' => 'zatuk', 'action' => 'view all', 'mtable' => 'zatuk', 'field' => 'name'],
-    ['module' => 'zatuk', 'action' => 'update', 'mtable' => 'zatuk', 'field' => 'name'],
-    ['module' => 'zatuk', 'action' => 'add', 'mtable' => 'zatuk', 'field' => 'name'],
-];
+export default class MessageModal {
+    confirmbox(message) {
+        ModalFactory.create({
+            body: message,
+            type: ModalFactory.types.ALERT,
+            buttons: {
+                cancel: getString('ok'),
+            },
+            removeOnClose: true,
+        }).done(function(modal) {
+            modal.show();
+        });
+    }
+}

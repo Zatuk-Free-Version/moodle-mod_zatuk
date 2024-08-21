@@ -27,7 +27,7 @@ defined('MOODLE_INTERNAL') || die();
 
 $tasks = [
     [
-        'classname' => 'mod_zatuk\task\upload_cron',
+        'classname' => 'mod_zatuk\task\upload_video',
         'blocking' => 0,
         'minute' => '*/30',
         'hour' => '*',

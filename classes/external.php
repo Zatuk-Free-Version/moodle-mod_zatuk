@@ -112,7 +112,6 @@ class mod_zatuk_external extends external_api {
      */
     public static function tablecontentblock($args) {
         global $PAGE;
-        require_login();
         $params = self::validate_parameters(self::tablecontentblock_parameters(),
                                             [
                                                 'args' => $args,
@@ -127,7 +126,7 @@ class mod_zatuk_external extends external_api {
         } else {
             $countonly = false;
         }
-        $zatukdata = $zatuk->zatuk_uploaded_video_data($params->args, $countonly);
+        $zatukdata = $zatuk->zatuk_uploaded_video_data((array)$params->args, $countonly);
 
         return $zatukdata;
 
@@ -147,12 +146,12 @@ class mod_zatuk_external extends external_api {
                          'title' => new external_value(PARAM_RAW, 'Video title'),
                          'thumbnail' => new external_value(PARAM_RAW, 'Thumbnail'),
                          'timecreated' => new external_value(PARAM_RAW, 'Created date/time'),
-                         'usercreated' => new external_value(PARAM_RAW, 'Created user'),
+                         'userfullname' => new external_value(PARAM_RAW, 'Created user'),
                          'path' => new external_value(PARAM_RAW, 'Video path'),
                          'videoid' => new external_value(PARAM_RAW, 'Video unique id'),
                          'status' => new external_value(PARAM_BOOL, 'Video publish status'),
                          'deleteoption' => new external_value(PARAM_BOOL, 'Delete option'),
-                         'iszatukrepoenabled' => new external_value(PARAM_BOOL, 'Is zatuk repository enabled'),
+                         'iszatukrepoenabled' => new external_value(PARAM_INT, 'Is zatuk repository enabled'),
                         ]
                     ), 'Data'
                 ),
@@ -223,7 +222,7 @@ class mod_zatuk_external extends external_api {
                                                 'zatukurl' => $zatukurl,
                                             ]);
         $systemcontext = context_system::instance();
-        self::validate_context(context_system::instance());
+        self::validate_context($systemcontext);
         try {
             $dataobj = new stdClass();
             $dataobj->id = $DB->get_field('zatuk_uploaded_videos', 'id', ['videoid' => $videoid], MUST_EXIST);
@@ -267,7 +266,7 @@ class mod_zatuk_external extends external_api {
                                                 'id' => $id,
                                             ]);
         $systemcontext = context_system::instance();
-        self::validate_context(context_system::instance());
+        self::validate_context($systemcontext);
         if (is_siteadmin() && has_capability('mod/zatuk:uploadvideo', $systemcontext)) {
             $uploader = new \mod_zatuk\lib\uploader();
             $uploader->publish_video_by_id($id);
@@ -297,7 +296,7 @@ class mod_zatuk_external extends external_api {
      */
     public static function validatezatukinstance() {
         $systemcontext = context_system::instance();
-        self::validate_context(context_system::instance());
+        self::validate_context($systemcontext);
         if (is_siteadmin() && has_capability('mod/zatuk:manageactions', $systemcontext)) {
             return true;
         } else {

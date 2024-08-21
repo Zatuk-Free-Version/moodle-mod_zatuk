@@ -24,7 +24,6 @@
  */
 namespace mod_zatuk\form;
 defined('MOODLE_INTERNAL') || die;
-require_once($CFG->libdir.'/externallib.php');
 require_once($CFG->dirroot.'/mod/zatuk/lib.php');
 
 use core_form\dynamic_form;
@@ -89,7 +88,7 @@ class upload extends dynamic_form {
             'placeholder' => 'Select Tags',
         ];
 
-        $mform->addElement('autocomplete', 'tags', get_string('tags', 'mod_zatuk'), $tags, $tagsoptions);
+        $mform->addElement('autocomplete', 'tags', get_string('tags'), $tags, $tagsoptions);
         $mform->addHelpButton('tags', 'tagszatukhelp', 'mod_zatuk');
         $mform->setType('tags', PARAM_INT);
 

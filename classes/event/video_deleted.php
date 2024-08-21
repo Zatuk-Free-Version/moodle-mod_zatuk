@@ -44,14 +44,14 @@ class video_deleted extends \core\event\base {
      * @return string
      */
     public static function get_name() {
-        return get_string('eventvideouploaded', 'mod_zatuk');
+        return get_string('eventvideodeleted', 'mod_zatuk');
     }
     /**
      * Get description.
      * @return string
      */
     public function get_description() {
-        return get_string('videouploadedby', 'mod_zatuk', ['userid' => $this->userid, 'objectid' => $this->objectid]);
+        return get_string('videodeletedby', 'mod_zatuk', ['userid' => $this->userid, 'objectid' => $this->objectid]);
     }
 
 }

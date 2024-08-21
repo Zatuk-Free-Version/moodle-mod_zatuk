@@ -253,13 +253,13 @@
 .zatuk-list .dashboard-card-deck .dashboard-card .dashboard-card-img {
     height: 12rem;
 }
-div[data-region="page-loader"] > div {
+#page-mod-zatuk-index div[data-region="page-loader"] > div {
     text-align: center;
     position: absolute;
     left: calc(50% - 30px);
     top: calc(50% - 30px);
 }
-div[data-region="page-loader"] {
+#page-mod-zatuk-index div[data-region="page-loader"] {
     background: #a5a5a54d;
     position: absolute;
     left: 0;
@@ -281,4 +281,16 @@ div[data-region="page-loader"] {
 .zatukvideocardheader {
 
     min-height: 152px;
+}
+
+@media only screen and (min-width: 840px) {
+    #page-mod-zatuk-index .dashboard-card-deck:not(.fixed-width-cards) .dashboard-card {
+         width: 100% !important;
+    }
+}
+
+@media only screen and (min-width: 576px) {
+    #page-mod-zatuk-index .dashboard-card-deck:not(.fixed-width-cards) .dashboard-card {
+         width: 100% !important;
+    }
 }

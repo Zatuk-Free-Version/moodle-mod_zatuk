@@ -29,13 +29,14 @@
     }
 }}
 <div class="pl-0 list-group list-group-flush">
-    <div class="card-deck dashboard-card-deck {{#classes}}{{/classes}}" data-region="card-deck" role="list">
+    <div class="row dashboard-card-deck {{#classes}}{{/classes}}" data-region="card-deck" role="list">
     {{#videos}}
+    <div class="col-md-6">
         <div class="card dashboard-card" role="listitem"
             data-region="course-content"
             data-course-id="{{{id}}}">
             <a href="#" tabindex="-1">
-                <div class="card-img dashboard-card-img {{#status}} renderervideo {{/status}}" style='background-image: url("{{{thumbnail}}}");' data-id="{{videoid}}" data-zatukurl="{{path}}" data-title="{{title}}" >
+                <div class="card-img dashboard-card-img {{#status}} renderervideo {{/status}}" style='background-image: url("{{{thumbnail}}}");' data-id="{{videoid}}" data-zatukurl="{{path}}" data-title="{{title}}">
                     <span class="sr-only">{{#str}}aria:courseimage, core_course{{/str}}</span>
                 </div>
             </a>
@@ -62,7 +63,6 @@
                         </div>
                     </div>
                     {{^status}}
-
                         <div class="ml-auto dropdown">
                             <i class="icon fa fa-clock-o fa-fw " aria-hidden="true"></i>
                             <button class="btn btn-link btn-icon icon-size-3 coursemenubtn"
@@ -75,7 +75,6 @@
                                         {{#str}} aria:courseactions, mod_zatuk {{/str}} {{{fullname}}}
                                     </span>
                             </button>
-
                             <div class="dropdown-menu dropdown-menu-right">
                                 {{#deleteoption}}
                                 <a class="dropdown-item deleteuploadedvideo"  href="#"
@@ -91,7 +90,7 @@
                                 {{/deleteoption}}
                                 {{# iszatukrepoenabled}}
                                 <a class="dropdown-item edituploadedvideo"  href="#"
-                                    data-action="uploadvideo"
+                                    data-action="uploadvideo" data-zatukrepoenabled = "{{iszatukrepoenabled}}"
                                     data-id="{{ id }}"
                                     aria-controls="favorite-icon-{{ id }}-{{ uniqid }}"
                                     >
@@ -116,6 +115,7 @@
                 {{/status}}
                 </div>
             </div>
+        </div>
         </div>
     {{/videos}}
     </div>

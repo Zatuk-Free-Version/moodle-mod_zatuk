@@ -42,6 +42,7 @@ $functions = [
         'classpath'   => 'mod/zatuk/classes/external.php',
         'type'        => 'read',
         'ajax' => true,
+        'loginrequired' => true,
         'services'      => [MOODLE_ZATUK_WEB_SERVICE],
     ],
     'mod_zatuk_delete_video' => [
