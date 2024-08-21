@@ -42,7 +42,7 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, Ajax, Notificat
     var updatePreferences = function(args) {
         // if (!args.hasOwnProperty('limit')) {
             // This is intentionally smaller than the default limit.
-            args.limit = 10;
+            args.limit = DEFAULT_LIMIT;
         // }
         args.action = 'updatePreferences';
         args.limitnum = args.limit;

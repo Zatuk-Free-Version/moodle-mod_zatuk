@@ -1,22 +1,11 @@
 M.zatuk_url = {};
 
 M.zatuk_url.init = function(Y, options) {
-    require(['jquery', 'core/modal_factory', 'core/str'], function($, ModalFactory, Str){
-        const confirmbox = (message) => {
-            ModalFactory.create({
-                body: message,
-                type: ModalFactory.types.ALERT,
-                buttons: {
-                    ok: Str.get_string('Thank_you'),
-                },
-                removeOnClose: true,
-            }).done(function(modal) {
-                modal.show();
-            });
-        };
+    require(['jquery', 'mod_zatuk/messagemodal', 'core/str'], function($, messagemodal, Str){
+       let MessageModal = new messagemodal();
         options.formcallback = M.zatuk_url.callback;
         if(typeof(options.client_id) == 'undefined'){
-            confirmbox(Str.get_string('enablezatuk','mod_zatuk'));
+            MessageModal.confirmbox(Str.get_string('enablezatuk','mod_zatuk'));
         }
         if (!M.core_filepicker.instances[options.client_id]) {
             M.core_filepicker.init(Y, options);
@@ -30,7 +19,7 @@ M.zatuk_url.init = function(Y, options) {
 
 M.zatuk_url.callback = function (params) {
     require(['media_videojs/video-lazy', 'jquery'], function(videojs, $){
-        videoparams = params.url.split('/');
+        var videoparams = params.url.split('/');
         var videoidIndex = videoparams.length-2;
         $('#zatuk_external_url').val(params.url);
         $('#zatuk_external_videoid').val(videoparams[videoidIndex]);

@@ -43,9 +43,12 @@ export const init = () => {
                 body: getString('deleteconfirm', 'mod_zatuk')
             }).done(function(modal) {
                 this.modal = modal;
-                modal.setSaveButtonText(getString('delete', 'mod_zatuk'));
+                modal.setSaveButtonText(getString('delete'));
                 modal.getRoot().on(ModalEvents.save, function(e) {
                     e.preventDefault();
+                    Templates.renderForPromise('mod_zatuk/loader', {}).then(({html, js}) => {
+                        Templates.appendNodeContents('.modal-content', html, js);
+                    });
                     var params = {};
                     params.id = id;
                     var promise = Ajax.call([{

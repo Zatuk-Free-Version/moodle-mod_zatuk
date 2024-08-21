@@ -126,7 +126,7 @@ class renderer extends \plugin_renderer_base {
             $data['username'] = $video->userfullname;
             $data['timecreated'] = date('d M Y', $video->timecreated);
             $data['status'] = $video->status == 0 ? get_string('notsynced', 'zatuk') :
-             get_string('syncedat', 'zatuk').date('d M Y', $video->uploaded_on);
+             get_string('synced_at', 'zatuk').date('d M Y', $video->uploaded_on);
             $tdata[] = [$this->render_from_template('mod_zatuk/video_card', $data)];
         }
         $outputs = [
@@ -148,8 +148,8 @@ class renderer extends \plugin_renderer_base {
 
     }
     /**
-     * Describes the uploaded video thumbnail.
-     * @return moodle_url|string
+     * Get thumbnail.
+     * @return string
      */
     public function get_thumbnail_url() {
         global $DB;

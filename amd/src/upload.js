@@ -21,25 +21,14 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 import ModalForm from 'core_form/modalform';
-import ModalFactory from 'core/modal_factory';
 import {get_string as getString} from 'core/str';
+import messagemodal from 'repository_zatuk/messagemodal';
 const Selectors = {
     actions: {
         uploadvideo: '[data-action="uploadvideo"]',
     },
 };
-export const confirmbox = (message) => {
-    ModalFactory.create({
-        body: message,
-        type: ModalFactory.types.ALERT,
-        buttons: {
-            ok: getString('Thank_you'),
-        },
-        removeOnClose: true,
-    }).done(function(modal) {
-        modal.show();
-    });
-};
+let MessageModal = new messagemodal();
 export const init = () => {
     document.addEventListener('click', function(e) {
         let uploadvideo = e.target.closest(Selectors.actions. uploadvideo);
@@ -61,7 +50,7 @@ export const init = () => {
 
             } else {
                 getString('enablezatuk' ,'mod_zatuk').then((str) => {
-                    confirmbox(getString('finalzatuksmessage','mod_zatuk',str));
+                    MessageModal.confirmbox(getString('finalzatuksmessage','mod_zatuk',str));
                 });
             }
         }

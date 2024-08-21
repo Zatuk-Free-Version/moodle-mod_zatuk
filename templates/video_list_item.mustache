@@ -62,7 +62,6 @@
                         </div>
                     </div>
                     {{^status}}
-
                         <div class="ml-auto dropdown">
                             <i class="icon fa fa-clock-o fa-fw " aria-hidden="true"></i>
                             <button class="btn btn-link btn-icon icon-size-3 coursemenubtn"
@@ -75,7 +74,6 @@
                                         {{#str}} aria:courseactions, mod_zatuk {{/str}} {{{fullname}}}
                                     </span>
                             </button>
-
                             <div class="dropdown-menu dropdown-menu-right">
                                 {{#deleteoption}}
                                 <a class="dropdown-item deleteuploadedvideo"  href="#"
@@ -91,7 +89,7 @@
                                 {{/deleteoption}}
                                 {{# iszatukrepoenabled}}
                                 <a class="dropdown-item edituploadedvideo"  href="#"
-                                    data-action="uploadvideo"
+                                    data-action="uploadvideo" data-zatukrepoenabled = "{{iszatukrepoenabled}}"
                                     data-id="{{ id }}"
                                     aria-controls="favorite-icon-{{ id }}-{{ uniqid }}"
                                     >

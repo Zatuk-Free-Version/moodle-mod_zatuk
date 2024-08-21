@@ -153,7 +153,7 @@ function zatuk_update_instance($data, $mform = null) {
 function zatuk_delete_instance($id) {
     global $DB;
 
-    if (!$zatuk = $DB->get_record('zatuk', ['id' => $id])) {
+    if (!$DB->get_record('zatuk', ['id' => $id])) {
         return false;
     }
 
@@ -231,7 +231,7 @@ function zatuk_export_contents($cm, $baseurl) {
     }
 
     $url = [];
-    $url['type'] = get_string('url', 'zatuk');
+    $url['type'] = get_string('url');
     $url['filename']     = clean_param(format_string($urlrecord->name), PARAM_FILE);
     $url['filepath']     = null;
     $url['filesize']     = 0;
@@ -315,8 +315,8 @@ function mod_zatuk_get_browsevideo_form_html($mform) {
     $cmid = optional_param('update', 0,  PARAM_INT);
 
     if ($cmid) {
-        $extrenalurl = $DB->get_field_sql("SELECT s.externalurl FROM {zatuk} s
-                                          JOIN {course_modules} cm on cm.instance = s.id WHERE cm.id = :id ",
+        $extrenalurl = $DB->get_field_sql("SELECT z.externalurl FROM {zatuk} z
+                                          JOIN {course_modules} cm on cm.instance = z.id WHERE cm.id = :id ",
                                           ['id' => $cmid]);
         $params = json_encode(['identifier' => 'mod_zatuk_form_video', 'src' => $extrenalurl]);
         $PAGE->requires->js_call_amd('mod_zatuk/player', 'load', [$params]);
@@ -338,14 +338,12 @@ function mod_zatuk_get_browsevideo_form_html($mform) {
     $options = $fp->options;
     $zatukingid = array_search('zatuk', array_column($options->repositories, 'type', 'id'));
     if (!$zatukingid) {
-        return \html_writer::div(get_string('nozatukrepository',
-        'mod_zatuk',
-        $CFG->wwwroot . '/admin/repository.php'),
-        'alert alert-danger');
+        $sdata = ['url' => $CFG->wwwroot .'/admin/repository.php'];
+        return $OUTPUT->render_from_template('mod_zatuk/nozatukrepository', $sdata);
     }
     $options->repositories = [$zatukingid => $options->repositories[$zatukingid]];
 
-    $module = ['name' => 'zatuk_url', 'fullpath' => '/mod/zatuk/js/zatukurl.js', 'requires' => ['core_filepicker']];
+    $module = ['name' => 'zatuk_url', 'fullpath' => '/mod/zatuk/amd/src/zatukurl.js', 'requires' => ['core_filepicker']];
     $PAGE->requires->js_init_call('M.zatuk_url.init', [$options], true, $module);
     $bvdata = [
         'class' => $class,

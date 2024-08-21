@@ -30,7 +30,7 @@ define(
     'mod_zatuk/zatuk_repository',
     'mod_zatuk/renderzatuk',
     'core/custom_interaction_events',
-    'core/modal_factory'
+    'mod_zatuk/messagemodal'
 ],
 function(
     $,
@@ -41,22 +41,9 @@ function(
     zatukVideosRepository,
     RenderZatuk,
     CustomEvents,
-    ModalFactory
+    messagemodal
 ) {
 
-    const confirmbox = (message) => {
-     ModalFactory.create({
-        body: message,
-        type: ModalFactory.types.ALERT,
-        buttons: {
-            ok: Str.get_string('Thank_you'),
-        },
-        removeOnClose: true,
-      })
-      .done(function(modal) {
-        modal.show();
-      });
-    };
     var length, videosOffset, StatusFilter, SortFilter, SearchFilter;
     var limit = 10;
     var SELECTORS = {
@@ -376,6 +363,7 @@ function(
      * @param {object} additionalConfig Additional config options to pass to pagedContentFactory
      */
     var init = function(root, pageLimit = 10, preloadedPages, paginationAriaLabel, additionalConfig) {
+        let MessageModal = new messagemodal();
         if(typeof root != 'undefined'){
             root = $(root);
         }else{
@@ -421,7 +409,7 @@ function(
                         // If we didn't get any data then show the empty data message.
                         hideContent(root);
                         Str.get_string('norecordsmessage' ,'mod_zatuk').then((str) => {
-                           confirmbox(Str.get_string('finalzatuksmessage','mod_zatuk',str));
+                           MessageModal.confirmbox(Str.get_string('finalzatuksmessage','mod_zatuk',str));
                         });
                     }
                     return hasContent;

@@ -30,7 +30,7 @@ namespace mod_zatuk\task;
  * Class upload_cron.
  *
  */
-class upload_cron extends \core\task\scheduled_task {
+class upload_video extends \core\task\scheduled_task {
     /**
      * Get a descriptive name for this task (shown to admins).
      *

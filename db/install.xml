@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="mod/zatuk/db" VERSION="20120122" COMMENT="XMLDB file for zatuk module"
+<XMLDB PATH="mod/zatuk/db" VERSION="2022041900.00" COMMENT="XMLDB file for zatuk module"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd">
     <TABLES>

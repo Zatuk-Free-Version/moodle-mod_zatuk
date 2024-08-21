@@ -30,7 +30,7 @@
                 {{#pix}} i/filter {{/pix}}
                 <span class="d-sm-inline-block" data-active-item-text>
                     {{#all}}{{#str}} allvideos, mod_zatuk {{/str}}{{/all}}
-                    {{#inprogress}}{{#str}} inprogress, mod_zatuk {{/str}}{{/inprogress}}
+                    {{#inprogress}}{{#str}} inprogress {{/str}}{{/inprogress}}
                     {{#published}}{{#str}} published, mod_zatuk {{/str}}{{/published}}
                 </span>
             </button>
@@ -44,7 +44,7 @@
                 <li>
                     <a class="dropdown-item" href="#" data-filter="statusfilter" data-value="inprogress" data-pref="inprogress"
                        aria-controls="zatuk-list-container" role="menuitem" {{#inprogress}}aria-current="true"{{/inprogress}}>
-                        {{#str}} inprogress, mod_zatuk {{/str}}
+                        {{#str}} inprogress {{/str}}
                     </a>
                 </li>
                 <li>
@@ -93,9 +93,7 @@
         </div>
     </div>
     {{# addcapability}}
-        <div class="mb-2  ml-auto">
-             <a tabindex="0" title="{{#str}}addvideo, mod_zatuk{{/str}}"  role="button" class="btn btn-primary mr-2" data-action="uploadvideo" data-zatukrepoenabled = "{{zatukrepoenabled}}" data-id=0  >{{# str}}uploadvideo, mod_zatuk {{/ str}}</a>
-        </div>
+        {{> mod_zatuk/uploadvideo }}
     {{/ addcapability}}
 </div>
 {{#js}}

@@ -25,7 +25,7 @@
 
 require('../../config.php');
 use moodle_url;
-global $OUTPUT, $CFG, $PAGE;
+global $OUTPUT, $PAGE;
 require_login();
 $systemcontext = context_system::instance();
 require_capability('mod/zatuk:view', context_system::instance());
@@ -44,20 +44,12 @@ $PAGE->set_title($heading);
 $PAGE->set_heading($heading);
 $PAGE->navbar->add($heading);
 
-$uploadedvideos = new \mod_zatuk\output\uploadedvideos($systemcontext);
-
-$zatukoutput = $PAGE->get_renderer('mod_zatuk');
-
 echo $OUTPUT->header();
-$condition = (is_siteadmin() ||
-     has_capability('mod/zatuk:iseditingteacher', $systemcontext) ||
-     has_capability('mod/zatuk:manageactions', $systemcontext)
-   );
-
-if ($condition) {
+if (is_siteadmin() || has_capability('mod/zatuk:viewuploadedvideo', $systemcontext)) {
+    $uploadedvideos = new \mod_zatuk\output\uploadedvideos($systemcontext);
+    $zatukoutput = $PAGE->get_renderer('mod_zatuk');
     echo $zatukoutput->render($uploadedvideos);
 } else {
-    throw new moodle_exception(get_string('nopermissions', 'mod_zatuk'));
+    throw new \moodle_exception(get_string('nopermissions', 'mod_zatuk'));
 }
-
 echo $OUTPUT->footer();

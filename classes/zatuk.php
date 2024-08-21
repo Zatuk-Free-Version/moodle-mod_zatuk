@@ -51,25 +51,22 @@ class zatuk {
         global $DB, $CFG;
         $this->db = $DB;
         require_once($CFG->dirroot.'/repository/zatuk/zatuklib.php');
-        $apikey = trim(get_config('repository_zatuk', 'zatuk_key'));
-        $secret  = trim(get_config('repository_zatuk', 'zatuk_secret'));
-        $apiurl = trim(get_config('repository_zatuk', 'zatuk_api_url'));
-        $emailaddress  = trim(get_config('repository_zatuk', 'email'));
-        $username  = trim(get_config('repository_zatuk', 'name'));
-        $this->zatuklib = new phpzatuk($apiurl, $apikey, $secret);
+        $repodata = $this->get_repository_data();
+        $this->zatuklib = new phpzatuk($repodata->apiurl, $repodata->apikey, $repodata->secret);
     }
     /**
      * Get zatuk uploaded videos from zatuk video table.
-     * @param object $params
+     * @param array $params
      * @param bool $onlycount
      * @return array
      */
-    public function zatuk_uploaded_video_data($params = null, $onlycount = false) {
+    public function zatuk_uploaded_video_data($params = [], $onlycount = false) {
         global $OUTPUT, $USER;
         $systemcontext = context_system::instance();
         $curlparams = [];
-        $videossql = "SELECT uv.id, uv.title, uv.timecreated,uv.videoid,uv.public,uv.status,uv.filepath AS itemid,
-                     concat(u.firstname,' ',u.lastname) AS usercreated";
+        $videossql = "SELECT uv.id, uv.title, uv.timecreated,uv.videoid,
+                      uv.public,uv.status,uv.filepath AS itemid,
+                      u.id AS userid";
         $videoidsql = "SELECT uv.videoid ";
         $countsql = "SELECT count(uv.id) ";
 
@@ -77,7 +74,7 @@ class zatuk {
                                JOIN {user} u on u.id = uv.usercreated WHERE 1=1 ";
         $queryparams = [];
         $sortvideosql = '';
-        if (!is_siteadmin() && has_capability('mod/zatuk:iseditingteacher', $systemcontext)) {
+        if (!is_siteadmin() && has_capability('mod/zatuk:accessedbyfaculty', $systemcontext)) {
 
             $uploadedvideossql .= " AND CASE
                                        WHEN  uv.public IS NULL THEN uv.usercreated = :usercreated
@@ -85,22 +82,22 @@ class zatuk {
                                     END ";
             $queryparams['usercreated'] = $USER->id;
         }
-        if (!empty($params->search)) {
+        if (!is_null($params) && !empty($params['search'])) {
 
             $uploadedvideossql .= " AND ".$this->db->sql_like('uv.title', ':titlesearch', false)." ";
-            $queryparams['titlesearch']  = '%'.$params->search.'%';
+            $queryparams['titlesearch']  = '%'.$params['search'].'%';
         }
-        if (!empty($params->statusfilter) && $params->statusfilter == 'inprogress') {
+        if (!is_null($params) && !empty($params['statusfilter']) && $params['statusfilter'] == 'inprogress') {
             $uploadedvideossql .= " AND uv.status = :pstatus";
             $queryparams['pstatus'] = 0;
-        } else if (!empty($params->statusfilter) && $params->statusfilter == 'published') {
+        } else if (!is_null($params) && !empty($params['statusfilter']) && $params['statusfilter'] == 'published') {
             $uploadedvideossql .= " AND uv.status = :pstatus";
             $queryparams['pstatus'] = 1;
         }
-        if (!empty($params->sort) && $params->sort == 'fullname') {
+        if (!is_null($params) && !empty($params['sort']) && $params['sort'] == 'fullname') {
             $uploadedvideossql .= " ORDER BY uv.title ASC ";
         }
-        if (!empty($params->sort) && $params->sort == 'uploadeddate') {
+        if (!is_null($params) && !empty($params['sort']) && $params['sort'] == 'uploadeddate') {
             $uploadedvideossql .= " ORDER BY uv.timecreated DESC ";
         }
 
@@ -110,8 +107,8 @@ class zatuk {
         if ($onlycount) {
             return ['data' => [], 'length' => $total];
         }
-        $offset = (!empty($params->offset)) ? $params->offset : 0;
-        $limit = (!empty($params->limit)) ? $params->limit : 10;
+        $offset = (!empty($params['offset'])) ? $params['offset'] : 0;
+        $limit = (!empty($params['limit'])) ? $params['limit'] : 10;
         $uploadedvideos = $this->db->get_records_sql($videossql . $uploadedvideossql.$sortvideosql, $queryparams, $offset, $limit);
         $videoids = $this->db->get_fieldset_sql($videoidsql . $uploadedvideossql.$sortvideosql, $queryparams);
 
@@ -139,7 +136,7 @@ class zatuk {
                 $image = $this->zatuklib->apiurl.$content['data'][$thumb]['thumbnail'];
                 $videopath = $content['data'][$thumb]['path'];
             }
-            if (!is_siteadmin() && has_capability('mod/zatuk:iseditingteacher', $systemcontext)) {
+            if (!is_siteadmin() && has_capability('mod/zatuk:accessedbyfaculty', $systemcontext)) {
                 if ($data->public == "0" || $data->public == "") {
                     $deleteoption = true;
                 } else {
@@ -149,12 +146,13 @@ class zatuk {
                 $deleteoption = true;
             }
             $apikey = trim(get_config('repository_zatuk', 'zatuk_key'));
-            $iszatukrepoenabled = ($apikey) ? true : false;
+            $user = $this->db->get_record('user', ['id' => $data->userid]);
+            $iszatukrepoenabled = ($apikey) ? 1 : 0;
             $returndata[] = ['id' => $data->id,
                              'title' => $data->title,
                              'thumbnail' => $image,
                              'timecreated' => date('jS F Y', $data->timecreated),
-                             'usercreated' => $data->usercreated,
+                             'userfullname' => fullname($user),
                              'path' => $videopath,
                              'videoid' => $data->videoid,
                              'status' => $data->status,
@@ -177,17 +175,22 @@ class zatuk {
         $curlparams['perpage'] = 1;
         $curlparams['page'] = 1;
         $c = new curl();
-        $content = $c->post($searchurl, $curlparams);
-        $content = json_decode($content, true);
-        $totalvideos = $content['meta']['total'];
-        $uploadedvideos = $this->db->count_records('zatuk_uploaded_videos');
-        $syncedvideos = $this->db->count_records('zatuk_uploaded_videos', ['status' => 1]);
-        $systemcontext = context_system::instance();
-        $viewcap = is_siteadmin() || has_capability('mod/zatuk:viewvideos', $systemcontext);
-        return ['totalVideos' => $totalvideos,
-        'uploadedVideos' => $uploadedvideos,
-        'syncedVideos' => $syncedvideos,
-        'viewcap' => $viewcap];
+        try {
+            $content = $c->post($searchurl, $curlparams);
+            $content = json_decode($content, true);
+            $totalvideos = $content['meta']['total'];
+            $uploadedvideos = $this->db->count_records('zatuk_uploaded_videos');
+            $syncedvideos = $this->db->count_records('zatuk_uploaded_videos', ['status' => 1]);
+            $systemcontext = context_system::instance();
+            $viewcap = is_siteadmin() || has_capability('mod/zatuk:viewvideos', $systemcontext);
+            return ['totalVideos' => $totalvideos,
+            'uploadedVideos' => $uploadedvideos,
+            'syncedVideos' => $syncedvideos,
+            'viewcap' => $viewcap];
+        } catch (\Exception $e) {
+            throw new moodle_exception($e->getMessage());
+        }
+
     }
     /**
      * Delete uploaded zatuk video.
@@ -238,16 +241,13 @@ class zatuk {
      * @return bool
      */
     public function insert_zatuk_content($validateddata, $tags, $context) {
-        global $_SESSION, $USER;
+        global $USER;
         $uploaddata = mod_zatuk_get_api_formdata();
         $organisations = (array)$uploaddata->organisations;
         $tags = (array)$uploaddata->tags;
         $systemcontext = context_system::instance();
         if (!empty($validateddata)) {
-            $condition = (is_siteadmin() ||
-                          has_capability('mod/zatuk:iseditingteacher', $systemcontext) ||
-                          has_capability('mod/zatuk:manageactions', $systemcontext));
-            if ($condition) {
+            if (is_siteadmin() || has_capability('mod/zatuk:addinstance', $systemcontext)) {
                 if ((int)$validateddata->id <= 0 || is_null($validateddata->id)) {
                     $insertdata = new stdClass();
                     $insertdata->videoid = uniqid();
@@ -333,6 +333,19 @@ class zatuk {
         $row['public'] = $data->public;
         $row['category'] = $data->category;
         return $row;
+    }
+    /**
+     * Get zatuk repository data from config plugin table.
+     * @return stdclass
+     */
+    public function get_repository_data() {
+        $sdata = new stdClass();
+        $sdata->apikey = trim(get_config('repository_zatuk', 'zatuk_key'));
+        $sdata->secret  = trim(get_config('repository_zatuk', 'zatuk_secret'));
+        $sdata->apiurl = trim(get_config('repository_zatuk', 'zatuk_api_url'));
+        $sdata->emailaddress  = trim(get_config('repository_zatuk', 'email'));
+        $sdata->username  = trim(get_config('repository_zatuk', 'name'));
+        return $sdata;
     }
 }
 

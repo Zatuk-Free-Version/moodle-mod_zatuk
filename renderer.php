@@ -126,22 +126,22 @@ class mod_zatuk_renderer extends plugin_renderer_base {
      * @return string
      */
     public function uploadedvideos() {
-         $condition = ['tableid' => 'zatuk_uploaded_videos_data',
+         $params = ['tableid' => 'zatuk_uploaded_videos_data',
                      'function' => 'zatuk_uploaded_videos_data',
                      'nodatastring' => get_string('novideosuploadedyet', 'mod_zatuk'),
                     ];
-         return $this->render_from_template('mod_zatuk/zatuk_videos', $condition);
+         return $this->render_from_template('mod_zatuk/zatuk_videos', $params);
     }
     /**
      * Get zatuk videos.
      * @return string
      */
     public function zatukvideos() {
-        $condition = ['tableid' => 'get_zatuk_data',
+        $params = ['tableid' => 'get_zatuk_data',
                             'function' => 'get_zatuk_data',
                             'nodatastring' => get_string('zatukingnotyetset', 'mod_zatuk'),
                         ];
-        return $this->render_from_template('mod_zatuk/zatuk_videos', $condition);
+        return $this->render_from_template('mod_zatuk/zatuk_videos', $params);
     }
     /**
      * Render zatuk content.
