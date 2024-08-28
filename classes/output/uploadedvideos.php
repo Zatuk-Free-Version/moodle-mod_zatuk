@@ -62,7 +62,7 @@ class uploadedvideos implements renderable, templatable {
         $datalength = (new \mod_zatuk\zatuk)->zatuk_uploaded_video_data();
         $data->length = $datalength['length'];
         $data->statusfilter = 'all';
-        $data->addcapability = (is_siteadmin() || has_capability('mod/zatuk:uploadvideo', $this->contex)) ? true : false;
+        $data->addcapability = (is_siteadmin() || has_capability('mod/zatuk:uploadvideo', $this->context)) ? true : false;
         $data->zatukrepoenabled = $apikey ? true : false;
         return $data;
     }

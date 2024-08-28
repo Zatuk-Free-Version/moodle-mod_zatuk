@@ -66,14 +66,4 @@ $functions = [
         'services'      => [MOODLE_ZATUK_WEB_SERVICE],
     ],
 
-    'mod_zatuk_validatezatukinstance' => [
-        'classname'   => 'mod_zatuk_external',
-        'methodname'  => 'validatezatukinstance',
-        'description' => 'Validating zatuk instance',
-        'classpath'   => 'mod/zatuk/classes/external.php',
-        'type'        => 'write',
-        'ajax' => true,
-        'services'      => [MOODLE_ZATUK_WEB_SERVICE],
-    ],
-
 ];

@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * mod_zatuk upload_cron
+ * mod_zatuk upload_video
  *
  * @since     Moodle 2.0
  * @package   mod_zatuk
@@ -27,7 +27,7 @@ namespace mod_zatuk\task;
 
 
 /**
- * Class upload_cron.
+ * Class upload_video.
  *
  */
 class upload_video extends \core\task\scheduled_task {
