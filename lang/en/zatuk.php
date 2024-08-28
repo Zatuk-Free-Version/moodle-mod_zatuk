@@ -206,6 +206,7 @@ $string['zatuk:accessedbyfaculty'] = 'Accessed by editing teacher';
 $string['zatuk:addinstance'] = 'Add a new zatuk module';
 $string['zatuk:canrate'] = 'Rate';
 $string['zatuk:create'] = 'Create';
+$string['zatukcontent'] = 'Zatuk content';
 $string['zatuk:deletevideo'] = 'Delete video';
 $string['zatuk:deletevideos']  = 'Delete zatuk videos.';
 $string['zatuk:editvideo'] = 'Edit video';
