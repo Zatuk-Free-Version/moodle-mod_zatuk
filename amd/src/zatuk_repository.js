@@ -33,7 +33,7 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, Ajax, Notificat
         // delete args.limit;
 
         var request = {
-            methodname: 'mod_zatuk_blocktablecontent',
+            methodname: 'mod_zatuk_viewzatukcontent',
             args: arg
         };
         var promise = Ajax.call([request])[0];
@@ -49,7 +49,7 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, Ajax, Notificat
         delete args.limit;
         let arg = {args: JSON.stringify({args})};
         var request = {
-            methodname: 'mod_zatuk_blocktablecontent',
+            methodname: 'mod_zatuk_viewzatukcontent',
             args: arg
         };
         var promise = Ajax.call([request])[0];

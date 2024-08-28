@@ -135,6 +135,8 @@ class upload extends dynamic_form {
      */
     protected function check_access_for_dynamic_submission(): void {
 
+        is_siteadmin() || has_capability('mod/zatuk:addinstance', $this->get_context_for_dynamic_submission());
+
     }
     /**
      * Process the form submission, used if form was submitted via AJAX
@@ -151,14 +153,13 @@ class upload extends dynamic_form {
         $data = $this->get_data();
         $systemcontext = context_system::instance();
         $context = context::instance_by_id($systemcontext->id, MUST_EXIST);
-        $organisations = (array)json_decode($data->organisationoptions);
-        $tags = (array)json_decode($data->tagsoptions);
-        $validateddata = $data;
-        if (!empty($validateddata)) {
+        if (!empty($data)) {
             $zatuk = new tp;
-            $id = $zatuk->insert_zatuk_content($validateddata, $tags, $context);
-            if ((int)$validateddata->id <= 0 || is_null($validateddata->id)) {
+            if ((int)$data->id <= 0 || is_null($data->id)) {
+                $id = $zatuk->add_zatuk_content($data);
                 $this->save_stored_file('filepath', $context->id, 'mod_zatuk', 'video',  $id);
+            } else {
+                $id = $zatuk->update_zatuk_content($data);
             }
             if ($id) {
                 $params = [

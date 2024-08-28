@@ -193,14 +193,94 @@ class zatuk {
 
     }
     /**
-     * Delete uploaded zatuk video.
+     * Add zatuk content
+     * @param object $sdata
+     * @return mixed false if an error occurs or the int id of the new instance
+     */
+    public function add_zatuk_content($sdata) {
+        global $USER;
+        $uploaddata = mod_zatuk_get_api_formdata();
+        $organisations = (array)$uploaddata->organisations;
+        $tags = (array)$uploaddata->tags;
+        try {
+            $insertdata = new stdClass();
+            $insertdata->videoid = uniqid();
+            $insertdata->title = $sdata->title;
+            $insertdata->public = $sdata->public;
+            $insertdata->organization = $sdata->organization;
+            $insertdata->organisationname = $organisations[$sdata->organization];
+            $insertdata->tags = is_array($sdata->tags) ? implode(',', $sdata->tags) : $sdata->tags;
+            $insertdata->description = $sdata->description['text'];
+            $insertdata->filepath = $sdata->filepath;
+            $insertdata->filename = $this->db->get_field_sql("SELECT filename FROM {files} WHERE
+                                            itemid =:itemid AND filename != '.'", ['itemid' => $sdata->filepath]);
+            if (empty($insertdata->title)) {
+                $insertdata->title = preg_replace('/\\.[^.\\s]{3,4}$/', '', $insertdata->filename);
+            }
+            $tagsname = [];
+            foreach ($sdata->tags as $tag) {
+                $tagsname[] = $tags[$tag];
+            }
+            $insertdata->tagsname = implode(',', $tagsname);
+            $insertdata->timecreated = time();
+            $insertdata->usercreated = $USER->id;
+            $insertdata->status = 0;
+            $uploadid = $this->db->insert_record('zatuk_uploaded_videos', $insertdata);
+            return $uploadid;
+        } catch (\Exception $e) {
+            throw new moodle_exception($e->getMessage());
+        }
+
+    }
+    /**
+     * Update zatuk content
+     * @param object $sdata
+     * @return mixed false if an error occurs or the int id of the new instance
+     */
+    public function update_zatuk_content($sdata) {
+        global $USER;
+        $uploaddata = mod_zatuk_get_api_formdata();
+        $organisations = (array)$uploaddata->organisations;
+        $tags = (array)$uploaddata->tags;
+        $systemcontext = context_system::instance();
+        try {
+            $insertdata = new stdClass();
+            $insertdata->id = $sdata->id;
+            $insertdata->title = $sdata->title;
+            $insertdata->public = $sdata->public;
+            $insertdata->organization = $sdata->organization;
+            $insertdata->organisationname = $organisations[$sdata->organization];
+            $insertdata->tags = is_array($sdata->tags) ? implode(',', $sdata->tags) : $sdata->tags;
+            $insertdata->description = $sdata->description['text'];
+            if (empty($insertdata->title)) {
+                $insertdata->title = preg_replace('/\\.[^.\\s]{3,4}$/', '', $insertdata->filename);
+            }
+            $tagsname = [];
+            foreach ($sdata->tags as $tag) {
+                $tagsname[] = $tags[$tag];
+            }
+            $insertdata->tagsname = implode(',', $tagsname);
+            $insertdata->timecreated = time();
+            $insertdata->usercreated = $USER->id;
+            $insertdata->status = 0;
+            $uploadid = $this->db->update_record('zatuk_uploaded_videos', $insertdata);
+            return $uploadid;
+        } catch (\Exception $e) {
+            throw new moodle_exception($e->getMessage());
+        }
+
+    }
+    /**
+     * Delete uploaded zatuk content.
      * @param int $id
      * @return bool
      */
-    public function delete_uploaded_video($id) {
+    public function delete_zatuk_content($id) {
         try {
             $zatukdata = $this->db->get_record('zatuk_uploaded_videos', ['id' => $id], 'id, filepath', MUST_EXIST);
-            $this->delete_file_instance($zatukdata->filepath, 'video');
+            if ($zatukdata->filepath) {
+                $this->delete_file_instance($zatukdata->filepath, 'video');
+            }
             $context = context_system::instance();
             $params = [
                 'context' => $context,
@@ -232,78 +312,6 @@ class zatuk {
                 $fileinfo = $filesystem->get_file_by_id($fileid);
                 $fileinfo->delete();
         }
-    }
-    /**
-     * Insert zatuk content
-     * @param object $validateddata
-     * @param array $tags
-     * @param object $context
-     * @return bool
-     */
-    public function insert_zatuk_content($validateddata, $tags, $context) {
-        global $USER;
-        $uploaddata = mod_zatuk_get_api_formdata();
-        $organisations = (array)$uploaddata->organisations;
-        $tags = (array)$uploaddata->tags;
-        $systemcontext = context_system::instance();
-        if (!empty($validateddata)) {
-            if (is_siteadmin() || has_capability('mod/zatuk:addinstance', $systemcontext)) {
-                if ((int)$validateddata->id <= 0 || is_null($validateddata->id)) {
-                    $insertdata = new stdClass();
-                    $insertdata->videoid = uniqid();
-                    $insertdata->title = $validateddata->title;
-                    $insertdata->public = $validateddata->public;
-                    $insertdata->organization = $validateddata->organization;
-                    $insertdata->organisationname = $organisations[$validateddata->organization];
-                    $insertdata->tags = is_array($validateddata->tags) ? implode(',', $validateddata->tags) : $validateddata->tags;
-                    $insertdata->description = $validateddata->description['text'];
-                    $insertdata->filepath = $validateddata->filepath;
-                    $insertdata->filename = $this->db->get_field_sql("SELECT filename FROM {files} WHERE
-                                                    itemid =:itemid AND filename != '.'", ['itemid' => $validateddata->filepath]);
-                    if (empty($insertdata->title)) {
-                        $insertdata->title = preg_replace('/\\.[^.\\s]{3,4}$/', '', $insertdata->filename);
-                    }
-                    $tagsname = [];
-                    foreach ($validateddata->tags as $tag) {
-                        $tagsname[] = $tags[$tag];
-                    }
-                    $insertdata->tagsname = implode(',', $tagsname);
-                    $insertdata->timecreated = time();
-                    $insertdata->usercreated = $USER->id;
-                    $insertdata->status = 0;
-                    $uploadid = $this->db->insert_record('zatuk_uploaded_videos', $insertdata);
-                    return $uploadid;
-                } else {
-                    $insertdata = new stdClass();
-                    $insertdata->id = $validateddata->id;
-                    $insertdata->title = $validateddata->title;
-                    $insertdata->public = $validateddata->public;
-                    $insertdata->organization = $validateddata->organization;
-                    $insertdata->organisationname = $organisations[$validateddata->organization];
-                    $insertdata->tags = is_array($validateddata->tags) ? implode(',', $validateddata->tags) : $validateddata->tags;
-                    $insertdata->description = $validateddata->description['text'];
-                    if (empty($insertdata->title)) {
-                        $insertdata->title = preg_replace('/\\.[^.\\s]{3,4}$/', '', $insertdata->filename);
-                    }
-                    $tagsname = [];
-                    foreach ($validateddata->tags as $tag) {
-                        $tagsname[] = $tags[$tag];
-                    }
-                    $insertdata->tagsname = implode(',', $tagsname);
-                    $insertdata->timecreated = time();
-                    $insertdata->usercreated = $USER->id;
-                    $insertdata->status = 0;
-                    $uploadid = $this->db->update_record('zatuk_uploaded_videos', $insertdata);
-                    return $uploadid;
-                }
-
-            } else {
-                throw new moodle_exception('actionpermission', 'mod_zatuk');
-            }
-        } else {
-            throw new moodle_exception('uploaderror', 'mod_zatuk');
-        }
-
     }
     /**
      * Describes to set zatuk video content data

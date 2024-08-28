@@ -34,71 +34,10 @@ require_once($CFG->dirroot.'/lib/completionlib.php');
 class mod_zatuk_external extends external_api {
 
     /**
-     * Describes the parameters for view_zatuk.
+     * Describes the parameters for viewzatukcontent.
      *
      */
-    public static function view_zatuk_parameters() {
-        return new external_function_parameters(
-            [
-                'zatukid' => new external_value(PARAM_INT, 'zatuk instance id'),
-            ]
-        );
-    }
-
-    /**
-     * View zatuk data.
-     *
-     * @param int $zatukid the zatuk instance id
-     * @return array of warnings and status result
-     * @throws moodle_exception
-     */
-    public static function view_zatuk($zatukid) {
-        global $DB, $CFG;
-        require_once($CFG->dirroot . "/mod/zatuk/lib.php");
-
-        $params = self::validate_parameters(self::view_zatuk_parameters(),
-                                            [
-                                                'zatukid' => $zatukid,
-                                            ]);
-        self::validate_context(context_system::instance());
-        $warnings = [];
-        // Request and permission validation.
-        $zatuk = $DB->get_record('zatuk', ['id' => $params['zatukid']], '*', MUST_EXIST);
-        list($course, $cm) = get_course_and_cm_from_instance($zatuk, 'zatuk');
-
-        $context = context_module::instance($cm->id);
-        self::validate_context($context);
-
-        require_capability('mod/zatuk:view', $context);
-
-        // Call the zatuk/lib API.
-        zatuk_view($zatuk, $course, $cm, $context);
-
-        $result = [];
-        $result['status'] = true;
-        $result['warnings'] = $warnings;
-        return $result;
-    }
-
-    /**
-     * Describes the view_zatuk return value.
-     *
-     * @return external_description
-     */
-    public static function view_zatuk_returns() {
-        return new external_single_structure(
-            [
-                'status' => new external_value(PARAM_BOOL, 'status: true if success'),
-                'warnings' => new external_warnings(),
-            ]
-        );
-    }
-
-    /**
-     * Describes the parameters for tablecontentblock.
-     *
-     */
-    public static function tablecontentblock_parameters() {
+    public static function viewzatukcontent_parameters() {
         return new external_function_parameters(
             [
                'args' => new external_value(PARAM_RAW, 'The data from datatables encoded as a json array'),
@@ -110,9 +49,9 @@ class mod_zatuk_external extends external_api {
      * @param string $args
      * @return array
      */
-    public static function tablecontentblock($args) {
+    public static function viewzatukcontent($args) {
         global $PAGE;
-        $params = self::validate_parameters(self::tablecontentblock_parameters(),
+        $params = self::validate_parameters(self::viewzatukcontent_parameters(),
                                             [
                                                 'args' => $args,
                                             ]);
@@ -132,10 +71,10 @@ class mod_zatuk_external extends external_api {
 
     }
     /**
-     * Describes the tablecontentblock return value.
+     * Describes the viewzatukcontent return value.
      *
      */
-    public static function tablecontentblock_returns() {
+    public static function viewzatukcontent_returns() {
 
         return new external_single_structure(
             [
@@ -184,7 +123,7 @@ class mod_zatuk_external extends external_api {
         self::validate_context(context_system::instance());
         if (is_siteadmin() && has_capability('mod/zatuk:deletevideo', $systemcontext)) {
             $zatuk = new \mod_zatuk\zatuk();
-            return $zatuk->delete_uploaded_video($id);
+            return $zatuk->delete_zatuk_content($id);
         } else {
             throw new moodle_exception('actionpermission', 'mod_zatuk');
         }

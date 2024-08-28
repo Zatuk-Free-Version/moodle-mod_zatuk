@@ -27,17 +27,9 @@ defined('MOODLE_INTERNAL') || die;
 require_once($CFG->dirroot.'/repository/zatuk/lib.php');
 $functions = [
 
-    'mod_zatuk_view_zatuk' => [
-        'classname'     => 'mod_zatuk_external',
-        'methodname'    => 'view_zatuk',
-        'description'   => 'Trigger the course module viewed event and update the module completion status.',
-        'type'          => 'write',
-        'capabilities'  => 'mod/zatuk:view',
-        'services'      => [MOODLE_ZATUK_WEB_SERVICE],
-    ],
-    'mod_zatuk_blocktablecontent' => [
+    'mod_zatuk_viewzatukcontent' => [
         'classname'   => 'mod_zatuk_external',
-        'methodname'  => 'tablecontentblock',
+        'methodname'  => 'viewzatukcontent',
         'description' => 'Table content render',
         'classpath'   => 'mod/zatuk/classes/external.php',
         'type'        => 'read',
