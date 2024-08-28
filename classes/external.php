@@ -220,35 +220,6 @@ class mod_zatuk_external extends external_api {
     public static function move_tozatuk_returns() {
         return new external_value(PARAM_BOOL, 'data');
     }
-    /**
-     * Describes the parameters for validatezatukinstance.
-     *
-     */
-    public static function validatezatukinstance_parameters() {
-        return new external_function_parameters(
-            []
-        );
-    }
-    /**
-     * Describes the zatuk instance validation.
-     * @return bool
-     */
-    public static function validatezatukinstance() {
-        $systemcontext = context_system::instance();
-        self::validate_context($systemcontext);
-        if (is_siteadmin() && has_capability('mod/zatuk:manageactions', $systemcontext)) {
-            return true;
-        } else {
-            throw new moodle_exception('actionpermission', 'mod_zatuk');
-        }
-    }
-    /**
-     * Describes the validatezatukinstance return value.
-     *
-     */
-    public static function validatezatukinstance_returns() {
-        return new external_value(PARAM_BOOL, 'data');
-    }
 
 }
 
