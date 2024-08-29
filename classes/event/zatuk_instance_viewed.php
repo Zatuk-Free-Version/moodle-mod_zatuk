@@ -45,7 +45,7 @@ class zatuk_instance_viewed extends \core\event\base {
      * @return string
      */
     public static function get_name() {
-        return get_string('eventinserted_report', 'mod_zatuk');
+        return get_string('eventzatukactivityviewed', 'mod_zatuk');
     }
     /**
      * Get description.
