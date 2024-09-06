@@ -17,7 +17,6 @@
 /**
  * mod_zatuk uploadedvideos class
  *
- * @since     Moodle 2.0
  * @package   mod_zatuk
  * @copyright 2023 Moodle India
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -28,7 +27,6 @@ namespace mod_zatuk\output;
 use renderable;
 use renderer_base;
 use templatable;
-use mod\zatuk;
 /**
  * Class uploadedvideos.
  *

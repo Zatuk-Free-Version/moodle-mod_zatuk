@@ -17,7 +17,6 @@
 /**
  * The mod_zatuk zatuk played event.
  *
- * @since      Moodle 2.0
  * @package    mod_zatuk
  * @copyright  2023 Moodle India
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -56,7 +55,7 @@ class zatuk_played extends \core\event\base {
     }
     /**
      * Get url
-     * @return \moodle_url
+     * @return moodle_url
      */
     public function get_url() {
         return new \moodle_url('/mod/zatuk/view.php',

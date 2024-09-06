@@ -17,14 +17,10 @@
 /**
  * Defines backup_zatuk_activity_task class
  *
- * @since     Moodle 2.0
  * @package   mod_zatuk
  * @copyright 2023 Moodle India
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-defined('MOODLE_INTERNAL') || die();
-require_once($CFG->dirroot.'/mod/zatuk/backup/moodle2/backup_zatuk_stepslib.php');
 
 /**
  * Provides the steps to perform one complete backup of the content instance
@@ -41,6 +37,8 @@ class backup_zatuk_activity_task extends backup_activity_task {
      * Defines a backup step to store the instance data in the content.xml file
      */
     protected function define_my_steps() {
+        global $CFG;
+        require_once($CFG->dirroot.'/mod/zatuk/backup/moodle2/backup_zatuk_stepslib.php');
         $this->add_step(new backup_zatuk_activity_structure_step('zatuk_structure', 'zatuk.xml'));
     }
 

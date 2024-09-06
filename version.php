@@ -17,7 +17,6 @@
 /**
  * zatuk module version information
  *
- * @since      Moodle 2.0
  * @package    mod_zatuk
  * @copyright  2023 Moodle India
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -25,13 +24,10 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2022041900.17;
+$plugin->version = 2022041900.00;
 $plugin->requires = 2022041900.00; // Moodle 4.0.
 $plugin->supported = [400, 440];
 $plugin->component = 'mod_zatuk';
 $plugin->maturity = MATURITY_STABLE;
 $plugin->release = '4.x (Build: 2022041900.00)';
-$plugin->dependencies = [
-    'repository_zatuk' => 2022041900.00,
-];
 

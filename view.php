@@ -17,7 +17,6 @@
 /**
  * zatuk module main user interface
  *
- * @since     Moodle 2.0
  * @package   mod_zatuk
  * @copyright 2023 Moodle India
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -26,12 +25,11 @@
 require('../../config.php');
 require_once("$CFG->dirroot/mod/zatuk/lib.php");
 require_once("$CFG->dirroot/mod/zatuk/locallib.php");
-require_once($CFG->dirroot.'/repository/zatuk/zatuklib.php');
 use moodle_url;
 use completion_info;
 $id = optional_param('id', 0, PARAM_INT);
 $u  = optional_param('u', 0, PARAM_INT);
-global $DB;
+global $DB, $PAGE, $OUTPUT;
 if ($u) {
     $zatuk = $DB->get_record('zatuk', ['id' => $u], '*', MUST_EXIST);
     $cm = get_coursemodule_from_instance('zatuk', $zatuk->id, $zatuk->course, false, MUST_EXIST);
@@ -58,26 +56,21 @@ $PAGE->requires->js_call_amd('mod_zatuk/player', 'load', [$params]);
 // Completion.
 $completion = new completion_info($course);
 $completion->set_module_viewed($cm);
-echo $OUTPUT->header();
-
+   echo $OUTPUT->header();
     $params = [
         'context' => $context,
         'objectid' => $cm->id,
     ];
     $event = \mod_zatuk\event\zatuk_instance_viewed::create($params);
     $event->trigger();
-
     $exturl = trim($zatuk->externalurl);
     if (empty($exturl) || $exturl === 'http://') {
         notice(get_string('invalidstoredurl', 'zatuk'), new moodle_url('/course/view.php', ['id' => $cm->course]));
         die;
     }
     unset($exturl);
-
     zatuk_view($zatuk, $course, $cm, $context);
-
     $player = new mod_zatuk\output\player($zatuk, $cm);
     echo $OUTPUT->render($player);
-
     echo $OUTPUT->footer();
 

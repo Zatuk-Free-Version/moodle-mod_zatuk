@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * URL external API
+ * zatuk external API
  *
  * @since      Moodle 2.0
  * @package    mod_zatuk
@@ -34,10 +34,10 @@ require_once($CFG->dirroot.'/lib/completionlib.php');
 class mod_zatuk_external extends external_api {
 
     /**
-     * Describes the parameters for viewzatukcontent.
+     * Describes the parameters for uploaded_video_data.
      *
      */
-    public static function viewzatukcontent_parameters() {
+    public static function uploaded_video_data_parameters() {
         return new external_function_parameters(
             [
                'args' => new external_value(PARAM_RAW, 'The data from datatables encoded as a json array'),
@@ -49,14 +49,15 @@ class mod_zatuk_external extends external_api {
      * @param string $args
      * @return array
      */
-    public static function viewzatukcontent($args) {
+    public static function uploaded_video_data($args) {
         global $PAGE;
-        $params = self::validate_parameters(self::viewzatukcontent_parameters(),
+        $params = self::validate_parameters(self::uploaded_video_data_parameters(),
                                             [
                                                 'args' => $args,
                                             ]);
         self::validate_context(context_system::instance());
-        $PAGE->set_context(\context_system::instance());
+        require_capability('mod/zatuk:viewvideos', context_system::instance());
+        $PAGE->set_context(context_system::instance());
         $params = json_decode($args);
 
         $zatuk = new \mod_zatuk\zatuk();
@@ -71,10 +72,10 @@ class mod_zatuk_external extends external_api {
 
     }
     /**
-     * Describes the viewzatukcontent return value.
+     * Describes the uploaded_video_data return value.
      *
      */
-    public static function viewzatukcontent_returns() {
+    public static function uploaded_video_data_returns() {
 
         return new external_single_structure(
             [
@@ -99,10 +100,10 @@ class mod_zatuk_external extends external_api {
         );
     }
     /**
-     * Describes the parameters for delete_video.
+     * Describes the parameters for delete_zatuk_video.
      *
      */
-    public static function delete_video_parameters() {
+    public static function delete_zatuk_video_parameters() {
         return new external_function_parameters(
             [
                 'id' => new external_value(PARAM_INT, 'The id of the video uploaded'),
@@ -114,32 +115,33 @@ class mod_zatuk_external extends external_api {
      * @param int $id
      * @return bool
      */
-    public static function delete_video($id) {
-        $params = self::validate_parameters(self::delete_video_parameters(),
+    public static function delete_zatuk_video($id) {
+        $params = self::validate_parameters(self::delete_zatuk_video_parameters(),
                                             [
                                                 'id' => $id,
                                             ]);
         $systemcontext = context_system::instance();
         self::validate_context(context_system::instance());
-        if (is_siteadmin() && has_capability('mod/zatuk:deletevideo', $systemcontext)) {
-            $zatuk = new \mod_zatuk\zatuk();
-            return $zatuk->delete_zatuk_content($id);
-        } else {
-            throw new moodle_exception('actionpermission', 'mod_zatuk');
-        }
+        require_capability('mod/zatuk:deletevideo', context_system::instance());
+        $zatuk = new \mod_zatuk\zatuk();
+        $response = $zatuk->delete_zatuk_content($id);
+        $result = ($response) ? true : false;
+        return ['result' => $result];
     }
     /**
-     * Describes the delete_video return value.
+     * Describes the delete_zatuk_video return value.
      *
      */
-    public static function delete_video_returns() {
-        return new external_value(PARAM_BOOL, 'data');
+    public static function delete_zatuk_video_returns() {
+       return new external_single_structure([
+            'result'  => new external_value(PARAM_RAW, 'result', VALUE_OPTIONAL),
+        ]);
     }
     /**
-     * Describes the parameters for update_video.
+     * Describes the parameters for update_video_zatuk.
      *
      */
-    public static function update_video_parameters() {
+    public static function update_video_zatuk_parameters() {
         return new external_function_parameters(
             [
                 'videoid' => new external_value(PARAM_RAW, 'The videoid of the uploaded video'),
@@ -153,41 +155,41 @@ class mod_zatuk_external extends external_api {
      * @param string||null $zatukurl
      * @return bool
      */
-    public static function update_video($videoid, $zatukurl) {
+    public static function update_video_zatuk($videoid, $zatukurl) {
         global $DB;
-        $params = self::validate_parameters(self::update_video_parameters(),
+        $params = self::validate_parameters(self::update_video_zatuk_parameters(),
                                             [
                                                 'videoid' => $videoid,
                                                 'zatukurl' => $zatukurl,
                                             ]);
         $systemcontext = context_system::instance();
         self::validate_context($systemcontext);
+        require_capability('mod/zatuk:editvideo', context_system::instance());
         try {
             $dataobj = new stdClass();
             $dataobj->id = $DB->get_field('zatuk_uploaded_videos', 'id', ['videoid' => $videoid], MUST_EXIST);
             $dataobj->zatukurl = $zatukurl;
-            if (is_siteadmin() && has_capability('mod/zatuk:editvideo', $systemcontext)) {
-                $DB->update_record('zatuk_uploaded_videos', $dataobj);
-                return true;
-            } else {
-                throw new moodle_exception('actionpermission', 'mod_zatuk');
-            }
+            $response = $DB->update_record('zatuk_uploaded_videos', $dataobj);
         } catch (Exception $e) {
-            return false;
+            $response = false;
         }
+        $result = ($response) ? true : false;
+        return ['result' => $result];
     }
     /**
-     * Describes the update_video return value.
+     * Describes the update_video_zatuk return value.
      *
      */
-    public static function update_video_returns() {
-        return new external_value(PARAM_BOOL, 'data');
+    public static function update_video_zatuk_returns() {
+        return new external_single_structure([
+            'result'  => new external_value(PARAM_RAW, 'result', VALUE_OPTIONAL),
+        ]);
     }
     /**
-     * Describes the parameters for move_tozatuk.
+     * Describes the parameters for publish_to_zatuk_server.
      *
      */
-    public static function move_tozatuk_parameters() {
+    public static function publish_to_zatuk_server_parameters() {
         return new external_function_parameters(
             [
                'id' => new external_value(PARAM_INT, 'The id of the video uploaded'),
@@ -199,26 +201,26 @@ class mod_zatuk_external extends external_api {
      * @param int $id
      * @return bool|null
      */
-    public static function move_tozatuk($id) {
-        $params = self::validate_parameters(self::move_tozatuk_parameters(),
+    public static function publish_to_zatuk_server($id) {
+        $params = self::validate_parameters(self::publish_to_zatuk_server_parameters(),
                                             [
                                                 'id' => $id,
                                             ]);
-        $systemcontext = context_system::instance();
-        self::validate_context($systemcontext);
-        if (is_siteadmin() && has_capability('mod/zatuk:uploadvideo', $systemcontext)) {
-            $uploader = new \mod_zatuk\lib\uploader();
-            $uploader->publish_video_by_id($id);
-        } else {
-            throw new moodle_exception('actionpermission', 'mod_zatuk');
-        }
+        self::validate_context(context_system::instance());
+        require_capability('mod/zatuk:uploadvideo', context_system::instance());
+        $uploader = new uploader();
+        $response = $uploader->publish_video_by_id($id);
+        $result = ($response) ? true : false;
+        return ['result' => $result];
     }
     /**
-     * Describes the move_tozatuk return value.
+     * Describes the publish_to_zatuk_server return value.
      *
      */
-    public static function move_tozatuk_returns() {
-        return new external_value(PARAM_BOOL, 'data');
+    public static function publish_to_zatuk_server_returns() {
+        return new external_single_structure([
+            'result'  => new external_value(PARAM_RAW, 'result', VALUE_OPTIONAL),
+        ]);
     }
 
 }

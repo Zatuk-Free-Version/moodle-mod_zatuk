@@ -13,10 +13,11 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
+ *
  * mod_zatuk data generator class.
  *
- * @since      Moodle 2.0
  * @package    mod_zatuk
  * @category   test
  * @copyright  2023 Moodle India
@@ -27,11 +28,11 @@ class mod_zatuk_generator extends testing_module_generator {
     /**
      * Create a new instance of the zatuk activity.
      *
-     * @param array|stdClass|null $record
-     * @param array|null $options
+     * @param array $record
+     * @param array $options
      * @return stdClass
      */
-    public function create_instance($record = null, array $options = null) {
+    public function create_instance($record = [], array $options = []) {
         global $CFG;
 
         require_once($CFG->dirroot.'/lib/resourcelib.php');

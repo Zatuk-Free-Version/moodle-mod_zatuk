@@ -17,7 +17,6 @@
 /**
  * mod_zatuk zatuk class
  *
- * @since      Moodle 2.0
  * @package    mod_zatuk
  * @copyright  2023 Moodle India
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -40,10 +39,8 @@ class zatuk {
         $enroll = true;
         $disable = '';
         $result = '';
-
         $module = $DB->get_field('modules', 'id', ['name' => 'zatuk']);
         $cm = $DB->get_record('course_modules', ['instance' => $itemid, 'module' => $module]);
-        $context = context_module::instance($cm->id);
         $coursecontext = context_course::instance($cm->course);
         if (!is_enrolled($coursecontext, $USER->id)) {
             $enroll = false;

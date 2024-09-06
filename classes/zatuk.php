@@ -17,7 +17,6 @@
 /**
  * mod_zatuk zatuk class
  *
- * @since      Moodle 2.0
  * @package    mod_zatuk
  * @copyright  2023 Moodle India
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -27,7 +26,7 @@ namespace mod_zatuk;
 use stdClass;
 use moodle_exception;
 use context_system;
-use phpzatuk;
+use repository_zatuk\phpzatuk;
 use curl;
 /**
  * class zatuk
@@ -50,7 +49,6 @@ class zatuk {
     public function __construct() {
         global $DB, $CFG;
         $this->db = $DB;
-        require_once($CFG->dirroot.'/repository/zatuk/zatuklib.php');
         $repodata = $this->get_repository_data();
         $this->zatuklib = new phpzatuk($repodata->apiurl, $repodata->apikey, $repodata->secret);
     }
@@ -95,14 +93,14 @@ class zatuk {
             $queryparams['pstatus'] = 1;
         }
         if (!is_null($params) && !empty($params['sort']) && $params['sort'] == 'fullname') {
-            $uploadedvideossql .= " ORDER BY uv.title ASC ";
+            $uploadedvideossql .= " ORDER BY uv.title ASC, uv.id DESC ";
         }
         if (!is_null($params) && !empty($params['sort']) && $params['sort'] == 'uploadeddate') {
-            $uploadedvideossql .= " ORDER BY uv.timecreated DESC ";
+            $uploadedvideossql .= " ORDER BY uv.timecreated DESC, uv.id DESC ";
         }
-
-        $sortvideosql = " ORDER BY uv.id DESC ";
-
+        if (is_null($params) || empty($params['sort'])) {
+            $sortvideosql = " ORDER BY uv.id DESC ";
+        }
         $total = $this->db->count_records_sql($countsql . $uploadedvideossql, $queryparams);
         if ($onlycount) {
             return ['data' => [], 'length' => $total];
@@ -200,7 +198,7 @@ class zatuk {
     public function add_zatuk_content($sdata) {
         global $USER;
         $uploaddata = mod_zatuk_get_api_formdata();
-        $organisations = (array)$uploaddata->organisations;
+        $organizations = (array)$uploaddata->organizations;
         $tags = (array)$uploaddata->tags;
         try {
             $insertdata = new stdClass();
@@ -208,7 +206,7 @@ class zatuk {
             $insertdata->title = $sdata->title;
             $insertdata->public = $sdata->public;
             $insertdata->organization = $sdata->organization;
-            $insertdata->organisationname = $organisations[$sdata->organization];
+            $insertdata->organizationname = $organizations[$sdata->organization];
             $insertdata->tags = is_array($sdata->tags) ? implode(',', $sdata->tags) : $sdata->tags;
             $insertdata->description = $sdata->description['text'];
             $insertdata->filepath = $sdata->filepath;
@@ -240,7 +238,7 @@ class zatuk {
     public function update_zatuk_content($sdata) {
         global $USER;
         $uploaddata = mod_zatuk_get_api_formdata();
-        $organisations = (array)$uploaddata->organisations;
+        $organizations = (array)$uploaddata->organizations;
         $tags = (array)$uploaddata->tags;
         $systemcontext = context_system::instance();
         try {
@@ -249,7 +247,7 @@ class zatuk {
             $insertdata->title = $sdata->title;
             $insertdata->public = $sdata->public;
             $insertdata->organization = $sdata->organization;
-            $insertdata->organisationname = $organisations[$sdata->organization];
+            $insertdata->organizationname = $organizations[$sdata->organization];
             $insertdata->tags = is_array($sdata->tags) ? implode(',', $sdata->tags) : $sdata->tags;
             $insertdata->description = $sdata->description['text'];
             if (empty($insertdata->title)) {
@@ -322,7 +320,7 @@ class zatuk {
         global $CFG;
         require_once($CFG->dirroot.'/mod/zatuk/lib.php');
         $uploaddata = mod_zatuk_get_api_formdata();
-        $organisations = (array)$uploaddata->organisations;
+        $organizations = (array)$uploaddata->organizations;
         $tags = (array)$uploaddata->tags;
         $data = $this->db->get_record('zatuk_uploaded_videos', ['id' => $id], '*', MUST_EXIST);
         $row['id'] = $data->id;
@@ -331,7 +329,7 @@ class zatuk {
         if ((int)$data->organization) {
             $row['organization'] = (int)$data->organization;
         } else {
-            $row['organization'] = $organisations;
+            $row['organization'] = $organizations;
         }
         if (!empty($data->tags)) {
             $row['tags'] = $data->tags;
@@ -350,7 +348,7 @@ class zatuk {
         $sdata = new stdClass();
         $sdata->apikey = trim(get_config('repository_zatuk', 'zatuk_key'));
         $sdata->secret  = trim(get_config('repository_zatuk', 'zatuk_secret'));
-        $sdata->apiurl = trim(get_config('repository_zatuk', 'zatuk_api_url'));
+        $sdata->apiurl = trim(get_config('repository_zatuk', 'zatukapiurl'));
         $sdata->emailaddress  = trim(get_config('repository_zatuk', 'email'));
         $sdata->username  = trim(get_config('repository_zatuk', 'name'));
         return $sdata;

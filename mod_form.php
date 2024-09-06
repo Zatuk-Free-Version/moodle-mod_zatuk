@@ -17,17 +17,13 @@
 /**
  * This file contains the forms to create and edit an instance of this module
  *
- * @since      Moodle 2.0
  * @package    mod_zatuk
  * @copyright  2023 Moodle India
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-defined('MOODLE_INTERNAL') || die;
-
-require_once($CFG->dirroot.'/course/moodleform_mod.php');
-require_once($CFG->dirroot.'/mod/zatuk/locallib.php');
-require_once($CFG->dirroot.'/repository/lib.php');
+defined('MOODLE_INTERNAL') || die();
+global $CFG;
+require_once($CFG->dirroot . '/course/moodleform_mod.php');
 /**
  * mod_zatuk_mod_form
  */
@@ -38,8 +34,10 @@ class mod_zatuk_mod_form extends moodleform_mod {
      * @return void
      */
     public function definition() {
-        global $CFG, $DB, $PAGE, $OUTPUT;
+        global $CFG;
         $mform = $this->_form;
+
+        require_once($CFG->dirroot.'/repository/lib.php');
 
         $mform->addElement('header', 'general', get_string('general', 'form'));
         $mform->addElement('text', 'name', get_string('name'), ['size' => '48']);
@@ -80,7 +78,13 @@ class mod_zatuk_mod_form extends moodleform_mod {
      * @param array $files
      */
     public function validation($data, $files) {
+        global $PAGE, $CFG;
+        require_once($CFG->dirroot.'/mod/zatuk/locallib.php');
         $errors = parent::validation($data, $files);
+        if (empty($data['externalurl'])) {
+            $errors['videoid'] = get_string('required');
+            echo $PAGE->requires->js_call_amd('mod_zatuk/videomissing', 'init');
+        }
         if (!empty($data['externalurl'])) {
             $url = $data['externalurl'];
 

@@ -17,7 +17,6 @@
 /**
  * zatuk module capability definition
  *
- * @since     Moodle 2.0
  * @package   mod_zatuk
  * @copyright 2023 Moodle India
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -137,15 +136,6 @@ $capabilities = [
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => [
-        ],
-    ],
-    'mod/zatuk:encryption' => [
-        'riskbitmask' => RISK_SPAM | RISK_XSS,
-        'captype' => 'write',
-        'contextlevel' => CONTEXT_SYSTEM,
-        'archetypes' => [
-            'manager' => CAP_ALLOW,
-            'editingteacher' => CAP_ALLOW,
         ],
     ],
 ];

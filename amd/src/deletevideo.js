@@ -16,7 +16,6 @@
 /**
  * This file is having the functionality for deletevideo and publish video.
  *
- * @since      Moodle 2.0
  * @copyright  2023 Moodle India
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -25,12 +24,14 @@ import ModalFactory from 'core/modal_factory';
 import Ajax from 'core/ajax';
 import ModalEvents from 'core/modal_events';
 import Templates from 'core/templates';
+import messagemodal from 'mod_zatuk/messagemodal';
 const Selectors = {
     actions: {
         deletevideo: '[data-action="deletevideo"]',
         movetozatuk: '[data-action="movetozatuk"]',
     },
 };
+let MessageModal = new messagemodal();
 export const init = () => {
     document.addEventListener('click', function(e) {
         e.stopImmediatePropagation();
@@ -56,7 +57,12 @@ export const init = () => {
                         args: params
                     }]);
                     promise[0].done(function() {
-                        window.location.reload(true);
+                        getString('videodeleted' ,'mod_zatuk').then((str) => {
+                          MessageModal.confirmbox(getString('finalzatuksmessage','mod_zatuk',str));
+                        });
+                        setTimeout(function() {
+                            window.location.reload();
+                        },3500);
                     }).fail(function() {
                     });
                 }.bind(this));
@@ -85,7 +91,12 @@ export const init = () => {
                         args: params
                     }]);
                     promise[0].done(function() {
-                        window.location.reload(true);
+                        getString('publishedtoserver' ,'mod_zatuk').then((str) => {
+                          MessageModal.confirmbox(getString('finalzatuksmessage','mod_zatuk',str));
+                        });
+                        setTimeout(function() {
+                            window.location.reload();
+                        },3500);
                     }).fail(function() {
                     });
                 }.bind(this));

@@ -38,7 +38,7 @@
           <FIELD NAME="tags" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" />
           <FIELD NAME="filename" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" />
           <FIELD NAME="filepath" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false"/>
-          <FIELD NAME="organisationname" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false"/>
+          <FIELD NAME="organizationname" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false"/>
           <FIELD NAME="tagsname" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false"/>
           <FIELD NAME="public" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
           <FIELD NAME="status" TYPE="int" LENGTH="1" NOTNULL="false" SEQUENCE="false"/>

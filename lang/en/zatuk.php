@@ -17,7 +17,6 @@
 /**
  * Language File.
  *
- * @since     Moodle 2.0
  * @package   mod_zatuk
  * @copyright 2023 Moodle India
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -83,6 +82,9 @@ $string['eventvideouploaded'] = 'Video uploaded';
 $string['eventzatukactivityviewed'] = 'Zatuk activity viewed';
 $string['expression'] = 'Super expression must either be null or a function, not ';
 $string['externalurl'] = 'External url';
+$string['failedwarningmessage']  = '<div class="d-flex justify-content-center align-items-center
+                        flex-column w-100 p-3 zatukconfirmationfaileddialogue_content">
+                        <div class="icon"></div><h4 class="my-3">{$a}</h4></div>';
 $string['filepath'] = 'Video';
 $string['filepathhelp'] = 'zatuk video.';
 $string['filepathhelp_help'] = 'Upload zatuk video to publish.';
@@ -129,30 +131,21 @@ $string['notintrested'] = 'Not inserted';
 $string['notsynced'] = 'Not synced';
 $string['notupdated'] = 'Not updated';
 $string['notyetstarted'] = 'Not yet started';
-$string['novideosuploadedyet'] = 'No videos uploaded yet, please upload!';
+$string['novideosuploadedyet'] = 'No video uploaded yet, please upload!';
 $string['nozatukrepository'] = 'Please enable zatuk repository to <u><a href="{$a}">continue</a></u>';
 $string['on'] = 'On';
-$string['organisationzatuk'] = 'Organizatio category';
-$string['organisationzatuk_help'] = 'Created categories under organizatio.';
 $string['organization'] = 'Organization';
+$string['organizationzatuk'] = 'Organization category';
+$string['organizationzatuk_help'] = 'Created categories under organization in zatuk server.';
 $string['parameterinfo'] = '&amp;parameter=variable';
 $string['pausedetailesmessage'] = 'Pauselog Details updated';
 $string['pluginadministration'] = 'Zatuk module administration';
 $string['pluginname'] = 'Zatuk';
-$string['privacy:metadata:description'] = 'Uploded  video description';
-$string['privacy:metadata:filename'] = 'Uploaded video file name';
-$string['privacy:metadata:organisationname'] = 'name of the category under organization';
-$string['privacy:metadata:organization'] = 'Category under organization';
-$string['privacy:metadata:published'] = 'Published status of the uploaded video';
-$string['privacy:metadata:status'] = 'Status of the uploaded video';
-$string['privacy:metadata:tags'] = 'Tags created under organization';
-$string['privacy:metadata:tagsname'] = 'Name of tags under organization';
-$string['privacy:metadata:title'] = 'Uploded  video title';
-$string['privacy:metadata:usercreated'] = 'ID of the submission author';
-$string['privacy:metadata:videoid'] = 'Uploded video id';
+$string['privacy:metadata'] = 'The free zatuk resource plugin does not store any personal data.';
 $string['public'] = 'Public';
 $string['published'] = 'Publised videos';
 $string['publishedon'] = 'Published on';
+$string['publishedtoserver'] = 'Successfully published to the zatuk server.';
 $string['queryexception'] = 'There is an issue with query.';
 $string['rated'] = 'Rated ';
 $string['recordsession'] = 'Record session';
@@ -170,8 +163,8 @@ $string['synced_at'] = 'Synced at';
 $string['syncvideos'] = 'Synced videos:';
 $string['table'] = 'Table';
 $string['tablesearch'] = 'Search...';
-$string['tagszatukhelp'] = 'Organizatio tags ';
-$string['tagszatukhelp_help'] = 'Tags created under organization';
+$string['tagszatukhelp'] = 'Organization tags ';
+$string['tagszatukhelp_help'] = 'Tags created under organization in zatuk server';
 $string['thumbnail'] = 'Thumbnail';
 $string['timeperiod'] = 'Time Period';
 $string['title'] = 'Title';
@@ -187,9 +180,11 @@ $string['uploadedon'] = 'Uploaded on';
 $string['uploadedvideos'] = 'Uploaded videos';
 $string['uploaderror'] = 'Error in upload';
 $string['uploadvideo'] = 'Upload video';
+$string['uploadzatukvideo'] = 'Please upload zatuk video to create an activity.';
 $string['value'] = 'Value ';
 $string['video'] = 'Video ';
 $string['videocompleted'] = 'The user with id {$a->userid} completely viewed the zatuk activity having reportid {$a->objectid}.';
+$string['videodeleted'] = 'Video deleted successfully.';
 $string['videodeletedby'] = 'Video is deleted by userid {$a->userid} with status {$a->objectid}';
 $string['videodescription'] = 'Description';
 $string['videoname'] = 'Video name';
@@ -197,16 +192,18 @@ $string['videoplayed'] = 'The user with id {$a->userid} plays the video having r
 $string['videos'] = 'Videos ';
 $string['videossummary'] = 'Videos summary';
 $string['videotrends'] = 'Video trends';
+$string['videoupdated'] = 'Zatuk video updated successfully.';
+$string['videouploaded'] = 'Zatuk video uploaded successfully.';
 $string['videouploadedby'] = 'Video is uploaded by userid {$a->userid} with status {$a->objectid}';
 $string['view'] = 'View ';
 $string['views'] = 'Views';
 $string['width'] = 'Width';
+$string['wrongmimetypedetected'] = 'Wrong mime type selected.';
 $string['zatuk'] = 'Zatuk';
 $string['zatuk:accessedbyfaculty'] = 'Accessed by editing teacher';
 $string['zatuk:addinstance'] = 'Add a new zatuk module';
 $string['zatuk:canrate'] = 'Rate';
 $string['zatuk:create'] = 'Create';
-$string['zatukcontent'] = 'Zatuk content';
 $string['zatuk:deletevideo'] = 'Delete video';
 $string['zatuk:deletevideos']  = 'Delete zatuk videos.';
 $string['zatuk:editvideo'] = 'Edit video';
@@ -222,6 +219,7 @@ $string['zatuk:viewuploadedvideos'] = 'View uploaded videos';
 $string['zatuk:viewvideos'] = 'View videos';
 $string['zatukanalyticsemail'] = 'Zatuk analytics user email';
 $string['zatukanalyticsuser'] = 'Zatuk analytics user';
+$string['zatukcontent'] = 'Zatuk content';
 $string['zatukingapp'] = 'Zatuk app';
 $string['zatukingnotyetset'] = 'No video available in zatuk application, Please make sure zatuk application settings are correct';
 $string['zatukinstance'] = 'The user with id {$a->userid} viewed the zatuk activity with course moduleid {$a->objectid}.';

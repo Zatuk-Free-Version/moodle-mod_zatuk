@@ -14,31 +14,17 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Defines document script.
+ * This file is haveing the functionality for video upload.
  *
  * @copyright  2023 Moodle India
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-define(function (require, exports, module, global) {
-/** Detect free variable `global` from Node.js. */
-var topLevel;
-if(typeof global !== 'undefined') {
-    topLevel = global;
-} else if(typeof window !== 'undefined') {
-    topLevel = window;
-} else {
-    topLevel = [];
-}
-var minDoc = require(['mod_zatuk/min-document']);
-var doccy;
-if (typeof document !== 'undefined') {
-    doccy = document;
-} else {
-    doccy = topLevel['__GLOBAL_DOCUMENT_CACHE@4'];
 
-    if (!doccy) {
-        doccy = topLevel['__GLOBAL_DOCUMENT_CACHE@4'] = minDoc;
-    }
-}
-module.exports = doccy;
-});
+import {get_string as getString} from 'core/str';
+import messagemodal from 'mod_zatuk/messagemodal';
+let MessageModal = new messagemodal();
+export const init = () => {
+    getString('uploadzatukvideo' ,'mod_zatuk').then((str) => {
+        MessageModal.confirmbox(getString('failedwarningmessage','mod_zatuk',str));
+    });
+};

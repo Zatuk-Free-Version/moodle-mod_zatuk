@@ -17,7 +17,6 @@
 /**
  * zatuk external functions and service definitions.
  *
- * @since     Moodle 2.0
  * @package   mod_zatuk
  * @copyright 2023 Moodle India
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -27,10 +26,10 @@ defined('MOODLE_INTERNAL') || die;
 require_once($CFG->dirroot.'/repository/zatuk/lib.php');
 $functions = [
 
-    'mod_zatuk_viewzatukcontent' => [
+    'mod_zatuk_view_zatuk_uploaded_video_data' => [
         'classname'   => 'mod_zatuk_external',
-        'methodname'  => 'viewzatukcontent',
-        'description' => 'Table content render',
+        'methodname'  => 'uploaded_video_data',
+        'description' => 'View zatuk uploaded data',
         'classpath'   => 'mod/zatuk/classes/external.php',
         'type'        => 'read',
         'ajax' => true,
@@ -39,30 +38,33 @@ $functions = [
     ],
     'mod_zatuk_delete_video' => [
         'classname'   => 'mod_zatuk_external',
-        'methodname'  => 'delete_video',
+        'methodname'  => 'delete_zatuk_video',
         'description' => 'Delete uploaded video',
         'classpath'   => 'mod/zatuk/classes/external.php',
-        'type'        => 'write',
+        'type'        => 'read',
         'ajax' => true,
-        'services'      => [MOODLE_ZATUK_WEB_SERVICE],
-    ],
-    'mod_zatuk_update_video_zatuk' => [
-        'classname'   => 'mod_zatuk_external',
-        'methodname'  => 'update_video',
-        'description' => 'Update uploaded video',
-        'classpath'   => 'mod/zatuk/classes/external.php',
-        'type'        => 'write',
-        'ajax' => true,
+        'loginrequired' => true,
         'services'      => [MOODLE_ZATUK_WEB_SERVICE],
 
     ],
+    'mod_zatuk_update_video_zatuk' => [
+        'classname'   => 'mod_zatuk_external',
+        'methodname'  => 'update_video_zatuk',
+        'description' => 'Update zatuk video',
+        'classpath'   => 'mod/zatuk/classes/external.php',
+        'type'        => 'read',
+        'ajax' => true,
+        'loginrequired' => true,
+        'services'      => [MOODLE_ZATUK_WEB_SERVICE],
+    ],
     'mod_zatuk_move_to_zatuk' => [
         'classname'   => 'mod_zatuk_external',
-        'methodname'  => 'move_tozatuk',
-        'description' => 'Move the Video to the zatuk',
+        'methodname'  => 'publish_to_zatuk_server',
+        'description' => 'Move the Video to the zatu',
         'classpath'   => 'mod/zatuk/classes/external.php',
-        'type'        => 'write',
+        'type'        => 'read',
         'ajax' => true,
+        'loginrequired' => true,
         'services'      => [MOODLE_ZATUK_WEB_SERVICE],
     ],
 
