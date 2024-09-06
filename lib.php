@@ -17,7 +17,6 @@
 /**
  * zatuk module version information
  *
- * @since      Moodle 2.0
  * @package    mod_zatuk
  * @copyright  2023 Moodle India
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -105,9 +104,7 @@ function zatuk_get_post_actions() {
  */
 function zatuk_add_instance($data, $mform = null) {
     global $CFG, $DB, $USER;
-
     require_once($CFG->dirroot.'/mod/zatuk/locallib.php');
-
     $displayoptions = [];
     $displayoptions['width']  = $data->width;
     $displayoptions['height'] = $data->height;
@@ -117,8 +114,8 @@ function zatuk_add_instance($data, $mform = null) {
     $data->usercreated = $USER->id;
     $data->timecreated = time();
     $data->id = $DB->insert_record('zatuk', $data);
-
     return $data->id;
+
 }
 
 /**
@@ -130,7 +127,6 @@ function zatuk_add_instance($data, $mform = null) {
 function zatuk_update_instance($data, $mform = null) {
     global $CFG, $DB, $USER;
     require_once($CFG->dirroot.'/mod/zatuk/locallib.php');
-
     $displayoptions = ['width' => $data->width,
                       'height' => $data->height];
     $data->displayoptions = json_encode($displayoptions);
@@ -139,9 +135,7 @@ function zatuk_update_instance($data, $mform = null) {
     $data->usermodified = $USER->id;
     $data->timemodified = time();
     $data->id           = $data->instance;
-
     $DB->update_record('zatuk', $data);
-
     return true;
 }
 
@@ -152,11 +146,9 @@ function zatuk_update_instance($data, $mform = null) {
  */
 function zatuk_delete_instance($id) {
     global $DB;
-
     if (!$DB->get_record('zatuk', ['id' => $id])) {
         return false;
     }
-
     // Note: all context files are deleted automatically.
 
     $DB->delete_records('zatuk', ['id' => $id]);
@@ -229,7 +221,6 @@ function zatuk_export_contents($cm, $baseurl) {
     if (empty($isurl)) {
         return null;
     }
-
     $url = [];
     $url['type'] = get_string('url');
     $url['filename']     = clean_param(format_string($urlrecord->name), PARAM_FILE);
@@ -279,7 +270,7 @@ function zatuk_view($zatuk, $course, $cm, $context) {
  * @return void
  */
 function zatuk_extend_settings_navigation(settings_navigation $settings, navigation_node $navref) {
-    global $PAGE, $DB;
+    global $PAGE;
 
     // We want to add these new nodes after the Edit settings node, and before the
     // Locally assigned roles node. Of course, both of those are controlled by capabilities.
@@ -291,12 +282,10 @@ function zatuk_extend_settings_navigation(settings_navigation $settings, navigat
     } else if (array_key_exists($i + 1, $keys)) {
         $beforekey = $keys[$i + 1];
     }
-
     $cm = $PAGE->cm;
     if (!$cm) {
         return;
     }
-
     $context = $cm->context;
     $course = $PAGE->course;
 
@@ -313,7 +302,6 @@ function zatuk_extend_settings_navigation(settings_navigation $settings, navigat
 function mod_zatuk_get_browsevideo_form_html($mform) {
     global $PAGE, $OUTPUT, $DB, $CFG;
     $cmid = optional_param('update', 0,  PARAM_INT);
-
     if ($cmid) {
         $extrenalurl = $DB->get_field_sql("SELECT z.externalurl FROM {zatuk} z
                                           JOIN {course_modules} cm on cm.instance = z.id WHERE cm.id = :id ",
@@ -326,7 +314,6 @@ function mod_zatuk_get_browsevideo_form_html($mform) {
         $class = 'hidden';
         $straddlink = get_string('choose_video', 'mod_zatuk');
     }
-
     $clientid = uniqid();
     $args = new stdClass();
     $args->accepted_types = '*';
@@ -360,7 +347,6 @@ function mod_zatuk_get_browsevideo_form_html($mform) {
  * @return bool|void
  */
 function mod_zatuk_coursemodule_standard_elements($formwrapper, $mform) {
-    global $CFG, $COURSE;
     if ($formwrapper->get_current()->modulename != 'zoom') {
         return false;
     }

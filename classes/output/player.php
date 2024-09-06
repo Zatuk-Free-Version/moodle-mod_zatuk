@@ -17,7 +17,6 @@
 /**
  * mod_zatuk player class
  *
- * @since      Moodle 2.0
  * @package    mod_zatuk
  * @copyright  2023 Moodle India
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -28,6 +27,7 @@ namespace mod_zatuk\output;
 use mod_zatuk\local\zatuk as zatuk;
 use renderable;
 use templatable;
+use stdClass;
 /**
  * class player
  */
@@ -55,7 +55,7 @@ class player implements renderable, templatable {
     /**
      * Player constructor.
      * @param object $zatukinstance
-     * @param \stdclass $cm
+     * @param stdclass $cm
      * @return void
      */
     public function __construct($zatukinstance, $cm) {
@@ -68,7 +68,7 @@ class player implements renderable, templatable {
     }
     /**
      * Export data from template.
-     * @param \stdclass $ouput  //renderer_base
+     * @param stdclass $ouput  //renderer_base
      * @return string|array
      */
     public function export_for_template($ouput) {

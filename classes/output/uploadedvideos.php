@@ -17,7 +17,6 @@
 /**
  * mod_zatuk uploadedvideos class
  *
- * @since     Moodle 2.0
  * @package   mod_zatuk
  * @copyright 2023 Moodle India
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -28,7 +27,7 @@ namespace mod_zatuk\output;
 use renderable;
 use renderer_base;
 use templatable;
-use mod\zatuk;
+use stdClass;
 /**
  * Class uploadedvideos.
  *
@@ -52,11 +51,11 @@ class uploadedvideos implements renderable, templatable {
      * Export this data so it can be used as the context for a mustache template.
      *
      * @param \renderer_base $output
-     * @return \stdClass
+     * @return stdClass
      */
     public function export_for_template(renderer_base $output) {
 
-        $data = new \stdClass();
+        $data = new stdClass();
         $apikey = trim(get_config('repository_zatuk', 'zatuk_key'));
         $data->all = true;
         $datalength = (new \mod_zatuk\zatuk)->zatuk_uploaded_video_data();

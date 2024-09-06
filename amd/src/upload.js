@@ -16,13 +16,12 @@
 /**
  * This file is haveing the functionality for video upload.
  *
- * @since      Moodle 2.0
  * @copyright  2023 Moodle India
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 import ModalForm from 'core_form/modalform';
 import {get_string as getString} from 'core/str';
-import messagemodal from 'repository_zatuk/messagemodal';
+import messagemodal from 'mod_zatuk/messagemodal';
 const Selectors = {
     actions: {
         uploadvideo: '[data-action="uploadvideo"]',
@@ -35,17 +34,32 @@ export const init = () => {
         if (uploadvideo) {
             e.stopImmediatePropagation();
             const zatukrepositorystatus = uploadvideo.getAttribute('data-zatukrepoenabled');
+            const zatukid = uploadvideo.getAttribute('data-id');
             if (zatukrepositorystatus == 1) {
                 const title = uploadvideo.getAttribute('data-id') ?
                     getString('uploadvideo', 'mod_zatuk', uploadvideo.getAttribute('data-name')) :
                     getString('uploadvideo', 'mod_zatuk');
                 const form = new ModalForm({
                     formClass: 'mod_zatuk\\form\\upload',
-                    args: {id: uploadvideo.getAttribute('data-id')},
+                    args: {id: zatukid},
                     modalConfig: {title},
                     returnFocus: uploadvideo,
                 });
                 form.addEventListener(form.events.FORM_SUBMITTED, () => window.location.reload());
+                form.addEventListener(form.events.FORM_SUBMITTED, (event) => {
+                    event.preventDefault();
+                    if (zatukid) {
+                        var messageString = getString('videoupdated' ,'mod_zatuk');
+                    } else {
+                        var messageString = getString('videouploaded' ,'mod_zatuk');
+                    }
+                    messageString.then((str) => {
+                      MessageModal.confirmbox(getString('finalzatuksmessage','mod_zatuk',str));
+                    });
+                    setTimeout(function() {
+                        window.location.reload();
+                    },3500);
+                });
                 form.show();
 
             } else {

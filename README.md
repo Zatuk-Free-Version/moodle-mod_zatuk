@@ -29,7 +29,7 @@
     3. Click on Install Plugin from the options. The page is redirected to the plugin installer.
     4. The user can install the plugin using the Choose File option, or he or she can drag and drop the downloaded zip file into the drag and drop box.
     5. After choosing the file, click on Continue until the upgrade to the new version is successful.
-    6. On installation, Go to Manage Repositories in the site administration, enable the zatuk plugin, and click on save button, which will generate the token for zatuk webservices and secret, key in streaming server by creating the organisation.
+    6. On installation, Go to Manage Repositories in the site administration, enable the zatuk plugin, and click on save button, which will generate the token for zatuk webservices and secret, key in streaming server by creating the organization.
 
 # Requirements:
     Based on moodle version user need to install the compatiable zatuk plugin.
@@ -56,7 +56,7 @@
     5. After choosing the file click on continue till the Upgrade of the new version is successful.
 
 # Supported Moodle versions:
-    Moodle 4.2
+    Moodle 4.0
 
 # Code repository name:
     Moodle-mod_zatuk

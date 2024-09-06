@@ -17,7 +17,6 @@
 /**
  * mod_zatuk uploader class
  *
- * @since      Moodle 2.0
  * @package    mod_zatuk
  * @copyright  2023 Moodle India
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -26,6 +25,7 @@
 namespace mod_zatuk\lib;
 use curl;
 use moodle_exception;
+use Exception;
 /**
  * class uploader
  */
@@ -86,7 +86,7 @@ class uploader {
                     $params['video']->delete();
                     $videoinfo->status = 1;
                     $videoinfo->uploaded_on = $videoinfo->timemodified = time();
-                    $status = $this->db->update_record('zatuk_uploaded_videos', $videoinfo);
+                    $response = $this->db->update_record('zatuk_uploaded_videos', $videoinfo);
                 }
                 $context = \context_system::instance();
                 $error = (!empty($content['error']) && !is_null($content['error'])) ? $content['error'] : '';
@@ -98,7 +98,7 @@ class uploader {
                 ];
                 $event = \mod_zatuk\event\video_synced::create($params);
                 $event->trigger();
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 throw new moodle_exception($e->getMessage());
             }
         }
@@ -131,7 +131,7 @@ class uploader {
         $mimetype = mimeinfo('type', $filename);
         list($mediatype, $subtype) = explode('/', $mimetype);
         if ($mediatype != $filetype) {
-            throw new moodle_exception('wrongmimetypedetected', 'mod_zatuk');
+            throw new moodle_exception(get_string('wrongmimetypedetected', 'mod_zatuk'));
         }
         $fileinfo->postname = $filename;
         $fileinfo->mime = $mimetype;
@@ -143,7 +143,6 @@ class uploader {
      * @return bool|null|array
      */
     public function publish_video_by_id($id) {
-        global $CFG;
 
         $videoinfosql = " SELECT uv.*, f.id as fileid FROM {zatuk_uploaded_videos} uv
                           JOIN {files} f ON f.itemid = uv.id
@@ -175,6 +174,7 @@ class uploader {
         $params += (array)$videoinfo;
         $params['key'] = $zatukobj->zatuklib->clientid;
         $params['secret'] = $zatukobj->zatuklib->secret;
+        $response = false;
         try {
             $contents = $c->post($searchurl, $params);
             $content = json_decode($contents, true);
@@ -182,7 +182,7 @@ class uploader {
                 $params['video']->delete();
                 $videoinfo->status = 1;
                 $videoinfo->uploaded_on = $videoinfo->timemodified = time();
-                $status = $this->db->update_record('zatuk_uploaded_videos', $videoinfo);
+                $response = $this->db->update_record('zatuk_uploaded_videos', $videoinfo);
             }
             $context = \context_system::instance();
             $error = (!empty($content['error']) && !is_null($content['error'])) ? $content['error'] : '';
@@ -194,7 +194,8 @@ class uploader {
                 ];
             $event = \mod_zatuk\event\video_synced::create($params);
             $event->trigger();
-        } catch (\Exception $e) {
+            return $response;
+        } catch (Exception $e) {
             throw new moodle_exception($e->getMessage());
         }
     }

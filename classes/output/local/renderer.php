@@ -17,7 +17,6 @@
 /**
  * mod_zatuk output renderer class
  *
- * @since     Moodle 2.0
  * @package   mod_zatuk
  * @copyright 2023 Moodle India
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -26,6 +25,7 @@
 namespace mod_zatuk\output\local;
 
 use plugin_renderer_base;
+use context_system;
 
 /**
  * Class renderer.
@@ -64,8 +64,7 @@ class renderer  extends plugin_renderer_base {
      * @return array
      */
     public function uploadrender($uploaddata, $params) {
-        global $DB;
-        $systemcontext = \context_system::instance();
+        $systemcontext = context_system::instance();
         $content = $uploaddata['content'];
         $total = $uploaddata['total'];
         $tdata = [];
@@ -140,7 +139,6 @@ class renderer  extends plugin_renderer_base {
      * @return string
      */
     public function get_thumbnail_url($logoitemid = 0) {
-        global $DB;
 
         $thumbnaillogourl = $this->image_url('video', 'mod_zatuk');
 

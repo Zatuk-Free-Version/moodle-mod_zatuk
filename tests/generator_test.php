@@ -16,18 +16,22 @@
 
 namespace mod_zatuk;
 
+use advanced_testcase;
+
 /**
  * Genarator tests class for mod_zatuk.
  *
- * @since      Moodle 2.0
  * @package    mod_zatuk
  * @category   test
  * @copyright  2023 Moodle India
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class generator_test extends \advanced_testcase {
+final class generator_test extends advanced_testcase {
 
-    public function test_create_instance() {
+    /**
+     * Test on zatuk activity creation.
+     */
+    public function test_create_instance(): void {
         global $DB;
         $this->resetAfterTest();
         $this->setAdminUser();

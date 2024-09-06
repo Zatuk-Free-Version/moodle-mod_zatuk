@@ -16,7 +16,6 @@
 /**
  * Defines zatuk repository script.
  *
- * @since      Moodle 2.0
  * @copyright  2023 Moodle India
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -33,7 +32,7 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, Ajax, Notificat
         // delete args.limit;
 
         var request = {
-            methodname: 'mod_zatuk_viewzatukcontent',
+            methodname: 'mod_zatuk_view_zatuk_uploaded_video_data',
             args: arg
         };
         var promise = Ajax.call([request])[0];
@@ -49,7 +48,7 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, Ajax, Notificat
         delete args.limit;
         let arg = {args: JSON.stringify({args})};
         var request = {
-            methodname: 'mod_zatuk_viewzatukcontent',
+            methodname: 'mod_zatuk_view_zatuk_uploaded_video_data',
             args: arg
         };
         var promise = Ajax.call([request])[0];

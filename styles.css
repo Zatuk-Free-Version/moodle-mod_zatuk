@@ -278,6 +278,15 @@
     height: 70px;
     margin: 18px 5px;
 }
+.zatukconfirmationfaileddialogue_content .icon {
+    background-image: url('[[pix:mod_zatuk|zatuk_failed]]');
+    background-position: center;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    width: 100px;
+    height: 100px;
+    margin: 15px auto;
+}
 .zatukvideocardheader {
 
     min-height: 152px;
@@ -293,4 +302,10 @@
     #page-mod-zatuk-index .dashboard-card-deck:not(.fixed-width-cards) .dashboard-card {
          width: 100% !important;
     }
+}
+
+#page-mod-zatuk-index .zatukimagecard {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
 }

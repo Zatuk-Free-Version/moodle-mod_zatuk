@@ -19,17 +19,10 @@
  *
  * This class provides all the functionality for the new zatuk module.
  *
- * @since      Moodle 2.0
  * @package    mod_zatuk
  * @copyright  2023 Moodle India
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-defined('MOODLE_INTERNAL') || die;
-
-require_once("$CFG->libdir/filelib.php");
-require_once("$CFG->libdir/resourcelib.php");
-require_once("$CFG->dirroot/mod/zatuk/lib.php");
 
 /**
  * This methods does weak url validation, we are looking for major problems only,
@@ -78,6 +71,7 @@ function zatuk_fix_submitted_url($url) {
  */
 function zatuk_get_final_display_type($url) {
     global $CFG;
+    require_once($CFG->libdir.'/resourcelib.php');
 
     if ($url->display != RESOURCELIB_DISPLAY_AUTO) {
         return $url->display;
@@ -120,7 +114,7 @@ function zatuk_get_final_display_type($url) {
  */
 function zatuk_guess_icon($fullurl) {
     global $CFG;
-    require_once("$CFG->libdir/filelib.php");
+    require_once($CFG->libdir.'/filelib.php');
 
     if (substr_count($fullurl, '/') < 3 || substr($fullurl, -1) === '/') {
         // Most probably default directory - index.php, index.html, etc. Return null because.

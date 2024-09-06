@@ -17,20 +17,17 @@
 /**
  * mod_zatuk video upload form
  *
- * @since      Moodle 2.0
  * @package    mod_zatuk
  * @copyright  2023 Moodle India
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 namespace mod_zatuk\form;
-defined('MOODLE_INTERNAL') || die;
-require_once($CFG->dirroot.'/mod/zatuk/lib.php');
 
 use core_form\dynamic_form;
 use moodle_url;
 use context;
 use context_system;
-use mod_zatuk\zatuk as tp;
+use mod_zatuk\zatuk as mz;
 
 /**
  * class upload
@@ -41,12 +38,14 @@ class upload extends dynamic_form {
      * Define this form - called by the parent constructor
      */
     public function definition() {
-         global $USER, $CFG, $DB, $PAGE;
+        global $CFG;
         $mform = $this->_form;
         $id = $this->optional_param('id', 0, PARAM_INT);
 
+        require_once($CFG->dirroot.'/mod/zatuk/lib.php');
         $uploaddata = mod_zatuk_get_api_formdata();
-        $organisations = (array)$uploaddata->organisations;
+
+        $organizations = (array)$uploaddata->organizations;
         $tags = (array)$uploaddata->tags;
 
         $mform->addElement('hidden', 'id', $id);
@@ -69,16 +68,16 @@ class upload extends dynamic_form {
         $mform->addElement('header', 'advancedhdr', get_string('advancedfields', 'mod_zatuk'));
         $mform->setExpanded('advancedhdr', false);
         $organizationoptions = [
-            'class' => 'organisationnameselect',
-            'data-class' => 'organisationselect',
+            'class' => 'organizationnameselect',
+            'data-class' => 'organizationselect',
             'multiple' => false,
             'placeholder' => get_string('selectcategory', 'mod_zatuk'),
         ];
-        $organisations[0] = get_string('selectcategory', 'mod_zatuk');
-        ksort($organisations);
+        $organizations[0] = get_string('selectcategory', 'mod_zatuk');
+        ksort($organizations);
 
-        $mform->addElement('autocomplete', 'organization', get_string('category'), $organisations, $organizationoptions);
-        $mform->addHelpButton('organization', 'organisationzatuk', 'mod_zatuk');
+        $mform->addElement('autocomplete', 'organization', get_string('category'), $organizations, $organizationoptions);
+        $mform->addHelpButton('organization', 'organizationzatuk', 'mod_zatuk');
         $mform->setType('organization', PARAM_INT);
 
         $tagsoptions = [
@@ -106,8 +105,6 @@ class upload extends dynamic_form {
      * @return array
      */
     public function validation($data, $files) {
-        global $DB;
-
         $errors = parent::validation($data, $files);
 
         return $errors;
@@ -148,18 +145,15 @@ class upload extends dynamic_form {
      * @return mixed
      */
     public function process_dynamic_submission() {
-        global $CFG, $DB;
-
         $data = $this->get_data();
         $systemcontext = context_system::instance();
         $context = context::instance_by_id($systemcontext->id, MUST_EXIST);
         if (!empty($data)) {
-            $zatuk = new tp;
             if ((int)$data->id <= 0 || is_null($data->id)) {
-                $id = $zatuk->add_zatuk_content($data);
+                $id = (new mz)->add_zatuk_content($data);
                 $this->save_stored_file('filepath', $context->id, 'mod_zatuk', 'video',  $id);
             } else {
-                $id = $zatuk->update_zatuk_content($data);
+                $id = (new mz)->update_zatuk_content($data);
             }
             if ($id) {
                 $params = [
@@ -181,10 +175,8 @@ class upload extends dynamic_form {
      *     $this->set_data(get_entity($this->_ajaxformdata['id']));
      */
     public function set_data_for_dynamic_submission(): void {
-        global $DB;
-
         if ($id = $this->optional_param('id', 0, PARAM_INT)) {
-            $setdata = (new tp)->set_data($id);
+            $setdata = (new mz)->set_data($id);
             $this->set_data($setdata);
         }
     }

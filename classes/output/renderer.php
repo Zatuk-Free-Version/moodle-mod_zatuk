@@ -17,18 +17,15 @@
 /**
  * mod_zatuk renderer class
  *
- * @since      Moodle 2.0
  * @package    mod_zatuk
  * @copyright  2023 Moodle India
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 namespace mod_zatuk\output;
-defined('MOODLE_INTERNAL') || die;
-use html_writer;
-use moodle_url;
 
-require_once($CFG->dirroot.'/mod/zatuk/locallib.php');
+use html_writer;
+
 /**
  * class renderer
  */
@@ -113,7 +110,6 @@ class renderer extends \plugin_renderer_base {
      * @return array
      */
     public function uploadrender($uploaddata, $params) {
-        global $DB;
         $content = $uploaddata['content'];
         $total = $uploaddata['total'];
         $tdata = [];
@@ -152,7 +148,6 @@ class renderer extends \plugin_renderer_base {
      * @return string
      */
     public function get_thumbnail_url() {
-        global $DB;
         $thumbnaillogourl = '';
         $thumbnaillogourl = $this->image_url('video', 'mod_zatuk');
         return $thumbnaillogourl;

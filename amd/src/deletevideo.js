@@ -16,37 +16,37 @@
 /**
  * This file is having the functionality for deletevideo and publish video.
  *
- * @since      Moodle 2.0
  * @copyright  2023 Moodle India
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 import {get_string as getString} from 'core/str';
-import ModalFactory from 'core/modal_factory';
+import ModalSaveCancel from 'core/modal_save_cancel';
 import Ajax from 'core/ajax';
 import ModalEvents from 'core/modal_events';
 import Templates from 'core/templates';
+import messagemodal from 'mod_zatuk/messagemodal';
 const Selectors = {
     actions: {
         deletevideo: '[data-action="deletevideo"]',
         movetozatuk: '[data-action="movetozatuk"]',
     },
 };
+let MessageModal = new messagemodal();
 export const init = () => {
     document.addEventListener('click', function(e) {
         e.stopImmediatePropagation();
         let deletevideo = e.target.closest(Selectors.actions.deletevideo);
         if (deletevideo) {
             const id = deletevideo.getAttribute('data-id');
-            ModalFactory.create({
-                title: getString('deletevideo', 'mod_zatuk'),
-                type: ModalFactory.types.SAVE_CANCEL,
-                body: getString('deleteconfirm', 'mod_zatuk')
-            }).done(function(modal) {
-                this.modal = modal;
-                modal.setSaveButtonText(getString('delete'));
-                modal.getRoot().on(ModalEvents.save, function(e) {
+                const deleteVideo = async () => {
+                const modal = await ModalSaveCancel.create({
+                    title: getString('deletevideo', 'mod_zatuk'),
+                    body: getString('deleteconfirm', 'mod_zatuk')
+                });
+                modal.show();
+                modal.getRoot().on(ModalEvents.save, (e) => {
                     e.preventDefault();
-                    Templates.renderForPromise('mod_zatuk/loader', {}).then(({html, js}) => {
+                    Templates.render('mod_zatuk/loader', {}).then(({html, js}) => {
                         Templates.appendNodeContents('.modal-content', html, js);
                     });
                     var params = {};
@@ -56,26 +56,31 @@ export const init = () => {
                         args: params
                     }]);
                     promise[0].done(function() {
-                        window.location.reload(true);
+                        getString('videodeleted' ,'mod_zatuk').then((str) => {
+                          MessageModal.confirmbox(getString('finalzatuksmessage','mod_zatuk',str));
+                        });
+                        setTimeout(function() {
+                            window.location.reload();
+                        },3500);
                     }).fail(function() {
                     });
-                }.bind(this));
-                modal.show();
-            }.bind(this));
+                });
+            };
+          deleteVideo();
         }
+
         let movetozatuk = e.target.closest(Selectors.actions. movetozatuk);
         if (movetozatuk) {
             const id = movetozatuk.getAttribute('data-id');
-            ModalFactory.create({
-                title: getString('movetozatuk', 'mod_zatuk'),
-                type: ModalFactory.types.SAVE_CANCEL,
-                body: getString('movetozatukconfirm', 'mod_zatuk')
-            }).done(function(modal) {
-                this.modal = modal;
-                modal.setSaveButtonText(getString('movetozatuk', 'mod_zatuk'));
-                modal.getRoot().on(ModalEvents.save, function(e) {
+            const publishZatukVideoo = async () => {
+                const modal = await ModalSaveCancel.create({
+                    title: getString('movetozatuk', 'mod_zatuk'),
+                    body: getString('movetozatukconfirm', 'mod_zatuk')
+                });
+                modal.show();
+                modal.getRoot().on(ModalEvents.save, (e) => {
                     e.preventDefault();
-                     Templates.renderForPromise('mod_zatuk/loader', {}).then(({html, js}) => {
+                    Templates.render('mod_zatuk/loader', {}).then(({html, js}) => {
                         Templates.appendNodeContents('.modal-content', html, js);
                     });
                     var params = {};
@@ -85,13 +90,17 @@ export const init = () => {
                         args: params
                     }]);
                     promise[0].done(function() {
-                        window.location.reload(true);
+                        getString('publishedtoserver' ,'mod_zatuk').then((str) => {
+                          MessageModal.confirmbox(getString('finalzatuksmessage','mod_zatuk',str));
+                        });
+                        setTimeout(function() {
+                            window.location.reload();
+                        },3500);
                     }).fail(function() {
                     });
-                }.bind(this));
-                modal.show();
-            }.bind(this));
+                });
+            };
+          publishZatukVideoo();
         }
-
     });
 };

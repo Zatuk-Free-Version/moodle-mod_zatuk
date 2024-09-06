@@ -17,16 +17,11 @@
 /**
  * Defines restore_zatuk_activity_task class
  *
- * @since      Moodle 2.0
  * @package    mod_zatuk
  * @copyright  2023 Moodle India
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-
-defined('MOODLE_INTERNAL') || die();
-
-require_once($CFG->dirroot . '/mod/zatuk/backup/moodle2/restore_zatuk_stepslib.php'); // Because it exists (must).
 /**
  * content restore task that provides all the settings and steps to perform one
  * complete restore of the activity
@@ -44,6 +39,9 @@ class restore_zatuk_activity_task extends restore_activity_task {
      * Define (add) particular steps this activity can have
      */
     protected function define_my_steps() {
+        global $CFG;
+
+        require_once($CFG->dirroot . '/mod/zatuk/backup/moodle2/restore_zatuk_stepslib.php');
         // Label only has one structure step.
         $this->add_step(new restore_zatuk_activity_structure_step('zatuk_structure', 'zatuk.xml'));
     }

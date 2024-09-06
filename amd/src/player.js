@@ -16,13 +16,13 @@
 /**
  * Defines player script.
  *
- * @since      Moodle 2.0
  * @copyright  2023 Moodle India
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 define(['jquery',
         'core/str',
-        'media_videojs/video-lazy'],
+        'media_videojs/video-lazy',
+        'mod_zatuk/videojs-hls-quality-selector'],
 function($, Str,videojs){
     return {
         load: function(args){
