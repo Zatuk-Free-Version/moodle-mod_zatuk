@@ -47,16 +47,6 @@ $functions = [
         'services'      => [MOODLE_ZATUK_WEB_SERVICE],
 
     ],
-    'mod_zatuk_update_video_zatuk' => [
-        'classname'   => 'mod_zatuk_external',
-        'methodname'  => 'update_video_zatuk',
-        'description' => 'Update zatuk video',
-        'classpath'   => 'mod/zatuk/classes/external.php',
-        'type'        => 'read',
-        'ajax' => true,
-        'loginrequired' => true,
-        'services'      => [MOODLE_ZATUK_WEB_SERVICE],
-    ],
     'mod_zatuk_move_to_zatuk' => [
         'classname'   => 'mod_zatuk_external',
         'methodname'  => 'publish_to_zatuk_server',

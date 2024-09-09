@@ -113,14 +113,13 @@ class mod_zatuk_external extends external_api {
     /**
      * Delete zatuk video.
      * @param int $id
-     * @return bool
+     * @return array
      */
     public static function delete_zatuk_video($id) {
         $params = self::validate_parameters(self::delete_zatuk_video_parameters(),
                                             [
                                                 'id' => $id,
                                             ]);
-        $systemcontext = context_system::instance();
         self::validate_context(context_system::instance());
         require_capability('mod/zatuk:deletevideo', context_system::instance());
         $zatuk = new \mod_zatuk\zatuk();
@@ -133,54 +132,6 @@ class mod_zatuk_external extends external_api {
      *
      */
     public static function delete_zatuk_video_returns() {
-       return new external_single_structure([
-            'result'  => new external_value(PARAM_RAW, 'result', VALUE_OPTIONAL),
-        ]);
-    }
-    /**
-     * Describes the parameters for update_video_zatuk.
-     *
-     */
-    public static function update_video_zatuk_parameters() {
-        return new external_function_parameters(
-            [
-                'videoid' => new external_value(PARAM_RAW, 'The videoid of the uploaded video'),
-                'zatukurl' => new external_value(PARAM_RAW, 'The zatukurl of the uploaded video'),
-            ]
-        );
-    }
-    /**
-     * Update zatuk video based on video id.
-     * @param string||null $videoid
-     * @param string||null $zatukurl
-     * @return bool
-     */
-    public static function update_video_zatuk($videoid, $zatukurl) {
-        global $DB;
-        $params = self::validate_parameters(self::update_video_zatuk_parameters(),
-                                            [
-                                                'videoid' => $videoid,
-                                                'zatukurl' => $zatukurl,
-                                            ]);
-        $systemcontext = context_system::instance();
-        self::validate_context($systemcontext);
-        require_capability('mod/zatuk:editvideo', context_system::instance());
-        try {
-            $dataobj = new stdClass();
-            $dataobj->id = $DB->get_field('zatuk_uploaded_videos', 'id', ['videoid' => $videoid], MUST_EXIST);
-            $dataobj->zatukurl = $zatukurl;
-            $response = $DB->update_record('zatuk_uploaded_videos', $dataobj);
-        } catch (Exception $e) {
-            $response = false;
-        }
-        $result = ($response) ? true : false;
-        return ['result' => $result];
-    }
-    /**
-     * Describes the update_video_zatuk return value.
-     *
-     */
-    public static function update_video_zatuk_returns() {
         return new external_single_structure([
             'result'  => new external_value(PARAM_RAW, 'result', VALUE_OPTIONAL),
         ]);
@@ -199,16 +150,18 @@ class mod_zatuk_external extends external_api {
     /**
      * Move zatuk video from lms to zatuk site based on id.
      * @param int $id
-     * @return bool|null
+     * @return array
      */
     public static function publish_to_zatuk_server($id) {
+         global $CFG;
+        require_once($CFG->dirroot.'/mod/zatuk/lib/uploader.php');
         $params = self::validate_parameters(self::publish_to_zatuk_server_parameters(),
                                             [
                                                 'id' => $id,
                                             ]);
         self::validate_context(context_system::instance());
         require_capability('mod/zatuk:uploadvideo', context_system::instance());
-        $uploader = new uploader();
+        $uploader = new mod_zatuk\lib\uploader();
         $response = $uploader->publish_video_by_id($id);
         $result = ($response) ? true : false;
         return ['result' => $result];
