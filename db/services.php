@@ -43,15 +43,6 @@ $functions = [
         'ajax'        => true,
         'services'    => [MOODLE_ZATUK_WEB_SERVICE],
     ],
-    'mod_zatuk_update_video_zatuk' => [
-        'classname'   => 'mod_zatuk\external\update_zatuk_video',
-        'methodname'  => 'execute',
-        'description' => 'Update uploaded video',
-        'type'        => 'write',
-        'ajax'        => true,
-        'services'    => [MOODLE_ZATUK_WEB_SERVICE],
-
-    ],
     'mod_zatuk_move_to_zatuk' => [
         'classname'   => 'mod_zatuk\external\publish_to_zatuk_server',
         'methodname'  => 'execute',

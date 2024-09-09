@@ -45,7 +45,7 @@ class publish_to_zatuk_server extends external_api {
     /**
      * Move zatuk video from lms to zatuk site based on id.
      * @param int $id
-     * @return bool|null
+     * @return array
      */
     public static function execute(
         $id
