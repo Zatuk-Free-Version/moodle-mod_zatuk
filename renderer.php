@@ -21,6 +21,7 @@
  * @copyright  2023 Moodle India
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+use mod_zatuk\zatuk_constants as zc;
 class mod_zatuk_renderer extends plugin_renderer_base {
     /**
      * Get zatuk data.
@@ -29,17 +30,17 @@ class mod_zatuk_renderer extends plugin_renderer_base {
      * @return array
      */
     public function zatukrender($zatukinfo, $params) {
-        $content = $zatukinfo['returndata'] ? $zatukinfo['returndata'] : 0;
-        $total = $zatukinfo['total'] ? $zatukinfo['total'] : 0;
+        $content = $zatukinfo['returndata'] ? $zatukinfo['returndata'] : ZC::DEFAULTSTATUS;
+        $total = $zatukinfo['total'] ? $zatukinfo['total'] : ZC::DEFAULTSTATUS;
         $data = [];
         foreach ($content as $zatuk) {
             $data[] = $this->render_from_template('mod_zatuk/video_card', $zatuk);
         }
         if (!empty($data)) {
-            $data = [$this->handleemptyelements($data, $params['length'] - 1)];
+            $data = [$this->handleemptyelements($data, $params['length'] - zc::STATUSA)];
         }
         $outputs = [
-            "draw" => isset($params['draw']) ? intval($params['draw']) : 1,
+            "draw" => isset($params['draw']) ? intval($params['draw']) : zc::STATUSA,
             "iTotalRecords" => $total,
             "iTotalDisplayRecords" => $total,
             "data" => json_encode($data, true),
@@ -66,13 +67,13 @@ class mod_zatuk_renderer extends plugin_renderer_base {
             $data['thumbnail'] = $thumbnaillogourl;
             $data['usercreated'] = $video->usercreated;
             $data['timecreated'] = date('d M Y', $video->timecreated);
-            $data['status'] = $video->status == 0 ? 'Not Synced' : 'Synced at '.date('d M Y', $video->uploaded_on);
-            $conditiona = ($video->status == 0 &&
+            $data['status'] = $video->status == zc::DEFAULTSTATUS ? 'Not Synced' : 'Synced at '.date('d M Y', $video->uploaded_on);
+            $conditiona = ($video->status == zc::DEFAULTSTATUS &&
                              (is_siteadmin() ||
                               has_capability('mod/zatuk:deletevideo', $systemcontext))
                             );
             $data['delete_enable'] = $conditiona ? true : false;
-            $conditionb = ($video->status == 0 &&
+            $conditionb = ($video->status == zc::DEFAULTSTATUS &&
                           (is_siteadmin() ||
                           has_capability('mod/zatuk:editvideo', $systemcontext))
                         );
@@ -83,7 +84,7 @@ class mod_zatuk_renderer extends plugin_renderer_base {
             $tdata = [$this->handleemptyelements($tdata, $params['length'])];
         }
         $outputs = [
-            "draw" => isset($params['draw']) ? intval($params['draw']) : 1,
+            "draw" => isset($params['draw']) ? intval($params['draw']) : zc::STATUSA,
             "iTotalRecords" => $total,
             "iTotalDisplayRecords" => $total,
             "data" => json_encode($tdata, true),
@@ -110,7 +111,7 @@ class mod_zatuk_renderer extends plugin_renderer_base {
         if (count($data) == $count) {
             $lists = [];
         } else {
-            $lists = range(count($data) - 1, $count);
+            $lists = range(count($data) - zc::STATUSA, $count);
             $returndata = $data;
             foreach ($lists as $list) {
                 $returndata[] = null;

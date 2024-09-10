@@ -24,7 +24,6 @@
 
 namespace mod_zatuk\local;
 use context_course;
-use context_module;
 /**
  * zatuk class
  */

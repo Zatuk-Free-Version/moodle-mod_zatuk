@@ -25,6 +25,10 @@
 namespace mod_zatuk\lib;
 use curl;
 use moodle_exception;
+use mod_zatuk\zatuk_constants as zc;
+use Exception;
+use stdClass;
+use context_system;
 /**
  * class uploader
  */
@@ -54,7 +58,7 @@ class uploader {
                             uv.status = :filestatus AND
                             f.component = :component AND
                             f.filearea = :filearea";
-        $videosinfo = $this->db->get_records_sql($videoinfosql, ['filestatus' => 0 ,
+        $videosinfo = $this->db->get_records_sql($videoinfosql, ['filestatus' => zc::DEFAULTSTATUS ,
                                                                 'component' => 'mod_zatuk',
                                                                 'filearea' => 'video']);
         foreach ($videosinfo as $videoinfo) {
@@ -73,8 +77,8 @@ class uploader {
             $files = [];
             $params['video'] = $this->get_zatuk_video_file_object($c, $videoinfo->fileid, 'video');
 
-            $params['CURLOPT_RETURNTRANSFER'] = 1;
-            $params['CURLOPT_POST'] = 1;
+            $params['CURLOPT_RETURNTRANSFER'] = zc::STATUSA;
+            $params['CURLOPT_POST'] = zc::STATUSA;
             $params += (array)$videoinfo;
             $params['key'] = $zatukobj->zatuklib->clientid;
             $params['secret'] = $zatukobj->zatuklib->secret;
@@ -83,11 +87,11 @@ class uploader {
                 $content = json_decode($contents, true);
                 if (empty($content['error']) || is_null($content['error'])) {
                     $params['video']->delete();
-                    $videoinfo->status = 1;
+                    $videoinfo->status = zc::STATUSA;
                     $videoinfo->uploaded_on = $videoinfo->timemodified = time();
                     $response = $this->db->update_record('zatuk_uploaded_videos', $videoinfo);
                 }
-                $context = \context_system::instance();
+                $context = context_system::instance();
                 $error = (!empty($content['error']) && !is_null($content['error'])) ? $content['error'] : '';
                 $message = (!empty($content['message']) && !is_null($content['message'])) ? $content['message'] : '';
                 $params = [
@@ -97,14 +101,14 @@ class uploader {
                 ];
                 $event = \mod_zatuk\event\video_synced::create($params);
                 $event->trigger();
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 throw new moodle_exception($e->getMessage());
             }
         }
     }
     /**
      * Get zatuk video file data.
-     * @param \stdclass|curl $curlobj
+     * @param stdclass|curl $curlobj
      * @param int $fileid
      * @param string||null $filetype
      * @return bool|\stored_file
@@ -150,7 +154,7 @@ class uploader {
                            f.component = :component AND
                            f.filearea = :filearea AND
                            uv.id = :id ";
-        $videoinfo = $this->db->get_record_sql($videoinfosql, ['filestatus' => 0 ,
+        $videoinfo = $this->db->get_record_sql($videoinfosql, ['filestatus' => zc::DEFAULTSTATUS ,
                                                              'component' => 'mod_zatuk',
                                                              'filearea' => 'video',
                                                              'id' => $id ]);
@@ -168,8 +172,8 @@ class uploader {
         $c->setopt(['CURLOPT_VERBOSE' => true]);
         $files = [];
         $params['video'] = $this->get_zatuk_video_file_object($c, $videoinfo->fileid, 'video');
-        $params['CURLOPT_RETURNTRANSFER'] = 1;
-        $params['CURLOPT_POST'] = 1;
+        $params['CURLOPT_RETURNTRANSFER'] = zc::STATUSA;
+        $params['CURLOPT_POST'] = zc::STATUSA;
         $params += (array)$videoinfo;
         $params['key'] = $zatukobj->zatuklib->clientid;
         $params['secret'] = $zatukobj->zatuklib->secret;
@@ -179,11 +183,11 @@ class uploader {
             $content = json_decode($contents, true);
             if (empty($content['error']) || is_null($content['error'])) {
                 $params['video']->delete();
-                $videoinfo->status = 1;
+                $videoinfo->status = zc::STATUSA;
                 $videoinfo->uploaded_on = $videoinfo->timemodified = time();
                 $response = $this->db->update_record('zatuk_uploaded_videos', $videoinfo);
             }
-            $context = \context_system::instance();
+            $context = context_system::instance();
             $error = (!empty($content['error']) && !is_null($content['error'])) ? $content['error'] : '';
             $message = (!empty($content['message']) && !is_null($content['message'])) ? $content['message'] : '';
             $params = [
@@ -194,7 +198,7 @@ class uploader {
             $event = \mod_zatuk\event\video_synced::create($params);
             $event->trigger();
             return $response;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             throw new moodle_exception($e->getMessage());
         }
     }

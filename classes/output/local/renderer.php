@@ -25,6 +25,8 @@
 namespace mod_zatuk\output\local;
 
 use plugin_renderer_base;
+use mod_zatuk\zatuk_constants as zc;
+use context_system;
 
 /**
  * Class renderer.
@@ -38,18 +40,18 @@ class renderer  extends plugin_renderer_base {
      * @return array
      */
     public function zatukrender($zatukinfo, $params) {
-        $content = $zatukinfo['returndata'] ? $zatukinfo['returndata'] : 0;
-        $total = $zatukinfo['total'] ? $zatukinfo['total'] : 0;
+        $content = $zatukinfo['returndata'] ? $zatukinfo['returndata'] : zc::DEFAULTSTATUS;
+        $total = $zatukinfo['total'] ? $zatukinfo['total'] : zc::DEFAULTSTATUS;
         $data = [];
         foreach ($content as $zatuk) {
             $data[] = $this->render_from_template('mod_zatuk/video_card', $zatuk);
         }
         if (!empty($data)) {
 
-            $data = [$this->handleemptyelements($data, $params['length'] - 1)];
+            $data = [$this->handleemptyelements($data, $params['length'] - zc::STATUSA)];
         }
         $outputs = [
-            "draw" => isset($params['draw']) ? intval($params['draw']) : 1,
+            "draw" => isset($params['draw']) ? intval($params['draw']) : zc::STATUSA,
             "iTotalRecords" => $total,
             "iTotalDisplayRecords" => $total,
             "data" => json_encode($data, true),
@@ -63,7 +65,7 @@ class renderer  extends plugin_renderer_base {
      * @return array
      */
     public function uploadrender($uploaddata, $params) {
-        $systemcontext = \context_system::instance();
+        $systemcontext = context_system::instance();
         $content = $uploaddata['content'];
         $total = $uploaddata['total'];
         $tdata = [];
@@ -76,14 +78,14 @@ class renderer  extends plugin_renderer_base {
             $data['thumbnail'] = $thumbnaillogourl;
             $data['usercreated'] = $video->usercreated;
             $data['timecreated'] = date('d M Y', $video->timecreated);
-            $data['status'] = $video->status == 0 ? get_string('not_synced', 'mod_zatuk') :
+            $data['status'] = $video->status == zc::DEFAULTSTATUS ? get_string('not_synced', 'mod_zatuk') :
             get_string('synced_at', 'mod_zatuk').date('d M Y', $video->uploaded_on);
-            $conditiona = ($video->status == 0 &&
+            $conditiona = ($video->status == zc::DEFAULTSTATUS &&
                            (is_siteadmin() ||
                             has_capability('mod/zatuk:deletevideo', $systemcontext))
                         );
             $data['delete_enable'] = $conditiona ? true : false;
-            $conditionb = ($video->status == 0 &&
+            $conditionb = ($video->status == zc::DEFAULTSTATUS &&
                              (is_siteadmin() ||
                             has_capability('mod/zatuk:editvideo', $systemcontext))
                            );
@@ -94,7 +96,7 @@ class renderer  extends plugin_renderer_base {
             $tdata = [$this->handleemptyelements($tdata, $params['length'])];
         }
         $outputs = [
-            "draw" => isset($params['draw']) ? intval($params['draw']) : 1,
+            "draw" => isset($params['draw']) ? intval($params['draw']) : zc::STATUSA,
             "iTotalRecords" => $total,
             "iTotalDisplayRecords" => $total,
             "data" => json_encode($tdata, true),
@@ -137,7 +139,7 @@ class renderer  extends plugin_renderer_base {
      * @param int $logoitemid
      * @return string
      */
-    public function get_thumbnail_url($logoitemid = 0) {
+    public function get_thumbnail_url($logoitemid = zc::DEFAULTSTATUS) {
 
         $thumbnaillogourl = $this->image_url('video', 'mod_zatuk');
 

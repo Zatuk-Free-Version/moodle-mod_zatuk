@@ -23,9 +23,7 @@
  */
 
 namespace mod_zatuk\output;
-
-use html_writer;
-use moodle_url;
+use mod_zatuk\zatuk_constants as zc;
 
 /**
  * class renderer
@@ -76,7 +74,7 @@ class renderer extends \plugin_renderer_base {
         }
         $itotal = $viewsdata['viewscount'];
         $outputs = [
-                "draw" => isset($params['draw']) ? intval($params['draw']) + 1 : 1,
+                "draw" => isset($params['draw']) ? intval($params['draw']) + zc::STATUSA : zc::STATUSA,
                 "iTotalRecords" => $itotal,
                 "iTotalDisplayRecords" => $itotal,
                 "data" => json_encode($data, true),
@@ -97,7 +95,7 @@ class renderer extends \plugin_renderer_base {
             $data[] = [$this->render_from_template('mod_zatuk/video_card', $zatuk)];
         }
         $outputs = [
-            "draw" => isset($params['draw']) ? intval($params['draw']) + 1 : 1,
+            "draw" => isset($params['draw']) ? intval($params['draw']) + zc::STATUSA : zc::STATUSA,
             "iTotalRecords" => $total,
             "iTotalDisplayRecords" => $total,
             "data" => json_encode($data, true),
@@ -119,15 +117,15 @@ class renderer extends \plugin_renderer_base {
             $data['title'] = $video->title;
             $data['tagsname'] = $video->tagsname;
             $thumbnaillogourl = $this->get_thumbnail_url();
-            $data['thumbnail'] = html_writer::tag('img', '', ["src" => $thumbnaillogourl, 'height' => '100px', 'width' => '100px']);
+            $data['thumbnail'] = $this->render_from_template('mod_zatuk/thumbnail', ['thumbnaillogourl' => $thumbnaillogourl]);
             $data['username'] = $video->userfullname;
             $data['timecreated'] = date('d M Y', $video->timecreated);
-            $data['status'] = $video->status == 0 ? get_string('notsynced', 'zatuk') :
+            $data['status'] = $video->status == zc::DEFAULTSTATUS ? get_string('notsynced', 'zatuk') :
              get_string('synced_at', 'zatuk').date('d M Y', $video->uploaded_on);
             $tdata[] = [$this->render_from_template('mod_zatuk/video_card', $data)];
         }
         $outputs = [
-            "draw" => isset($params['draw']) ? intval($params['draw']) + 1 : 1,
+            "draw" => isset($params['draw']) ? intval($params['draw']) + zc::STATUSA : zc::STATUSA,
             "iTotalRecords" => $total,
             "iTotalDisplayRecords" => $total,
             "data" => json_encode($tdata, true),
@@ -163,7 +161,7 @@ class renderer extends \plugin_renderer_base {
         if (count($data) == $count) {
             $lists = [];
         } else {
-             $lists = range(count($data) - 1, $count);
+             $lists = range(count($data) - zc::STATUSA, $count);
         }
         $returndata = $data;
         foreach ($lists as $list) {

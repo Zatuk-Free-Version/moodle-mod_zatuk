@@ -25,9 +25,7 @@
  */
 
 defined('MOODLE_INTERNAL') || die;
-
 require_once($CFG->libdir.'/externallib.php');
-require_once($CFG->dirroot.'/lib/completionlib.php');
 /**
  * class mod_zatuk_external
  */

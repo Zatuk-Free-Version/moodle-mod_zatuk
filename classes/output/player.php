@@ -27,6 +27,8 @@ namespace mod_zatuk\output;
 use mod_zatuk\local\zatuk as zatuk;
 use renderable;
 use templatable;
+use stdClass;
+use mod_zatuk\zatuk_constants as zc;
 /**
  * class player
  */
@@ -46,15 +48,15 @@ class player implements renderable, templatable {
     /**
      * @var $width
      */
-    private $width = 640;
+    private $width = zc::PLAYERWIDTH;
     /**
      * @var $height
      */
-    private $height = 268;
+    private $height = zc::PLAYERHEIGHT;
     /**
      * Player constructor.
-     * @param object $zatukinstance
-     * @param \stdclass $cm
+     * @param stdclass $zatukinstance
+     * @param stdclass $cm
      * @return void
      */
     public function __construct($zatukinstance, $cm) {
@@ -67,7 +69,7 @@ class player implements renderable, templatable {
     }
     /**
      * Export data from template.
-     * @param \stdclass $ouput  //renderer_base
+     * @param stdclass $ouput  //renderer_base
      * @return string|array
      */
     public function export_for_template($ouput) {

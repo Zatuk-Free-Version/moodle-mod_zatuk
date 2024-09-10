@@ -24,6 +24,7 @@
 defined('MOODLE_INTERNAL') || die();
 global $CFG;
 require_once($CFG->dirroot . '/course/moodleform_mod.php');
+use mod_zatuk\zatuk_constants as zc;
 /**
  * mod_zatuk_mod_form
  */
@@ -40,10 +41,10 @@ class mod_zatuk_mod_form extends moodleform_mod {
         require_once($CFG->dirroot.'/repository/lib.php');
 
         $mform->addElement('header', 'general', get_string('general', 'form'));
-        $mform->addElement('text', 'name', get_string('name'), ['size' => '48']);
+        $mform->addElement('text', 'name', get_string('name'), ['size' => zc::MOD_FORM_NAME_SIZE]);
         $mform->setType('name', PARAM_TEXT);
         $mform->addRule('name', null, 'required', null, 'client');
-        $mform->addRule('name', get_string('maximumchars', '', 255), 'maxlength', 255, 'client');
+        $mform->addRule('name', get_string('maximumchars', '', zc::ELEMENTMAXSIZE), 'maxlength', zc::ELEMENTMAXSIZE, 'client');
 
         $mform->addElement('hidden', 'externalurl', '', ['id' => 'zatuk_external_url']);
         $mform->setType('externalurl', PARAM_URL);
@@ -58,15 +59,15 @@ class mod_zatuk_mod_form extends moodleform_mod {
         $this->standard_intro_elements();
         $element = $mform->getElement('introeditor');
         $attributes = $element->getAttributes();
-        $attributes['rows'] = 5;
+        $attributes['rows'] = zc::STATUSE;
         $element->setAttributes($attributes);
 
         $mform->addElement('header', 'appearence', get_string('appearence', 'zatuk'));
 
-        $mform->addElement('text', 'width', get_string('width', 'zatuk'), ['size' => 3]);
+        $mform->addElement('text', 'width', get_string('width', 'zatuk'), ['size' => zc::STATUSC]);
         $mform->setType('width', PARAM_INT);
 
-        $mform->addElement('text', 'height', get_string('height', 'zatuk'), ['size' => 3]);
+        $mform->addElement('text', 'height', get_string('height', 'zatuk'), ['size' => zc::STATUSC]);
         $mform->setType('height', PARAM_INT);
 
         $this->standard_coursemodule_elements();

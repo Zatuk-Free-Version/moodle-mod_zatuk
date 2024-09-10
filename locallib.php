@@ -23,7 +23,7 @@
  * @copyright  2023 Moodle India
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
+use mod_zatuk\zatuk_constants as zc;
 /**
  * This methods does weak url validation, we are looking for major problems only,
  * no strict RFE validation.
@@ -78,7 +78,7 @@ function zatuk_get_final_display_type($url) {
     }
 
     // Detect links to local moodle pages.
-    if (strpos($url->externalurl, $CFG->wwwroot) === 0) {
+    if (strpos($url->externalurl, $CFG->wwwroot) === zc::DEFAULTSTATUS) {
         if (strpos($url->externalurl, 'file.php') === false && strpos($url->externalurl, '.php') !== false ) {
             // Most probably our moodle page with navigation.
             return RESOURCELIB_DISPLAY_OPEN;
@@ -117,7 +117,7 @@ function zatuk_guess_icon($fullurl, $size = null) {
     global $CFG;
     require_once($CFG->libdir.'/filelib.php');
 
-    if (substr_count($fullurl, '/') < 3 || substr($fullurl, -1) === '/') {
+    if (substr_count($fullurl, '/') < zc::STATUSC || substr($fullurl, -zc::STATUSA) === '/') {
         // Most probably default directory - index.php, index.html, etc. Return null because.
         // We want to use the default module icon instead of the HTML file icon.
         return null;

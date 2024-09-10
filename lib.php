@@ -21,7 +21,7 @@
  * @copyright  2023 Moodle India
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
+use mod_zatuk\zatuk_constants as zc;
 /**
  * Serves the files from the zatuk file areas
  *
@@ -51,7 +51,7 @@ function mod_zatuk_pluginfile($course,
     $fs = get_file_storage();
     $file = $fs->get_file($context->id, 'mod_zatuk', $filearea, $args[0], '/', $args[1]);
     if ($file) {
-        send_stored_file($file, 0, 0, true, $options); // Download MUST be forced - security.
+        send_stored_file($file, zc::DEFAULTSTATUS, zc::DEFAULTSTATUS, true, $options); // Download MUST be forced - security.
     } else {
         return false;
     }
@@ -177,7 +177,7 @@ function zatuk_get_coursemodule_info($coursemodule) {
     $info->name = $zatuk->name;
 
     // Note: there should be a way to differentiate links from normal resources.
-    $info->icon = zatuk_guess_icon($zatuk->externalurl, 24);
+    $info->icon = zatuk_guess_icon($zatuk->externalurl, zc::GUESS_ICON_SIZE);
 
     $display = zatuk_get_final_display_type($zatuk);
 
@@ -225,7 +225,7 @@ function zatuk_export_contents($cm, $baseurl) {
     $url['type'] = get_string('url');
     $url['filename']     = clean_param(format_string($urlrecord->name), PARAM_FILE);
     $url['filepath']     = null;
-    $url['filesize']     = 0;
+    $url['filesize']     = zc::DEFAULTSTATUS;
     $url['fileurl']      = $fullurl;
     $url['timecreated']  = null;
     $url['timemodified'] = $urlrecord->timemodified;
@@ -277,10 +277,10 @@ function zatuk_extend_settings_navigation(settings_navigation $settings, navigat
     $keys = $navref->get_children_key_list();
     $beforekey = null;
     $i = array_search('modedit', $keys);
-    if ($i === false && array_key_exists(0, $keys)) {
-        $beforekey = $keys[0];
-    } else if (array_key_exists($i + 1, $keys)) {
-        $beforekey = $keys[$i + 1];
+    if ($i === false && array_key_exists(zc::DEFAULTSTATUS, $keys)) {
+        $beforekey = $keys[zc::DEFAULTSTATUS];
+    } else if (array_key_exists($i + zc::STATUSA, $keys)) {
+        $beforekey = $keys[$i + zc::STATUSA];
     }
     $cm = $PAGE->cm;
     if (!$cm) {
@@ -311,7 +311,7 @@ function mod_zatuk_get_browsevideo_form_html($mform) {
         $class = '';
         $straddlink = get_string('update_video', 'mod_zatuk');
     } else {
-        $class = 'hidden';
+        $class = zc::HIDDEN_VALUE;
         $straddlink = get_string('choose_video', 'mod_zatuk');
     }
     $clientid = uniqid();
@@ -320,7 +320,7 @@ function mod_zatuk_get_browsevideo_form_html($mform) {
     $args->return_types = FILE_EXTERNAL;
     $args->context = $PAGE->context;
     $args->client_id = $clientid;
-    $args->env = 'filepicker';
+    $args->env = zc::FILEPICKER;
     $fp = new file_picker($args);
     $options = $fp->options;
     $zatukingid = array_search('zatuk', array_column($options->repositories, 'type', 'id'));

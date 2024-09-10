@@ -8,19 +8,7 @@
 
 # Description:
 
-    The Zatuk Video Integration Plugin represents a pivotal addition to the Moodle platform, designed to enrich the educational experience by seamlessly integrating synchronized video functionalities. This plugin serves as a versatile activity module within Moodle, empowering educators and learners alike with advanced video management capabilities.
-
-    Synchronized Video Showcasing:
-    The plugin enables the display of synchronized videos that are uploaded from the Zatuk server directly onto Moodle. This feature ensures that educational content, lectures, and presentations are effortlessly accessible within the Moodle environment.
-
-    Detailed Reports:
-    Gain valuable insights into video performance with comprehensive reports. Track metrics such as ratings, likes, dislikes, and view counts directly within Moodle. These analytics empower educators to gauge learner engagement and optimize content delivery based on real-time feedback.
-
-    Seamless Video Upload and Sync:
-    With the Zatuk Video Sync Plugin, uploading videos from Moodle to the streaming server is streamlined and efficient. This process not only simplifies content management but also reduces server load by leveraging the robust capabilities of the Zatuk server infrastructure.
-
-    Enhanced Server Performance:
-    Offloading video streaming to the dedicated Zatuk server enhances server performance within Moodle. By utilizing Zatuk's optimized streaming capabilities, administrators can ensure smooth video playback without compromising on system resources, thereby improving overall platform stability.
+    The Zatuk Video Integration Plugin enhances Moodle by providing advanced video management features. It allows seamless integration of synchronized videos from the Zatuk server, offers detailed performance reports (e.g., views, likes), and streamlines video upload and syncing. By offloading streaming to Zatuk’s server, it improves Moodle’s performance and stability.
 
 # Installation:
 
