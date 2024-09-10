@@ -27,6 +27,7 @@ namespace mod_zatuk\output;
 use renderable;
 use renderer_base;
 use templatable;
+use mod_zatuk\zatuk_constants as zc;
 use stdClass;
 /**
  * Class uploadedvideos.
@@ -60,7 +61,7 @@ class uploadedvideos implements renderable, templatable {
         $data->all = true;
         $datalength = (new \mod_zatuk\zatuk)->zatuk_uploaded_video_data();
         $data->length = $datalength['length'];
-        $data->statusfilter = 'all';
+        $data->statusfilter = zc::ALL;
         $data->addcapability = (is_siteadmin() || has_capability('mod/zatuk:uploadvideo', $this->context)) ? true : false;
         $data->zatukrepoenabled = $apikey ? true : false;
         return $data;

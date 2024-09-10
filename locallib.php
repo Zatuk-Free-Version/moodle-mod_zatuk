@@ -23,7 +23,7 @@
  * @copyright  2023 Moodle India
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
+use mod_zatuk\zatuk_constants as zc;
 /**
  * This methods does weak url validation, we are looking for major problems only,
  * no strict RFE validation.
@@ -78,7 +78,7 @@ function zatuk_get_final_display_type($url) {
     }
 
     // Detect links to local moodle pages.
-    if (strpos($url->externalurl, $CFG->wwwroot) === 0) {
+    if (strpos($url->externalurl, $CFG->wwwroot) === zc::DEFAULTSTATUS) {
         if (strpos($url->externalurl, 'file.php') === false && strpos($url->externalurl, '.php') !== false ) {
             // Most probably our moodle page with navigation.
             return RESOURCELIB_DISPLAY_OPEN;

@@ -28,6 +28,7 @@ use mod_zatuk\local\zatuk as zatuk;
 use renderable;
 use templatable;
 use stdClass;
+use mod_zatuk\zatuk_constants as zc;
 /**
  * class player
  */
@@ -47,14 +48,14 @@ class player implements renderable, templatable {
     /**
      * @var $width
      */
-    private $width = 640;
+    private $width = zc::PLAYERWIDTH;
     /**
      * @var $height
      */
-    private $height = 268;
+    private $height = zc::PLAYERHEIGHT;
     /**
      * Player constructor.
-     * @param object $zatukinstance
+     * @param stdclass $zatukinstance
      * @param stdclass $cm
      * @return void
      */

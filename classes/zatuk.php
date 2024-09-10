@@ -29,6 +29,7 @@ use context_system;
 use repository_zatuk\phpzatuk;
 use curl;
 use Exception;
+use mod_zatuk\zatuk_constants as zc;
 /**
  * class zatuk
  */
@@ -88,10 +89,10 @@ class zatuk {
         }
         if (!is_null($params) && !empty($params['statusfilter']) && $params['statusfilter'] == 'inprogress') {
             $uploadedvideossql .= " AND uv.status = :pstatus";
-            $queryparams['pstatus'] = 0;
+            $queryparams['pstatus'] = zc::DEFAULTSTATUS;
         } else if (!is_null($params) && !empty($params['statusfilter']) && $params['statusfilter'] == 'published') {
             $uploadedvideossql .= " AND uv.status = :pstatus";
-            $queryparams['pstatus'] = 1;
+            $queryparams['pstatus'] = zc::STATUSA;
         }
         if (!is_null($params) && !empty($params['sort']) && $params['sort'] == 'fullname') {
             $uploadedvideossql .= " ORDER BY uv.title ASC, uv.id DESC ";
@@ -106,8 +107,8 @@ class zatuk {
         if ($onlycount) {
             return ['data' => [], 'length' => $total];
         }
-        $offset = (!empty($params['offset'])) ? $params['offset'] : 0;
-        $limit = (!empty($params['limit'])) ? $params['limit'] : 10;
+        $offset = (!empty($params['offset'])) ? $params['offset'] : zc::DEFAULTSTATUS;
+        $limit = (!empty($params['limit'])) ? $params['limit'] : zc::DEFAULTPAGELIMIT;
         $uploadedvideos = $this->db->get_records_sql($videossql . $uploadedvideossql.$sortvideosql, $queryparams, $offset, $limit);
         $videoids = $this->db->get_fieldset_sql($videoidsql . $uploadedvideossql.$sortvideosql, $queryparams);
 
@@ -127,7 +128,7 @@ class zatuk {
                 $contentvideoids = array_combine(range(1, count($contentvideoids)), array_values($contentvideoids));
                 $thumb = array_search($data->videoid, $contentvideoids);
             } else {
-                $thumb = 0;
+                $thumb = zc::DEFAULTSTATUS;
             }
             $image = $OUTPUT->image_url('video', 'mod_zatuk')->out(false);
             $videopath = '';
@@ -146,7 +147,7 @@ class zatuk {
             }
             $apikey = trim(get_config('repository_zatuk', 'zatuk_key'));
             $user = $this->db->get_record('user', ['id' => $data->userid]);
-            $iszatukrepoenabled = ($apikey) ? 1 : 0;
+            $iszatukrepoenabled = ($apikey) ? zc::STATUSA : zc::DEFAULTSTATUS;
             $returndata[] = ['id' => $data->id,
                              'title' => $data->title,
                              'thumbnail' => $image,
@@ -171,15 +172,15 @@ class zatuk {
         $searchurl = $this->zatuklib->createsearchapiurl();
         $curlparams = $this->zatuklib->get_listing_params();
         $curlparams['q'] = '';
-        $curlparams['perpage'] = 1;
-        $curlparams['page'] = 1;
+        $curlparams['perpage'] = zc::STATUSA;
+        $curlparams['page'] = zc::STATUSA;
         $c = new curl();
         try {
             $content = $c->post($searchurl, $curlparams);
             $content = json_decode($content, true);
             $totalvideos = $content['meta']['total'];
             $uploadedvideos = $this->db->count_records('zatuk_uploaded_videos');
-            $syncedvideos = $this->db->count_records('zatuk_uploaded_videos', ['status' => 1]);
+            $syncedvideos = $this->db->count_records('zatuk_uploaded_videos', ['status' => zc::STATUSA]);
             $systemcontext = context_system::instance();
             $viewcap = is_siteadmin() || has_capability('mod/zatuk:viewvideos', $systemcontext);
             return ['totalVideos' => $totalvideos,
@@ -261,7 +262,7 @@ class zatuk {
             $insertdata->tagsname = implode(',', $tagsname);
             $insertdata->timecreated = time();
             $insertdata->usercreated = $USER->id;
-            $insertdata->status = 0;
+            $insertdata->status = zc::DEFAULTSTATUS;
             $uploadid = $this->db->update_record('zatuk_uploaded_videos', $insertdata);
             return $uploadid;
         } catch (Exception $e) {

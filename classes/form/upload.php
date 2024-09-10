@@ -28,6 +28,7 @@ use moodle_url;
 use context;
 use context_system;
 use mod_zatuk\zatuk as mz;
+use mod_zatuk\zatuk_constants as zc;
 
 /**
  * class upload
@@ -54,15 +55,15 @@ class upload extends dynamic_form {
         $mform->addElement('text', 'title', get_string('title', 'mod_zatuk'));
         $mform->setType('title', PARAM_RAW);
 
-        if ((int)$id <= 0 || is_null($id)) {
+        if ((int)$id <= zc::DEFAULTSTATUS || is_null($id)) {
 
-            $videoformats = ['accepted_types' => ['.mp4', '.m4v', '.mov']];
+            $videoformats = ['accepted_types' => zc::ACCEPTED_VIDEO_TYPES];
             $mform->addElement('filepicker', 'filepath', get_string('filepath', 'mod_zatuk'), null, $videoformats);
             $mform->addHelpButton('filepath', 'filepathhelp', 'mod_zatuk');
             $mform->addRule('filepath', get_string('filepathrequired', 'mod_zatuk'), 'required', null, 'client');
         }
         $pstring = get_string('public', 'mod_zatuk');
-        $mform->addElement('checkbox', 'public', $pstring, null, [0, 1]);
+        $mform->addElement('checkbox', 'public', $pstring, null, [zc::DEFAULTSTATUS, zc::STATUSA]);
         $mform->setType('public', PARAM_BOOL);
 
         $mform->addElement('header', 'advancedhdr', get_string('advancedfields', 'mod_zatuk'));
