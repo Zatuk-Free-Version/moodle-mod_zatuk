@@ -57,7 +57,6 @@ class publish_to_zatuk_server extends external_api {
             'id' => $id,
         ]);
         self::validate_context(context_system::instance());
-        require_capability('mod/zatuk:uploadvideo', context_system::instance());
         $uploader = new uploader();
         $response = $uploader->publish_video_by_id($id);
         $result = ($response) ? true : false;

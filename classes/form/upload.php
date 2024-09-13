@@ -43,17 +43,13 @@ class upload extends dynamic_form {
         $mform = $this->_form;
         $id = $this->optional_param('id', 0, PARAM_INT);
 
-        require_once($CFG->dirroot.'/mod/zatuk/lib.php');
-        $uploaddata = mod_zatuk_get_api_formdata();
-
-        $organizations = (array)$uploaddata->organizations;
-        $tags = (array)$uploaddata->tags;
-
         $mform->addElement('hidden', 'id', $id);
         $mform->setType('id', PARAM_INT);
 
         $mform->addElement('text', 'title', get_string('title', 'mod_zatuk'));
+        $mform->addHelpButton('title', 'titlehelp', 'mod_zatuk');
         $mform->setType('title', PARAM_RAW);
+        $mform->addRule('title', get_string('required'), 'required', null, 'client');
 
         if ((int)$id <= zc::DEFAULTSTATUS || is_null($id)) {
 
@@ -65,32 +61,6 @@ class upload extends dynamic_form {
         $pstring = get_string('public', 'mod_zatuk');
         $mform->addElement('checkbox', 'public', $pstring, null, [zc::DEFAULTSTATUS, zc::STATUSA]);
         $mform->setType('public', PARAM_BOOL);
-
-        $mform->addElement('header', 'advancedhdr', get_string('advancedfields', 'mod_zatuk'));
-        $mform->setExpanded('advancedhdr', false);
-        $organizationoptions = [
-            'class' => 'organizationnameselect',
-            'data-class' => 'organizationselect',
-            'multiple' => false,
-            'placeholder' => get_string('selectcategory', 'mod_zatuk'),
-        ];
-        $organizations[0] = get_string('selectcategory', 'mod_zatuk');
-        ksort($organizations);
-
-        $mform->addElement('autocomplete', 'organization', get_string('category'), $organizations, $organizationoptions);
-        $mform->addHelpButton('organization', 'organizationzatuk', 'mod_zatuk');
-        $mform->setType('organization', PARAM_INT);
-
-        $tagsoptions = [
-            'class' => 'tagnameselect',
-            'data-class' => 'tagselect',
-            'multiple' => true,
-            'placeholder' => 'Select Tags',
-        ];
-
-        $mform->addElement('autocomplete', 'tags', get_string('tags'), $tags, $tagsoptions);
-        $mform->addHelpButton('tags', 'tagszatukhelp', 'mod_zatuk');
-        $mform->setType('tags', PARAM_INT);
 
         $mform->addElement('editor', 'description', get_string('videodescription', 'mod_zatuk'));
         $mform->addHelpButton('description', 'descriptionhelp', 'mod_zatuk');
@@ -193,8 +163,7 @@ class upload extends dynamic_form {
      */
     protected function get_page_url_for_dynamic_submission(): moodle_url {
         $id = $this->optional_param('id', 0, PARAM_INT);
-        return new moodle_url('/local/zatuk/index.php',
-            ['action' => 'uploadvideo', 'id' => $id]);
+        return new moodle_url('/mod/zatuk/index.php');
     }
 
 }

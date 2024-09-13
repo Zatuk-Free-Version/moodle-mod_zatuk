@@ -199,17 +199,11 @@ class zatuk {
      */
     public function add_zatuk_content($sdata) {
         global $USER;
-        $uploaddata = mod_zatuk_get_api_formdata();
-        $organizations = (array)$uploaddata->organizations;
-        $tags = (array)$uploaddata->tags;
         try {
             $insertdata = new stdClass();
             $insertdata->videoid = uniqid();
             $insertdata->title = $sdata->title;
             $insertdata->public = $sdata->public;
-            $insertdata->organization = $sdata->organization;
-            $insertdata->organizationname = $organizations[$sdata->organization];
-            $insertdata->tags = is_array($sdata->tags) ? implode(',', $sdata->tags) : $sdata->tags;
             $insertdata->description = $sdata->description['text'];
             $insertdata->filepath = $sdata->filepath;
             $insertdata->filename = $this->db->get_field_sql("SELECT filename FROM {files} WHERE
@@ -217,11 +211,6 @@ class zatuk {
             if (empty($insertdata->title)) {
                 $insertdata->title = preg_replace('/\\.[^.\\s]{3,4}$/', '', $insertdata->filename);
             }
-            $tagsname = [];
-            foreach ($sdata->tags as $tag) {
-                $tagsname[] = $tags[$tag];
-            }
-            $insertdata->tagsname = implode(',', $tagsname);
             $insertdata->timecreated = time();
             $insertdata->usercreated = $USER->id;
             $insertdata->status = 0;
@@ -239,27 +228,16 @@ class zatuk {
      */
     public function update_zatuk_content($sdata) {
         global $USER;
-        $uploaddata = mod_zatuk_get_api_formdata();
-        $organizations = (array)$uploaddata->organizations;
-        $tags = (array)$uploaddata->tags;
         $systemcontext = context_system::instance();
         try {
             $insertdata = new stdClass();
             $insertdata->id = $sdata->id;
             $insertdata->title = $sdata->title;
             $insertdata->public = $sdata->public;
-            $insertdata->organization = $sdata->organization;
-            $insertdata->organizationname = $organizations[$sdata->organization];
-            $insertdata->tags = is_array($sdata->tags) ? implode(',', $sdata->tags) : $sdata->tags;
             $insertdata->description = $sdata->description['text'];
             if (empty($insertdata->title)) {
                 $insertdata->title = preg_replace('/\\.[^.\\s]{3,4}$/', '', $insertdata->filename);
             }
-            $tagsname = [];
-            foreach ($sdata->tags as $tag) {
-                $tagsname[] = $tags[$tag];
-            }
-            $insertdata->tagsname = implode(',', $tagsname);
             $insertdata->timecreated = time();
             $insertdata->usercreated = $USER->id;
             $insertdata->status = zc::DEFAULTSTATUS;
@@ -321,25 +299,11 @@ class zatuk {
     public function set_data($id) {
         global $CFG;
         require_once($CFG->dirroot.'/mod/zatuk/lib.php');
-        $uploaddata = mod_zatuk_get_api_formdata();
-        $organizations = (array)$uploaddata->organizations;
-        $tags = (array)$uploaddata->tags;
         $data = $this->db->get_record('zatuk_uploaded_videos', ['id' => $id], '*', MUST_EXIST);
         $row['id'] = $data->id;
         $row['title'] = $data->title;
         $row['description'] = ['text' => $data->description];
-        if ((int)$data->organization) {
-            $row['organization'] = (int)$data->organization;
-        } else {
-            $row['organization'] = $organizations;
-        }
-        if (!empty($data->tags)) {
-            $row['tags'] = $data->tags;
-        } else {
-            $row['tags'] = $tags;
-        }
         $row['public'] = $data->public;
-        $row['category'] = $data->category;
         return $row;
     }
     /**

@@ -27,7 +27,7 @@ use moodle_url;
 global $OUTPUT, $PAGE;
 require_login();
 $systemcontext = context_system::instance();
-require_capability('mod/zatuk:view', context_system::instance());
+require_capability('mod/zatuk:viewuploadedvideo', context_system::instance());
 $PAGE->requires->js_call_amd('mod_zatuk/zatukcontent', 'init', ['[data-region="zatuk-list-container"]', 10]);
 $PAGE->requires->js_call_amd('mod_zatuk/zatukcontent', 'registerSelector');
 $PAGE->requires->js_call_amd('mod_zatuk/upload', 'init');
@@ -42,13 +42,8 @@ $PAGE->set_title($heading);
 
 $PAGE->set_heading($heading);
 $PAGE->navbar->add($heading);
-
 echo $OUTPUT->header();
-if (is_siteadmin() || has_capability('mod/zatuk:viewuploadedvideo', $systemcontext)) {
     $uploadedvideos = new \mod_zatuk\output\uploadedvideos($systemcontext);
     $zatukoutput = $PAGE->get_renderer('mod_zatuk');
     echo $zatukoutput->render($uploadedvideos);
-} else {
-    throw new \moodle_exception(get_string('nopermissions', 'mod_zatuk'));
-}
 echo $OUTPUT->footer();

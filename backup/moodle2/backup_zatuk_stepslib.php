@@ -44,7 +44,6 @@ class backup_zatuk_activity_structure_step extends backup_activity_structure_ste
                     'externalurl',
                     'videoid',
                     'display',
-                    'displayoptions',
                     'parameters',
                     'usercreated',
                     'usermodified',

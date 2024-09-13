@@ -57,7 +57,6 @@ class delete_zatuk_video extends external_api {
             'id' => $id,
         ]);
         self::validate_context(context_system::instance());
-        require_capability('mod/zatuk:deletevideo', context_system::instance());
         $zatuk = new zatuk();
         $response = $zatuk->delete_zatuk_content($id);
         $result = ($response) ? true : false;

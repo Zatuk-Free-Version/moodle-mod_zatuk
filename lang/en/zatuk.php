@@ -45,11 +45,10 @@ $string['completedduration'] = 'completed duration is 0';
 $string['completedon'] = 'Completed on';
 $string['completedvideos'] = 'Completed videos';
 $string['completionvideo'] = 'The user must complete the video.';
-$string['configdisplayoptions'] = 'Select all options that should be available, existing settings are not modified. Hold CTRL key to select multiple fields.';
 $string['configframesize'] = 'When a web page or an uploaded file is displayed within a frame, this value is the height (in pixels) of the top frame (which contains the navigation).';
 $string['configlocal_review_help'] = 'Enable reviews on the modules';
 $string['configrolesinparams'] = 'Enable if you want to include localized role names in list of available parameter variables.';
-$string['configsecretphrase'] = 'This secret phrase is used to produce encrypted code value that can be sent to zatuk server as a parameter.  The encrypted code is produced by an md5 value of the current user IP address concatenated with your secret phrase. ie code = md5(IP.secretphrase). Please note that this is not reliable because IP address may change and is often shared by different computers.';
+$string['configsecretphrase'] = 'This secret phrase is used to produce encrypted code value that can be sent to zatuk application as a parameter.  The encrypted code is produced by an md5 value of the current user IP address concatenated with your secret phrase. ie code = md5(IP.secretphrase). Please note that this is not reliable because IP address may change and is often shared by different computers.';
 $string['contentheader'] = 'Content';
 $string['createurl'] = 'Create a url';
 $string['custom'] = 'Custom';
@@ -59,7 +58,6 @@ $string['deletevideo'] = 'Delete video';
 $string['descriptionhelp'] = 'Description';
 $string['descriptionhelp_help'] = 'Zatuk video description';
 $string['disabled'] = 'Disabled';
-$string['displayoptions'] = 'Available display options';
 $string['displayselect'] = 'Display';
 $string['displayselect_help'] = 'This setting, together with the url file type and whether the browser allows embedding, determines how the url is displayed. Options may include:
 * Automatic - The best display option for the URL is selected automatically
@@ -87,7 +85,7 @@ $string['failedwarningmessage']  = '<div class="d-flex justify-content-center al
                         <div class="icon"></div><h4 class="my-3">{$a}</h4></div>';
 $string['filepath'] = 'Video';
 $string['filepathhelp'] = 'zatuk video.';
-$string['filepathhelp_help'] = 'Upload zatuk video to publish.';
+$string['filepathhelp_help'] = 'Upload a video to publish in the zatuk application.';
 $string['filepathrequired'] = 'Video required';
 $string['filter'] = 'Filter';
 $string['finalzatuksmessage'] = '<div class="d-flex justify-content-center align-items-center
@@ -136,7 +134,6 @@ $string['nozatukrepository'] = 'Please enable zatuk repository to <u><a href="{$
 $string['on'] = 'On';
 $string['organization'] = 'Organization';
 $string['organizationzatuk'] = 'Organization category';
-$string['organizationzatuk_help'] = 'Created categories under organization in zatuk server.';
 $string['parameterinfo'] = '&amp;parameter=variable';
 $string['pausedetailesmessage'] = 'Pauselog Details updated';
 $string['pluginadministration'] = 'Zatuk module administration';
@@ -145,7 +142,7 @@ $string['privacy:metadata'] = 'The free zatuk resource plugin does not store any
 $string['public'] = 'Public';
 $string['published'] = 'Publised videos';
 $string['publishedon'] = 'Published on';
-$string['publishedtoserver'] = 'Successfully published to the zatuk server.';
+$string['publishedtoserver'] = 'Successfully published to the zatuk application.';
 $string['queryexception'] = 'There is an issue with query.';
 $string['rated'] = 'Rated ';
 $string['recordsession'] = 'Record session';
@@ -164,10 +161,11 @@ $string['syncvideos'] = 'Synced videos:';
 $string['table'] = 'Table';
 $string['tablesearch'] = 'Search...';
 $string['tagszatukhelp'] = 'Organization tags ';
-$string['tagszatukhelp_help'] = 'Tags created under organization in zatuk server';
 $string['thumbnail'] = 'Thumbnail';
 $string['timeperiod'] = 'Time Period';
 $string['title'] = 'Title';
+$string['titlehelp'] = 'Title';
+$string['titlehelp_help'] = 'Name of the video.';
 $string['topviews'] = 'Most viewed';
 $string['totalvideos'] = 'Total videos';
 $string['totalviews'] = 'Total Views';

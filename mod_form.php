@@ -62,14 +62,6 @@ class mod_zatuk_mod_form extends moodleform_mod {
         $attributes['rows'] = zc::STATUSE;
         $element->setAttributes($attributes);
 
-        $mform->addElement('header', 'appearence', get_string('appearence', 'zatuk'));
-
-        $mform->addElement('text', 'width', get_string('width', 'zatuk'), ['size' => zc::STATUSC]);
-        $mform->setType('width', PARAM_INT);
-
-        $mform->addElement('text', 'height', get_string('height', 'zatuk'), ['size' => zc::STATUSC]);
-        $mform->setType('height', PARAM_INT);
-
         $this->standard_coursemodule_elements();
         $this->add_action_buttons();
     }

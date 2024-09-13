@@ -33,6 +33,7 @@ $functions = [
         'type'          => 'read',
         'ajax'          => true,
         'loginrequired' => true,
+        'capabilities'  => 'mod/zatuk:viewvideos',
         'services'      => [MOODLE_ZATUK_WEB_SERVICE],
     ],
     'mod_zatuk_delete_video' => [
@@ -41,6 +42,8 @@ $functions = [
         'description' => 'Delete uploaded video',
         'type'        => 'write',
         'ajax'        => true,
+        'loginrequired' => true,
+        'capabilities'  => 'mod/zatuk:deletevideo',
         'services'    => [MOODLE_ZATUK_WEB_SERVICE],
     ],
     'mod_zatuk_move_to_zatuk' => [
@@ -49,6 +52,8 @@ $functions = [
         'description' => 'Move the Video to the zatuk',
         'type'        => 'write',
         'ajax'        => true,
+        'loginrequired' => true,
+        'capabilities'  => 'mod/zatuk:uploadvideo',
         'services'    => [MOODLE_ZATUK_WEB_SERVICE],
     ],
 

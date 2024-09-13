@@ -16,8 +16,6 @@ Feature: View activity completion information in the zatuk resource
       | user     | course | role           |
       | student1 | C1     | student        |
       | teacher1 | C1     | editingteacher |
-    And the following config values are set as admin:
-      | displayoptions | 0,1,2,3,4,5,6 | zatuk |
 
   Scenario: View automatic completion items in automatic display mode as teacher
     Given the following "activity" exists:

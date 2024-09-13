@@ -61,6 +61,10 @@ class zatuk_constants {
      * @var int indicates the status-e value as 5.
      */
     public const STATUSE = 5;
+
+    /**
+     * @var int indicates the element max length value as 255.
+     */
     public const ELEMENTMAXSIZE = 255;
     /**
      * @var int indicates mod form name element size value.
@@ -90,7 +94,5 @@ class zatuk_constants {
      * @var int indicates static value of guess icon.
      */
     public const GUESS_ICON_SIZE = 24;
-
-    
 
 }
