@@ -54,7 +54,6 @@ class mod_zatuk_external extends external_api {
                                                 'args' => $args,
                                             ]);
         self::validate_context(context_system::instance());
-        require_capability('mod/zatuk:viewvideos', context_system::instance());
         $PAGE->set_context(context_system::instance());
         $params = json_decode($args);
 
@@ -119,7 +118,6 @@ class mod_zatuk_external extends external_api {
                                                 'id' => $id,
                                             ]);
         self::validate_context(context_system::instance());
-        require_capability('mod/zatuk:deletevideo', context_system::instance());
         $zatuk = new \mod_zatuk\zatuk();
         $response = $zatuk->delete_zatuk_content($id);
         $result = ($response) ? true : false;
@@ -158,7 +156,6 @@ class mod_zatuk_external extends external_api {
                                                 'id' => $id,
                                             ]);
         self::validate_context(context_system::instance());
-        require_capability('mod/zatuk:uploadvideo', context_system::instance());
         $uploader = new mod_zatuk\lib\uploader();
         $response = $uploader->publish_video_by_id($id);
         $result = ($response) ? true : false;

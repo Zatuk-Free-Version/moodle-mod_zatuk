@@ -70,7 +70,7 @@ $completion->set_module_viewed($cm);
     }
     unset($exturl);
     zatuk_view($zatuk, $course, $cm, $context);
-    $player = new mod_zatuk\output\player($zatuk, $cm);
+    $player = new mod_zatuk\output\player($cm);
     echo $OUTPUT->render($player);
     echo $OUTPUT->footer();
 

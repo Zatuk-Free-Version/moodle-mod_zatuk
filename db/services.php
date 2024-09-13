@@ -33,6 +33,7 @@ $functions = [
         'classpath'   => 'mod/zatuk/classes/external.php',
         'type'        => 'read',
         'ajax' => true,
+        'capabilities'  => 'mod/zatuk:viewvideos',
         'loginrequired' => true,
         'services'      => [MOODLE_ZATUK_WEB_SERVICE],
     ],
@@ -43,6 +44,7 @@ $functions = [
         'classpath'   => 'mod/zatuk/classes/external.php',
         'type'        => 'read',
         'ajax' => true,
+         'capabilities'  => 'mod/zatuk:deletevideo',
         'loginrequired' => true,
         'services'      => [MOODLE_ZATUK_WEB_SERVICE],
 
@@ -54,6 +56,7 @@ $functions = [
         'classpath'   => 'mod/zatuk/classes/external.php',
         'type'        => 'read',
         'ajax' => true,
+        'capabilities'  => 'mod/zatuk:uploadvideo',
         'loginrequired' => true,
         'services'      => [MOODLE_ZATUK_WEB_SERVICE],
     ],

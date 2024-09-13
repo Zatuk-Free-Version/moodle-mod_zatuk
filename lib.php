@@ -36,7 +36,7 @@ use mod_zatuk\zatuk_constants as zc;
  * @param array $args extra arguments (itemid, path)
  * @param bool $forcedownload whether or not force download
  * @param array $options additional options affecting the file serving
- * @return bool|null false if the file not found, just send the file otherwise and do not return anything
+ * @return bool false if the file not found, just send the file otherwise and do not return anything
  */
 function mod_zatuk_pluginfile($course,
                             $cm,
@@ -45,17 +45,17 @@ function mod_zatuk_pluginfile($course,
                             $args,
                             $forcedownload,
                             array $options=[]) {
-    if ($context->contextlevel != CONTEXT_SYSTEM) {
+    if ($context->contextlevel != CONTEXT_MODULE) {
         return false;
     }
     $fs = get_file_storage();
     $file = $fs->get_file($context->id, 'mod_zatuk', $filearea, $args[0], '/', $args[1]);
     if ($file) {
         send_stored_file($file, zc::DEFAULTSTATUS, zc::DEFAULTSTATUS, true, $options); // Download MUST be forced - security.
+        return true;
     } else {
         return false;
     }
-
 }
 
 /**
@@ -105,10 +105,6 @@ function zatuk_get_post_actions() {
 function zatuk_add_instance($data, $mform = null) {
     global $CFG, $DB, $USER;
     require_once($CFG->dirroot.'/mod/zatuk/locallib.php');
-    $displayoptions = [];
-    $displayoptions['width']  = $data->width;
-    $displayoptions['height'] = $data->height;
-    $data->displayoptions = json_encode($displayoptions);
     $externalurl = $data->externalurl;
     $data->externalurl = zatuk_fix_submitted_url($externalurl);
     $data->usercreated = $USER->id;
@@ -127,9 +123,6 @@ function zatuk_add_instance($data, $mform = null) {
 function zatuk_update_instance($data, $mform = null) {
     global $CFG, $DB, $USER;
     require_once($CFG->dirroot.'/mod/zatuk/locallib.php');
-    $displayoptions = ['width' => $data->width,
-                      'height' => $data->height];
-    $data->displayoptions = json_encode($displayoptions);
     $externalurl = $data->externalurl;
     $data->externalurl = zatuk_fix_submitted_url($externalurl);
     $data->usermodified = $USER->id;
@@ -169,7 +162,7 @@ function zatuk_get_coursemodule_info($coursemodule) {
     require_once("$CFG->dirroot/mod/zatuk/locallib.php");
 
     $dbparams = ['id' => $coursemodule->instance];
-    $fields = 'id, name, display, displayoptions, externalurl, parameters, intro, introformat';
+    $fields = 'id, name, display, externalurl, parameters, intro, introformat';
     if (!$zatuk = $DB->get_record('zatuk', $dbparams, $fields)) {
         return false;
     }
@@ -278,7 +271,7 @@ function zatuk_extend_settings_navigation(settings_navigation $settings, navigat
     $beforekey = null;
     $i = array_search('modedit', $keys);
     if ($i === false && array_key_exists(zc::DEFAULTSTATUS, $keys)) {
-        $beforekey = $keys[zc::DEFAULTSTATUS];
+        $beforekey = $keys[0];
     } else if (array_key_exists($i + zc::STATUSA, $keys)) {
         $beforekey = $keys[$i + zc::STATUSA];
     }
@@ -330,7 +323,7 @@ function mod_zatuk_get_browsevideo_form_html($mform) {
     }
     $options->repositories = [$zatukingid => $options->repositories[$zatukingid]];
 
-    $module = ['name' => 'zatuk_url', 'fullpath' => '/mod/zatuk/amd/src/zatukurl.js', 'requires' => ['core_filepicker']];
+    $module = ['name' => 'zatuk_url', 'fullpath' => '/mod/zatuk/js/zatuk_url.js', 'requires' => ['core_filepicker']];
     $PAGE->requires->js_init_call('M.zatuk_url.init', [$options], true, $module);
     $bvdata = [
         'class' => $class,
@@ -354,13 +347,20 @@ function mod_zatuk_coursemodule_standard_elements($formwrapper, $mform) {
 
     $mform->addElement('checkbox', 'recordsession', get_string('recordsession', 'mod_zatuk'));
 }
+
 /**
- * get zatuk data like category and tags from api.
- * @return stdClass
+ * This function extends the navigation with the recompletion item
+ *
+ * @param navigation_node $navigation The navigation node to extend
+ * @param stdClass        $course     The course to object for the tool
+ * @param context         $context    The context of the course
  */
-function mod_zatuk_get_api_formdata() {
-    $zatukobj = new mod_zatuk\zatuk();
-    $uploaddata = $zatukobj->zatuklib->get_upload_data();
-    return json_decode($uploaddata);
+function mod_zatuk_extend_navigation_course($navigation, $course, $context) {
+    if (has_capability('mod/zatuk:viewzatukmodule', $context)) {
+        $url = new moodle_url('/mod/zatuk/index.php');
+        $name = get_string('pluginname', 'mod_zatuk');
+        $navigation->add($name, $url, navigation_node::TYPE_SETTING, null, null, new pix_icon('i/settings', ''));
+    }
 }
+
 

@@ -22,6 +22,9 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 use mod_zatuk\zatuk_constants as zc;
+/**
+ * class renderer
+ */
 class mod_zatuk_renderer extends plugin_renderer_base {
     /**
      * Get zatuk data.

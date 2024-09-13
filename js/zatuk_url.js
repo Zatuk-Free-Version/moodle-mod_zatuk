@@ -20,7 +20,6 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 M.zatuk_url = {};
-
 M.zatuk_url.init = function(Y, options) {
     require(['jquery', 'mod_zatuk/messagemodal', 'core/str'], function($, messagemodal, Str){
        let MessageModal = new messagemodal();
@@ -37,7 +36,6 @@ M.zatuk_url.init = function(Y, options) {
         }, '#filepicker-button-js-'+options.client_id, null, options.client_id);
     });
 };
-
 M.zatuk_url.callback = function (params) {
     require(['media_videojs/video-lazy', 'jquery'], function(videojs, $){
         var videoparams = params.url.split('/');

@@ -24,11 +24,9 @@
 
 namespace mod_zatuk\output;
 
-use mod_zatuk\local\zatuk as zatuk;
 use renderable;
 use templatable;
 use stdClass;
-use mod_zatuk\zatuk_constants as zc;
 /**
  * class player
  */
@@ -38,34 +36,13 @@ class player implements renderable, templatable {
      */
     private $data;
     /**
-     * @var $zatuk
-     */
-    private $zatuk;
-    /**
-     * @var $properties
-     */
-    private $properties;
-    /**
-     * @var $width
-     */
-    private $width = zc::PLAYERWIDTH;
-    /**
-     * @var $height
-     */
-    private $height = zc::PLAYERHEIGHT;
-    /**
      * Player constructor.
-     * @param stdclass $zatukinstance
      * @param stdclass $cm
      * @return void
      */
-    public function __construct($zatukinstance, $cm) {
+    public function __construct($cm) {
 
-        $this->properties = (array)json_decode($zatukinstance->displayoptions);
-        $this->zatuk = new zatuk();
         $this->data['itemid'] = $cm->instance;
-        $this->set_width();
-        $this->set_height();
     }
     /**
      * Export data from template.
@@ -75,25 +52,6 @@ class player implements renderable, templatable {
     public function export_for_template($ouput) {
         return $this->data;
     }
-    /**
-     * Set width
-     * @return string|array|null
-     */
-    public function set_width() {
-        if (isset($this->properties['width']) && $this->properties['width'] != '') {
-            $this->width = $this->properties['width'];
-        }
-        $this->data['width'] = $this->width;
-    }
-    /**
-     * Set height
-     * @return string|array|null
-     */
-    public function set_height() {
-        if (isset($this->properties['height']) && $this->properties['height'] != '') {
-            $this->height = $this->properties['height'];
-        }
-        $this->data['height'] = $this->height;
-    }
+
 }
 
