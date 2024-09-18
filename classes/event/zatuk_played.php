@@ -23,6 +23,7 @@
  */
 
 namespace mod_zatuk\event;
+use moodle_url;
 
 /**
  * class zatuk_played
@@ -58,7 +59,7 @@ class zatuk_played extends \core\event\base {
      * @return moodle_url
      */
     public function get_url() {
-        return new \moodle_url('/mod/zatuk/view.php',
+        return new moodle_url('/mod/zatuk/view.php',
             ['id' => $this->objectid]);
     }
 }

@@ -83,14 +83,6 @@ class zatuk_constants {
      */
     public const ALL = 'all';
     /**
-     * @var int indicates static width of the player.
-     */
-    public const PLAYERWIDTH = 640;
-    /**
-     * @var int indicates static height of the player.
-     */
-    public const PLAYERHEIGHT = 268;
-    /**
      * @var int indicates static value of guess icon.
      */
     public const GUESS_ICON_SIZE = 24;
