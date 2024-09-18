@@ -214,6 +214,7 @@ $string['zatuk:viewallvideos'] = 'View all videos';
 $string['zatuk:viewasmanager'] = 'View as manager';
 $string['zatuk:viewuploadedvideo'] = 'View uploaded video';
 $string['zatuk:viewuploadedvideos'] = 'View uploaded videos';
+$string['zatuk:viewzatukmodule'] = 'View zatuk module';
 $string['zatuk:viewvideos'] = 'View videos';
 $string['zatukanalyticsemail'] = 'Zatuk analytics user email';
 $string['zatukanalyticsuser'] = 'Zatuk analytics user';

@@ -25,6 +25,7 @@ use advanced_testcase;
  * @category   test
  * @copyright  2023 Moodle India
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @covers \mod_zatuk_generator
  */
 final class generator_test extends advanced_testcase {
 
@@ -33,7 +34,7 @@ final class generator_test extends advanced_testcase {
      */
     public function test_create_instance(): void {
         global $DB;
-        $this->resetAfterTest();
+        $this->resetAfterTest(true);
         $this->setAdminUser();
 
         $course = $this->getDataGenerator()->create_course();

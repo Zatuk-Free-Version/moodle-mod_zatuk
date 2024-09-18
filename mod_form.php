@@ -66,9 +66,11 @@ class mod_zatuk_mod_form extends moodleform_mod {
         $this->add_action_buttons();
     }
     /**
-     * function validation
-     * @param array $data
-     * @param array $files
+     * Validates the form input
+     *
+     * @param array $data submitted data
+     * @param array $files submitted files
+     * @return array eventual errors indexed by the field name
      */
     public function validation($data, $files) {
         global $PAGE, $CFG;
@@ -99,7 +101,12 @@ class mod_zatuk_mod_form extends moodleform_mod {
         return $errors;
     }
     /**
-     * function get_data
+     * Return submitted data if properly submitted or returns NULL if validation fails or
+     * if there is no submitted data.
+     *
+     * Do not override this method, override data_postprocessing() instead.
+     *
+     * @return object submitted data; NULL if not valid or not submitted or cancelled
      */
     public function get_data() {
         $data = parent::get_data();

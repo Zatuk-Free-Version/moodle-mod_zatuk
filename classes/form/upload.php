@@ -120,7 +120,7 @@ class upload extends dynamic_form {
         $systemcontext = context_system::instance();
         $context = context::instance_by_id($systemcontext->id, MUST_EXIST);
         if (!empty($data)) {
-            if ((int)$data->id <= 0 || is_null($data->id)) {
+            if ((int)$data->id <= zc::DEFAULTSTATUS || is_null($data->id)) {
                 $id = (new mz)->add_zatuk_content($data);
                 $this->save_stored_file('filepath', $context->id, 'mod_zatuk', 'video',  $id);
             } else {
