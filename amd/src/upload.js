@@ -48,7 +48,8 @@ export const init = () => {
                 form.addEventListener(form.events.FORM_SUBMITTED, () => window.location.reload());
                 form.addEventListener(form.events.FORM_SUBMITTED, (event) => {
                     event.preventDefault();
-                    if (zatukid) {
+                    e.preventDefault();
+                    if (zatukid > 0) {
                         var messageString = getString('videoupdated' ,'mod_zatuk');
                     } else {
                         var messageString = getString('videouploaded' ,'mod_zatuk');

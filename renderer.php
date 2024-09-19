@@ -70,7 +70,7 @@ class mod_zatuk_renderer extends plugin_renderer_base {
             $data['thumbnail'] = $thumbnaillogourl;
             $data['usercreated'] = $video->usercreated;
             $data['timecreated'] = date('d M Y', $video->timecreated);
-            $data['status'] = $video->status == zc::DEFAULTSTATUS ? 'Not Synced' : 'Synced at '.date('d M Y', $video->uploaded_on);
+            $data['status'] = $video->status == zc::DEFAULTSTATUS ? get_string('not_synced', 'mod_zatuk') : get_string('synced_at', 'mod_zatuk').date('d M Y', $video->uploaded_on);
             $conditiona = ($video->status == zc::DEFAULTSTATUS &&
                              (is_siteadmin() ||
                               has_capability('mod/zatuk:deletevideo', $systemcontext))

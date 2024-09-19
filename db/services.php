@@ -33,7 +33,7 @@ $functions = [
         'type'          => 'read',
         'ajax'          => true,
         'loginrequired' => true,
-        'capabilities'  => 'mod/zatuk:viewvideos',
+        'capabilities'  => 'mod/zatuk:viewuploadedvideo',
         'services'      => [MOODLE_ZATUK_WEB_SERVICE],
     ],
     'mod_zatuk_delete_video' => [

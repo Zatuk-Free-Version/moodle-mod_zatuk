@@ -116,7 +116,7 @@ function zatuk_guess_icon($fullurl) {
     global $CFG;
     require_once($CFG->libdir.'/filelib.php');
 
-    if (substr_count($fullurl, '/') < 3 || substr($fullurl, -1) === '/') {
+    if (substr_count($fullurl, '/') < zc::STATUSC || substr($fullurl, -zc::STATUSA) === '/') {
         // Most probably default directory - index.php, index.html, etc. Return null because.
         // We want to use the default module icon instead of the HTML file icon.
         return null;
