@@ -570,7 +570,7 @@ var hlsQualitySelector = function hlsQualitySelector(options) {
   var _this2 = this;
 
   this.ready(function () {
-    onPlayerReady(_this2,  videojs.mergeOptions(defaults, options));
+    onPlayerReady(_this2, videojs.mergeOptions(defaults, options));
   });
 };
 

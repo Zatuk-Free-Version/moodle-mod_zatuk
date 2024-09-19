@@ -61,15 +61,6 @@ $capabilities = [
             'editingteacher' => CAP_ALLOW,
         ],
     ],
-    'mod/zatuk:viewallvideos' => [
-        'riskbitmask' => RISK_XSS,
-        'captype' => 'read',
-        'contextlevel' => CONTEXT_MODULE,
-        'archetypes' => [
-            'manager' => CAP_ALLOW,
-            'editingteacher' => CAP_ALLOW,
-        ],
-    ],
     'mod/zatuk:viewasmanager' => [
         'riskbitmask' => RISK_XSS,
         'captype' => 'read',
@@ -78,7 +69,6 @@ $capabilities = [
             'manager' => CAP_ALLOW,
         ],
     ],
-
     'mod/zatuk:deletevideo' => [
         'riskbitmask' => RISK_SPAM | RISK_XSS,
         'captype' => 'write',
@@ -105,15 +95,6 @@ $capabilities = [
             'editingteacher' => CAP_ALLOW,
         ],
     ],
-    'mod/zatuk:viewvideos' => [
-        'riskbitmask' => RISK_SPAM | RISK_XSS,
-        'captype' => 'write',
-        'contextlevel' => CONTEXT_SYSTEM,
-        'archetypes' => [
-            'manager' => CAP_ALLOW,
-            'editingteacher' => CAP_ALLOW,
-        ],
-    ],
     'mod/zatuk:viewuploadedvideo' => [
         'riskbitmask' => RISK_SPAM | RISK_XSS,
         'captype' => 'write',
@@ -131,14 +112,6 @@ $capabilities = [
             'editingteacher' => CAP_ALLOW,
         ],
     ],
-    'mod/zatuk:manageactions' => [
-        'riskbitmask' => RISK_SPAM,
-        'captype' => 'write',
-        'contextlevel' => CONTEXT_SYSTEM,
-        'archetypes' => [
-        ],
-    ],
-
     'mod/zatuk:viewzatukmodule' => [
         'riskbitmask' => RISK_XSS,
         'captype' => 'write',

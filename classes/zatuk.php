@@ -182,7 +182,7 @@ class zatuk {
             $uploadedvideos = $this->db->count_records('zatuk_uploaded_videos');
             $syncedvideos = $this->db->count_records('zatuk_uploaded_videos', ['status' => zc::STATUSA]);
             $systemcontext = context_system::instance();
-            $viewcap = is_siteadmin() || has_capability('mod/zatuk:viewvideos', $systemcontext);
+            $viewcap = is_siteadmin() || has_capability('mod/zatuk:viewuploadedvideo', $systemcontext);
             return ['totalVideos' => $totalvideos,
             'uploadedVideos' => $uploadedvideos,
             'syncedVideos' => $syncedvideos,

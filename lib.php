@@ -31,7 +31,7 @@ use mod_zatuk\zatuk_constants as zc;
  *
  * @param stdClass $course the course object
  * @param stdClass $cm the course module object
- * @param stdClass $context the workshop's context
+ * @param stdClass $context the zatuk's context
  * @param string $filearea the name of the file area
  * @param array $args extra arguments (itemid, path)
  * @param bool $forcedownload whether or not force download
@@ -45,19 +45,23 @@ function mod_zatuk_pluginfile($course,
                             $args,
                             $forcedownload,
                             array $options=[]) {
-    if ($context->contextlevel != CONTEXT_MODULE) {
+    if ($context->contextlevel != CONTEXT_MODULE && $context->contextlevel != CONTEXT_SYSTEM) {
         return false;
     }
     $fs = get_file_storage();
     $file = $fs->get_file($context->id, 'mod_zatuk', $filearea, $args[0], '/', $args[1]);
     if ($file) {
-        send_stored_file($file, zc::DEFAULTSTATUS, zc::DEFAULTSTATUS, true, $options); // Download MUST be forced - security.
+        send_stored_file($file,
+        zc::DEFAULTSTATUS,
+        zc::DEFAULTSTATUS,
+        true,
+        $options
+        ); // Download MUST be forced - security.
         return true;
     } else {
         return false;
     }
 }
-
 /**
  * Supported features
  *

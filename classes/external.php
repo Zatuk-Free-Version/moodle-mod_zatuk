@@ -17,7 +17,6 @@
 /**
  * zatuk external API
  *
- * @since      Moodle 2.0
  * @package    mod_zatuk
  * @copyright  2023 Moodle India
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -25,7 +24,11 @@
  */
 
 defined('MOODLE_INTERNAL') || die;
+
 require_once($CFG->libdir.'/externallib.php');
+require_once($CFG->dirroot.'/lib/completionlib.php');
+use mod_zatuk\zatuk as mz;
+
 /**
  * class mod_zatuk_external
  */
@@ -34,6 +37,7 @@ class mod_zatuk_external extends external_api {
     /**
      * Describes the parameters for uploaded_video_data.
      *
+     * @return external_function_parameters
      */
     public static function uploaded_video_data_parameters() {
         return new external_function_parameters(
@@ -54,16 +58,13 @@ class mod_zatuk_external extends external_api {
                                                 'args' => $args,
                                             ]);
         self::validate_context(context_system::instance());
-        $PAGE->set_context(context_system::instance());
         $params = json_decode($args);
-
-        $zatuk = new \mod_zatuk\zatuk();
         if ($params->args->action == "updatePreferences") {
             $countonly = true;
         } else {
             $countonly = false;
         }
-        $zatukdata = $zatuk->zatuk_uploaded_video_data((array)$params->args, $countonly);
+        $zatukdata = (new mz)->zatuk_uploaded_video_data((array)$params->args, $countonly);
 
         return $zatukdata;
 
@@ -71,6 +72,7 @@ class mod_zatuk_external extends external_api {
     /**
      * Describes the uploaded_video_data return value.
      *
+     * @return external_single_structure
      */
     public static function uploaded_video_data_returns() {
 
@@ -99,6 +101,7 @@ class mod_zatuk_external extends external_api {
     /**
      * Describes the parameters for delete_zatuk_video.
      *
+     * @return external_function_parameters
      */
     public static function delete_zatuk_video_parameters() {
         return new external_function_parameters(
@@ -118,14 +121,14 @@ class mod_zatuk_external extends external_api {
                                                 'id' => $id,
                                             ]);
         self::validate_context(context_system::instance());
-        $zatuk = new \mod_zatuk\zatuk();
-        $response = $zatuk->delete_zatuk_content($id);
+        $response = (new mz)->delete_zatuk_content($id);
         $result = ($response) ? true : false;
         return ['result' => $result];
     }
     /**
      * Describes the delete_zatuk_video return value.
      *
+     * @return external_single_structure
      */
     public static function delete_zatuk_video_returns() {
         return new external_single_structure([
@@ -135,11 +138,12 @@ class mod_zatuk_external extends external_api {
     /**
      * Describes the parameters for publish_to_zatuk_server.
      *
+     * @return external_function_parameters
      */
     public static function publish_to_zatuk_server_parameters() {
         return new external_function_parameters(
             [
-               'id' => new external_value(PARAM_INT, 'The id of the video uploaded'),
+               'id' => new external_value(PARAM_INT, 'The id of the video uploaded', VALUE_DEFAULT, 0),
             ]
         );
     }
@@ -149,8 +153,6 @@ class mod_zatuk_external extends external_api {
      * @return array
      */
     public static function publish_to_zatuk_server($id) {
-         global $CFG;
-        require_once($CFG->dirroot.'/mod/zatuk/lib/uploader.php');
         $params = self::validate_parameters(self::publish_to_zatuk_server_parameters(),
                                             [
                                                 'id' => $id,
@@ -164,6 +166,7 @@ class mod_zatuk_external extends external_api {
     /**
      * Describes the publish_to_zatuk_server return value.
      *
+     * @return external_single_structure
      */
     public static function publish_to_zatuk_server_returns() {
         return new external_single_structure([
