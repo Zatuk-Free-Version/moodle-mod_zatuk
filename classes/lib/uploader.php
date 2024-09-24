@@ -85,15 +85,19 @@ class uploader {
             try {
                 $contents = $c->post($searchurl, $params);
                 $content = json_decode($contents, true);
-                if (empty($content['error']) || is_null($content['error'])) {
-                    $params['video']->delete();
-                    $videoinfo->status = zc::STATUSA;
-                    $videoinfo->uploaded_on = $videoinfo->timemodified = time();
-                    $response = $this->db->update_record('zatuk_uploaded_videos', $videoinfo);
+                if (isset($content)) {
+                     if (empty($content['error']) || is_null($content['error'])) {
+                        $params['video']->delete();
+                        $videoinfo->status = zc::STATUSA;
+                        $videoinfo->uploaded_on = $videoinfo->timemodified = time();
+                        $response = $this->db->update_record('zatuk_uploaded_videos', $videoinfo);
+                    }
+                } else {
+                    throw new moodle_exception(get_string('servererror'));
                 }
                 $context = context_system::instance();
-                $error = (!empty($content['error']) && !is_null($content['error'])) ? $content['error'] : '';
-                $message = (!empty($content['message']) && !is_null($content['message'])) ? $content['message'] : '';
+                $error = (!isset($content)) ? get_string('servererror')  : ((!empty($content['error']) && !is_null($content['error'])) ? $content['error'] : '');
+                $message =(!isset($content)) ? get_string('servererror')  :((!empty($content['message']) && !is_null($content['message'])) ? $content['message'] : '');
                 $params = [
                     'context' => $context,
                     'objectid' => $videoinfo->id,
@@ -181,15 +185,19 @@ class uploader {
         try {
             $contents = $c->post($searchurl, $params);
             $content = json_decode($contents, true);
-            if (empty($content['error']) || is_null($content['error'])) {
-                $params['video']->delete();
-                $videoinfo->status = zc::STATUSA;
-                $videoinfo->uploaded_on = $videoinfo->timemodified = time();
-                $response = $this->db->update_record('zatuk_uploaded_videos', $videoinfo);
+            if (isset($content)) {
+                if (empty($content['error']) || is_null($content['error'])) {
+                    $params['video']->delete();
+                    $videoinfo->status = zc::STATUSA;
+                    $videoinfo->uploaded_on = $videoinfo->timemodified = time();
+                    $response = $this->db->update_record('zatuk_uploaded_videos', $videoinfo);
+                }
+            } else {
+                $response = false;
             }
             $context = context_system::instance();
-            $error = (!empty($content['error']) && !is_null($content['error'])) ? $content['error'] : '';
-            $message = (!empty($content['message']) && !is_null($content['message'])) ? $content['message'] : '';
+            $error = (!isset($content)) ? get_string('servererror')  : ((!empty($content['error']) && !is_null($content['error'])) ? $content['error'] : '');
+            $message =(!isset($content)) ? get_string('servererror')  :((!empty($content['message']) && !is_null($content['message'])) ? $content['message'] : '');
             $params = [
                     'context' => $context,
                     'objectid' => $videoinfo->id,

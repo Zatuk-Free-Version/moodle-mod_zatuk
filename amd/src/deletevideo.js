@@ -90,14 +90,23 @@ export const init = () => {
                         methodname: 'mod_zatuk_move_to_zatuk',
                         args: params
                     }]);
-                    promise[0].done(function() {
-                        getString('publishedtoserver' ,'mod_zatuk').then((str) => {
-                          MessageModal.confirmbox(getString('finalzatuksmessage','mod_zatuk',str));
-                        });
-                        setTimeout(function() {
-                            window.location.reload();
-                        },3500);
+                    promise[0].done(function(resp) {
+                        if(resp.result === true) {
+                            modal.hide();
+                            getString('publishedtoserver' ,'mod_zatuk').then((str) => {
+                              MessageModal.confirmbox(getString('finalzatuksmessage','mod_zatuk',str));
+                            });
+                            setTimeout(function() {
+                                window.location.reload();
+                            },3500);
+                        } else {
+                            modal.hide();
+                            getString('servererror').then((str) => {
+                               MessageModal.confirmbox(getString('failedwarningmessage','mod_zatuk',str));
+                            });
+                        }
                     }).fail(function() {
+
                     });
                 }.bind(this));
                 modal.show();
