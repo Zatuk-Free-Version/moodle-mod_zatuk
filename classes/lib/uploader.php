@@ -86,7 +86,7 @@ class uploader {
                 $contents = $c->post($searchurl, $params);
                 $content = json_decode($contents, true);
                 if (isset($content)) {
-                     if (empty($content['error']) || is_null($content['error'])) {
+                    if (empty($content['error']) || is_null($content['error'])) {
                         $params['video']->delete();
                         $videoinfo->status = zc::STATUSA;
                         $videoinfo->uploaded_on = $videoinfo->timemodified = time();
@@ -96,8 +96,10 @@ class uploader {
                     throw new moodle_exception(get_string('servererror'));
                 }
                 $context = context_system::instance();
-                $error = (!isset($content)) ? get_string('servererror')  : ((!empty($content['error']) && !is_null($content['error'])) ? $content['error'] : '');
-                $message =(!isset($content)) ? get_string('servererror')  :((!empty($content['message']) && !is_null($content['message'])) ? $content['message'] : '');
+                $error = (!isset($content)) ? get_string('servererror') :
+                ((!empty($content['error']) && !is_null($content['error'])) ? $content['error'] : '');
+                $message = (!isset($content)) ? get_string('servererror') :
+                ((!empty($content['message']) && !is_null($content['message'])) ? $content['message'] : '');
                 $params = [
                     'context' => $context,
                     'objectid' => $videoinfo->id,
@@ -196,8 +198,10 @@ class uploader {
                 $response = false;
             }
             $context = context_system::instance();
-            $error = (!isset($content)) ? get_string('servererror')  : ((!empty($content['error']) && !is_null($content['error'])) ? $content['error'] : '');
-            $message =(!isset($content)) ? get_string('servererror')  :((!empty($content['message']) && !is_null($content['message'])) ? $content['message'] : '');
+            $error = (!isset($content)) ? get_string('servererror') :
+            ((!empty($content['error']) && !is_null($content['error'])) ? $content['error'] : '');
+            $message = (!isset($content)) ? get_string('servererror') :
+            ((!empty($content['message']) && !is_null($content['message'])) ? $content['message'] : '');
             $params = [
                     'context' => $context,
                     'objectid' => $videoinfo->id,
