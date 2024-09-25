@@ -60,6 +60,7 @@ class upload extends dynamic_form {
         }
         $pstring = get_string('public', 'mod_zatuk');
         $mform->addElement('checkbox', 'public', $pstring, null, [zc::DEFAULTSTATUS, zc::STATUSA]);
+        $mform->addHelpButton('public', 'publichelp', 'mod_zatuk');
         $mform->setType('public', PARAM_BOOL);
 
         $mform->addElement('editor', 'description', get_string('videodescription', 'mod_zatuk'));

@@ -85,7 +85,7 @@ $string['failedwarningmessage']  = '<div class="d-flex justify-content-center al
                         <div class="icon"></div><h4 class="my-3">{$a}</h4></div>';
 $string['filepath'] = 'Video';
 $string['filepathhelp'] = 'zatuk video.';
-$string['filepathhelp_help'] = 'Upload a video to publish in the zatuk application.';
+$string['filepathhelp_help'] = 'The actual video file that you want to upload to the platform.';
 $string['filepathrequired'] = 'Video required';
 $string['filter'] = 'Filter';
 $string['finalzatuksmessage'] = '<div class="d-flex justify-content-center align-items-center
@@ -140,6 +140,8 @@ $string['pluginadministration'] = 'Zatuk module administration';
 $string['pluginname'] = 'Zatuk';
 $string['privacy:metadata'] = 'The free zatuk resource plugin does not store any personal data.';
 $string['public'] = 'Public';
+$string['publichelp'] = 'public';
+$string['publichelp_help'] = 'If the “public” option is selected, the video will be accessible to all users on the platform. If unchecked, only the uploading teacher, admin, and students will have access to the video.';
 $string['published'] = 'Publised videos';
 $string['publishedon'] = 'Published on';
 $string['publishedtoserver'] = 'Successfully published to the zatuk application.';
@@ -165,7 +167,7 @@ $string['thumbnail'] = 'Thumbnail';
 $string['timeperiod'] = 'Time Period';
 $string['title'] = 'Title';
 $string['titlehelp'] = 'Title';
-$string['titlehelp_help'] = 'Name of the video.';
+$string['titlehelp_help'] = 'Choose a descriptive name that reflects the content of the video. This helps in organizing and identifying videos later.';
 $string['topviews'] = 'Most viewed';
 $string['totalvideos'] = 'Total videos';
 $string['totalviews'] = 'Total Views';
