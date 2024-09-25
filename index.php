@@ -23,8 +23,10 @@
  */
 
 require('../../config.php');
+require_once('../../course/format/lib.php');
 use moodle_url;
 global $OUTPUT, $PAGE;
+$courseid = required_param('courseid', PARAM_INT);
 require_login();
 $systemcontext = context_system::instance();
 require_capability('mod/zatuk:viewuploadedvideo', context_system::instance());
@@ -32,16 +34,18 @@ $PAGE->requires->js_call_amd('mod_zatuk/zatukcontent', 'init', ['[data-region="z
 $PAGE->requires->js_call_amd('mod_zatuk/zatukcontent', 'registerSelector');
 $PAGE->requires->js_call_amd('mod_zatuk/upload', 'init');
 $PAGE->requires->js_call_amd('mod_zatuk/renderzatuk', 'init');
-
-$pageurl = new moodle_url('/mod/zatuk/index.php');
+$course = $DB->get_record('course', ['id' => $courseid], '*', MUST_EXIST);
+$pageurl = new moodle_url('/mod/zatuk/index.php', ['courseid' => $courseid]);
 $PAGE->set_url($pageurl);
-$PAGE->set_pagelayout('standard');
-$PAGE->set_context($systemcontext);
-$heading = get_string('uploadedvideos', 'mod_zatuk');
-$PAGE->set_title($heading);
+$PAGE->set_pagelayout('course');
+$PAGE->add_body_class('limitedwidth');
+$format = course_get_format($course);
+$course->format = $format->get_format();
 
-$PAGE->set_heading($heading);
-$PAGE->navbar->add($heading);
+$PAGE->set_pagetype('course-view-' . $course->format);
+$PAGE->set_context(context_course::instance($courseid));
+$PAGE->set_course(get_course($courseid));
+
 echo $OUTPUT->header();
     $uploadedvideos = new \mod_zatuk\output\uploadedvideos($systemcontext);
     $zatukoutput = $PAGE->get_renderer('mod_zatuk');

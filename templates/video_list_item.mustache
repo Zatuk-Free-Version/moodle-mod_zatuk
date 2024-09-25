@@ -53,12 +53,17 @@
                                 {{#str}}aria:courseshortname, core_course{{/str}}
                             </span>
                             <div>
-                                {{#status}}
-                                {{# str}}publishedon, mod_zatuk {{/ str}} {{{timecreated}}}
-                                {{/status}}
-                                {{^status}}
-                                {{# str}}uploadedon, mod_zatuk {{/ str}}: {{{timecreated}}}
-                                {{/status}}
+                                {{# canviewvideo}}
+                                    {{#status}}
+                                    {{# str}}publishedon, mod_zatuk {{/ str}} {{{timecreated}}}
+                                    {{/status}}
+                                    {{^status}}
+                                    {{# str}}uploadedon, mod_zatuk {{/ str}}: {{{timecreated}}}
+                                    {{/status}}
+                                {{/ canviewvideo}}
+                                {{^ canviewvideo}}
+                                   {{# str}} inprogress {{/ str}}
+                                {{/ canviewvideo}}
                             </div>
                         </div>
                     </div>
@@ -122,13 +127,11 @@
 </div>
 
 {{#js}}
-    require(['mod_zatuk/deletevideo'], function(s) {
-        s.init();
-    });
-{{/js}}
+require(['mod_zatuk/upload'], function(s) {
+    s.init();
+});
 
-{{#js}}
-    require(['mod_zatuk/upload'], function(s) {
-        s.init();
-    });
+require(['mod_zatuk/deletevideo'], function(s) {
+    s.init();
+});
 {{/js}}

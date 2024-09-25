@@ -159,6 +159,7 @@ class zatuk {
                              'public' => $data->public,
                              'deleteoption' => $deleteoption,
                              'iszatukrepoenabled' => $iszatukrepoenabled,
+                             'canviewvideo' => ($thumb > zc::DEFAULTSTATUS) ? zc::STATUSA : zc::DEFAULTSTATUS,
                          ];
 
         }
