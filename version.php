@@ -26,7 +26,7 @@ defined('MOODLE_INTERNAL') || die();
 
 $plugin->version = 2022041900.00;
 $plugin->requires = 2022041900.00; // Moodle 4.0.
-$plugin->supported = [400, 440];
+$plugin->supported = [400, 450];
 $plugin->component = 'mod_zatuk';
 $plugin->maturity = MATURITY_STABLE;
 $plugin->release = '4.x (Build: 2022041900.00)';

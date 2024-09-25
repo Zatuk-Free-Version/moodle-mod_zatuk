@@ -91,6 +91,7 @@ class mod_zatuk_external extends external_api {
                          'status' => new external_value(PARAM_BOOL, 'Video publish status'),
                          'deleteoption' => new external_value(PARAM_BOOL, 'Delete option'),
                          'iszatukrepoenabled' => new external_value(PARAM_INT, 'Is zatuk repository enabled'),
+                         'canviewvideo' => new external_value(PARAM_INT, 'Is video plublished to streaming application.'),
                         ]
                     ), 'Data'
                 ),

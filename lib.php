@@ -361,7 +361,7 @@ function mod_zatuk_coursemodule_standard_elements($formwrapper, $mform) {
  */
 function mod_zatuk_extend_navigation_course($navigation, $course, $context) {
     if (has_capability('mod/zatuk:viewzatukmodule', $context)) {
-        $url = new moodle_url('/mod/zatuk/index.php');
+        $url = new moodle_url('/mod/zatuk/index.php', ['courseid' => $course->id]);
         $name = get_string('pluginname', 'mod_zatuk');
         $navigation->add($name, $url, navigation_node::TYPE_SETTING, null, null, new pix_icon('i/settings', ''));
     }
