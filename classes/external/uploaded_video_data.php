@@ -92,7 +92,6 @@ class uploaded_video_data extends external_api {
                          'deleteoption' => new external_value(PARAM_BOOL, 'Delete option'),
                          'iszatukrepoenabled' => new external_value(PARAM_INT, 'Is zatuk repository enabled'),
                          'canviewvideo' => new external_value(PARAM_INT, 'Is video plublished to streaming application.'),
-                         
                         ]
                     ), 'Data'
                 ),
