@@ -38,18 +38,18 @@
 # Requirements:
     Based on moodle version user need to install the compatiable zatuk plugin.
 
-    To generate unique secret keys and authentication tokens, please follow these steps:
+    1. Navigate to the specific course in the LMS.
+    2. Click on "More Options" to reveal additional features.
+    3. Ensure that "Zatuk" is visible in the more options menu.
+    4. Allow admin or teacher to upload videos from the LMS.
+    5. Videos will be published once the cron job runs successfully.
+    6. Upon successful execution, videos will be moved to the Zatuk application.
+    7. Once published in the Zatuk application, videos will be ready for playback.
+    8. Users can click on the video to start playing it.
+    9. The video will be displayed in the Zatuk activity when added to the course.
 
-    1. Navigate to Site Administration > Plugins > Manage Repositories.
-    2. Select "Enable and Visible" for the Zatuk Plugin.
-    3. You will be redirected to a page with basic information for creating an organization in the Zatuk streaming 
-       application. Click on "Next".
-    4. To proceed, choose between two options: Free Subscription or Paid Subscription.
-       Free Subscription: Includes basic setup and video streaming.
-       Paid Subscription: Includes advanced features such as analytics, video ratings, likes, and dislikes.
-    5. After selecting your subscription, click on "Get Started". The key and secret token will be generated.
-    
-    This process will set up the necessary credentials for secure integration between Zatuk and your LMS.
+   This streamlined process ensures that users can easily access and view videos, enhancing their learning experience through seamless 
+   integration and immediate playback within the course framework.
 
 # How to install:
 
