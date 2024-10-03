@@ -22,6 +22,11 @@
     Enhanced Server Performance:
     Offloading video streaming to the dedicated Zatuk server enhances server performance within Moodle. By utilizing Zatuk's optimized streaming capabilities, administrators can ensure smooth video playback without compromising on system resources, thereby improving overall platform stability.
 
+# Short Description:
+
+  The Zatuk Video Integration Plugin enhances Moodle by providing advanced video management features. It allows seamless integration of synchronized videos from the Zatuk server, offers 
+  detailed performance reports (e.g., views, likes), and streamlines video upload and syncing. By offloading streaming to Zatuk’s server, it improves Moodle’s performance and stability.
+
 # Installation:
 
     1. Click on Site Administration from the navigation block.
