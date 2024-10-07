@@ -36,7 +36,7 @@
     6. On installation, Go to Manage Repositories in the site administration, enable the zatuk plugin, and click on save button, which will generate the token for zatuk webservices and secret, key in streaming server by creating the organization.
 
 # Requirements:
-  Based on moodle version user need to install the compatiable zatuk plugin.
+  Based on moodle version user need to install the compatible zatuk plugin.
 
   1. Navigate to the specific course in the LMS.
   2. Click on "More Options" to reveal additional features.
