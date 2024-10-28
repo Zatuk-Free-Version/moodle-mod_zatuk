@@ -297,3 +297,54 @@
     background-size: cover;
     background-position: center;
 }
+
+#id_generalcontainer .browse_video .col-form-label {
+   padding-left: 1.5rem !important;
+
+}
+
+#zatukbrowsevideofilepickerstyles {
+
+    margin-right:70%;
+    margin-top:5px;
+}
+
+.zatuklistbgpulsegreystyles {
+
+    height:  35px;
+}
+
+.selectzatukvideobuttonstyles {
+
+    margin-right:70%;
+    margin-top:5px;
+}
+
+.zatukthumnaillogourlstyles {
+
+    height: 100px;
+    width: 100px;
+
+}
+
+.zatukrenderedvideostyles {
+    height: 150px;
+}
+
+.zatukpreviewblockstyles {
+
+    height :250px;
+    width :450px;
+}
+
+.zatukpreviewstyles {
+
+    height :150px;
+    width :250px;
+}
+
+.zatukvideoplayerstyles {
+    height :450px;
+    width :800px;
+
+}

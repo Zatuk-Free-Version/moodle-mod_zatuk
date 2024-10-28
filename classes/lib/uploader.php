@@ -74,7 +74,6 @@ class uploader {
             $c->setHeader($header);
             $c->setopt(['CURLOPT_HEADER' => false]);
             $c->setopt(['CURLOPT_VERBOSE' => true]);
-            $files = [];
             $params['video'] = $this->get_zatuk_video_file_object($c, $videoinfo->fileid, 'video');
 
             $params['CURLOPT_RETURNTRANSFER'] = zc::STATUSA;
@@ -89,7 +88,7 @@ class uploader {
                     if (empty($content['error']) || is_null($content['error'])) {
                         $params['video']->delete();
                         $videoinfo->status = zc::STATUSA;
-                        $videoinfo->uploaded_on = $videoinfo->timemodified = time();
+                        $videoinfo->published_on = $videoinfo->timemodified = time();
                         $response = $this->db->update_record('zatuk_uploaded_videos', $videoinfo);
                     }
                 } else {
@@ -138,8 +137,8 @@ class uploader {
             $filename .= '.' . $extension;
         }
         $mimetype = mimeinfo('type', $filename);
-        list($mediatype, $subtype) = explode('/', $mimetype);
-        if ($mediatype != $filetype) {
+        $mediatype = explode('/', $mimetype);
+        if (!in_array($filetype, $mediatype)) {
             throw new moodle_exception(get_string('wrongmimetypedetected', 'mod_zatuk'));
         }
         $fileinfo->postname = $filename;
@@ -176,14 +175,13 @@ class uploader {
         $c->setHeader($header);
         $c->setopt(['CURLOPT_HEADER' => false]);
         $c->setopt(['CURLOPT_VERBOSE' => true]);
-        $files = [];
         $params['video'] = $this->get_zatuk_video_file_object($c, $videoinfo->fileid, 'video');
         $params['CURLOPT_RETURNTRANSFER'] = zc::STATUSA;
         $params['CURLOPT_POST'] = zc::STATUSA;
         $params += (array)$videoinfo;
         $params['key'] = $zatukobj->zatuklib->clientid;
         $params['secret'] = $zatukobj->zatuklib->secret;
-        $response = false;
+        $response = 0;
         try {
             $contents = $c->post($searchurl, $params);
             $content = json_decode($contents, true);
@@ -191,11 +189,11 @@ class uploader {
                 if (empty($content['error']) || is_null($content['error'])) {
                     $params['video']->delete();
                     $videoinfo->status = zc::STATUSA;
-                    $videoinfo->uploaded_on = $videoinfo->timemodified = time();
+                    $videoinfo->published_on = $videoinfo->timemodified = time();
                     $response = $this->db->update_record('zatuk_uploaded_videos', $videoinfo);
                 }
             } else {
-                $response = false;
+                $response = 0;
             }
             $context = context_system::instance();
             $error = (!isset($content)) ? get_string('servererror') :

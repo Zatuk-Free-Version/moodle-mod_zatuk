@@ -19,7 +19,6 @@
                 <FIELD NAME="usermodified" TYPE="int" LENGTH="10" NOTNULL="false" DEFAULT="0" SEQUENCE="false"/>
                 <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="false" DEFAULT="0" SEQUENCE="false"/>
                 <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="false" DEFAULT="0" SEQUENCE="false"/>
-                <FIELD NAME="enableanalytics" TYPE="int" LENGTH="10" NOTNULL="false" DEFAULT="0" SEQUENCE="false"/>
                 
             </FIELDS>
             <KEYS>
@@ -30,23 +29,18 @@
         <FIELDS>
           <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" />
           <FIELD NAME="zatukurl" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" />
-          <FIELD NAME="organization" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" />
           <FIELD NAME="videoid" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" />
           <FIELD NAME="title" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" />
           <FIELD NAME="description" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
-          <FIELD NAME="tags" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" />
           <FIELD NAME="filename" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" />
           <FIELD NAME="filepath" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false"/>
-          <FIELD NAME="organizationname" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false"/>
-          <FIELD NAME="tagsname" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false"/>
           <FIELD NAME="public" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
           <FIELD NAME="status" TYPE="int" LENGTH="1" NOTNULL="false" SEQUENCE="false"/>
-          <FIELD NAME="uploaded_on" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
-          <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
-          <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+          <FIELD NAME="published_on" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
           <FIELD NAME="usercreated" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+          <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
           <FIELD NAME="usermodified" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
-
+          <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
         </FIELDS>
         <KEYS>
           <KEY NAME="primary" TYPE="primary" FIELDS="id" />

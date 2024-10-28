@@ -47,7 +47,6 @@ class restore_zatuk_activity_structure_step extends restore_activity_structure_s
     protected function process_zatuk($data) {
         global $DB;
         $data = (object)$data;
-        $oldid = $data->id;
         $data->course = $this->get_courseid();
         $newitemid = $DB->insert_record('zatuk', $data);
         $this->apply_activity_instance($newitemid);

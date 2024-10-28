@@ -24,6 +24,7 @@
 
 namespace mod_zatuk\output;
 use mod_zatuk\zatuk_constants as zc;
+use context_system;
 
 /**
  * class renderer
@@ -45,7 +46,10 @@ class renderer extends \plugin_renderer_base {
      * @return string html for the page
      */
     public function uploadedvideos() {
-        $condition = ['tableid' => 'zatuk_uploaded_videos_data', 'function' => 'zatuk_uploaded_videos_data'];
+        $condition = ['tableid' => 'zatuk_uploaded_videos_data',
+                      'function' => 'zatuk_uploaded_videos_data',
+                      'nodatastring' => get_string('novideosuploadedyet', 'mod_zatuk'),
+                    ];
         return $this->render_from_template('mod_zatuk/zatuk_videos', $condition);
     }
     /**
@@ -53,33 +57,11 @@ class renderer extends \plugin_renderer_base {
      * @return string html for the page
      */
     public function zatukvideos() {
-        $condition = ['tableid' => 'get_zatuk_data', 'function' => 'get_zatuk_data'];
+        $condition = ['tableid' => 'get_zatuk_data',
+                      'function' => 'get_zatuk_data',
+                      'nodatastring' => get_string('zatukingnotyetset', 'mod_zatuk'),
+                    ];
         return $this->render_from_template('mod_zatuk/zatuk_videos', $condition);
-    }
-    /**
-     * View zatuk video info.
-     * @param array $viewsdata
-     * @param array $params
-     * @return array
-     */
-    public function viewsinfo($viewsdata, $params) {
-        $viewsinfo = $viewsdata['views'];
-        $data = [];
-        foreach ($viewsinfo as $viewinfo) {
-            $row = [];
-            $row[] = $viewinfo->fullname;
-            $row[] = $viewinfo->attempts;
-            $row[] = date('jS F Y', $viewinfo->timecreated);
-            $data[] = $row;
-        }
-        $itotal = $viewsdata['viewscount'];
-        $outputs = [
-                "draw" => isset($params['draw']) ? intval($params['draw']) + zc::STATUSA : zc::STATUSA,
-                "iTotalRecords" => $itotal,
-                "iTotalDisplayRecords" => $itotal,
-                "data" => json_encode($data, true),
-            ];
-        return $outputs;
     }
     /**
      * Render zatuk data.
@@ -88,14 +70,18 @@ class renderer extends \plugin_renderer_base {
      * @return array
      */
     public function zatukrender($zatukinfo, $params) {
-        $content = $zatukinfo['returndata'];
-        $total = $zatukinfo['total'];
+        $content = $zatukinfo['returndata'] ? $zatukinfo['returndata'] : zc::DEFAULTSTATUS;
+        $total = $zatukinfo['total'] ? $zatukinfo['total'] : zc::DEFAULTSTATUS;
         $data = [];
         foreach ($content as $zatuk) {
-            $data[] = [$this->render_from_template('mod_zatuk/video_card', $zatuk)];
+            $data[] = $this->render_from_template('mod_zatuk/video_card', $zatuk);
+        }
+        if (!empty($data)) {
+
+            $data = [$this->handleemptyelements($data, $params['length'] - zc::STATUSA)];
         }
         $outputs = [
-            "draw" => isset($params['draw']) ? intval($params['draw']) + zc::STATUSA : zc::STATUSA,
+            "draw" => isset($params['draw']) ? intval($params['draw']) : zc::STATUSA,
             "iTotalRecords" => $total,
             "iTotalDisplayRecords" => $total,
             "data" => json_encode($data, true),
@@ -109,23 +95,38 @@ class renderer extends \plugin_renderer_base {
      * @return array
      */
     public function uploadrender($uploaddata, $params) {
+        $systemcontext = context_system::instance();
         $content = $uploaddata['content'];
         $total = $uploaddata['total'];
         $tdata = [];
         foreach ($content as $video) {
             $data = [];
+            $data['id'] = $video->id;
             $data['title'] = $video->title;
             $data['tagsname'] = $video->tagsname;
             $thumbnaillogourl = $this->get_thumbnail_url();
-            $data['thumbnail'] = $this->render_from_template('mod_zatuk/thumbnail', ['thumbnaillogourl' => $thumbnaillogourl]);
-            $data['username'] = $video->userfullname;
+            $data['thumbnail'] = $thumbnaillogourl;
+            $data['usercreated'] = $video->usercreated;
             $data['timecreated'] = date('d M Y', $video->timecreated);
-            $data['status'] = $video->status == zc::DEFAULTSTATUS ? get_string('notsynced', 'zatuk') :
-             get_string('synced_at', 'zatuk').date('d M Y', $video->uploaded_on);
-            $tdata[] = [$this->render_from_template('mod_zatuk/video_card', $data)];
+            $data['status'] = $video->status == zc::DEFAULTSTATUS ? get_string('not_synced', 'mod_zatuk') :
+            get_string('synced_at', 'mod_zatuk').date('d M Y', $video->published_on);
+            $conditiona = ($video->status == zc::DEFAULTSTATUS &&
+                           (is_siteadmin() ||
+                            has_capability('mod/zatuk:deletevideo', $systemcontext))
+                        );
+            $data['delete_enable'] = $conditiona ? true : false;
+            $conditionb = ($video->status == zc::DEFAULTSTATUS &&
+                             (is_siteadmin() ||
+                            has_capability('mod/zatuk:editvideo', $systemcontext))
+                           );
+            $data['edit_enable'] = $conditionb ? true : false;
+            $tdata[] = $this->render_from_template('mod_zatuk/video_card', $data);
+        }
+        if (!empty($tdata)) {
+            $tdata = [$this->handleemptyelements($tdata, $params['length'])];
         }
         $outputs = [
-            "draw" => isset($params['draw']) ? intval($params['draw']) + zc::STATUSA : zc::STATUSA,
+            "draw" => isset($params['draw']) ? intval($params['draw']) : zc::STATUSA,
             "iTotalRecords" => $total,
             "iTotalDisplayRecords" => $total,
             "data" => json_encode($tdata, true),
@@ -141,6 +142,15 @@ class renderer extends \plugin_renderer_base {
 
         return $this->render_from_template('mod_zatuk/list', $output->export_for_template($this));
 
+    }
+    /**
+     * Render mod content
+     * @return string
+     */
+    public function render_mod_content() {
+        $zatuk = new \mod_zatuk\zatuk();
+        $content = $zatuk->mod_content();
+        return $this->render_from_template('mod_zatuk/block_content', $content);
     }
     /**
      * Get thumbnail.

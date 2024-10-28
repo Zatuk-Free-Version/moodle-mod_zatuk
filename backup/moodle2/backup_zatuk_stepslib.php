@@ -33,10 +33,7 @@ class backup_zatuk_activity_structure_step extends backup_activity_structure_ste
      */
     protected function define_structure() {
 
-         // To know if we are including userinfo.
-        $userinfo = $this->get_setting_value('userinfo');
-
-         // Define each element separated.
+        // Define each element separated.
         $fields = ['course',
                    'name',
                    'intro',

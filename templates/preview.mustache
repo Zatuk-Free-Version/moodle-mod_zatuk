@@ -19,19 +19,19 @@
         "clientid": "ABc123"
     }
 }}
-<div id="fitem_id_externalurl" class="form-group row  url fitem   ">
+<div id="fitem_id_externalurl" class="form-group row  url fitem ">
     <div class="col-md-3  browse_video" id="browse_video">
         <label class="col-form-label d-inline " for="id_externalurl">
-           {{#str}}browsevideo, zatuk{{/str}}<abbr class="initialism text-danger" title="{{#str}}required{{/str}}"><i class="icon fa fa-exclamation-circle text-danger fa-fw " title="{{#str}}required{{/str}}" aria-label="{{#str}}required{{/str}}"></i></abbr>
+           {{#str}}browse_video, zatuk{{/str}}<abbr class="initialism text-danger" title="{{#str}}required{{/str}}"><i class="icon fa fa-exclamation-circle text-danger fa-fw " title="{{#str}}required{{/str}}" aria-label="{{#str}}required{{/str}}"></i></abbr>
         </label>
     </div>
     <div class="col-md-9 form-inline felement" data-fieldtype="custom-url">
         <div class="{{class}} zatuk_file_selector">
-            <video id="mod_zatuk_form_video" class="zatuk_video video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" height="150" width="250">
+            <video id="mod_zatuk_form_video" class="zatuk_video video-js vjs-default-skin vjs-big-play-centered zatukpreviewstyles" controls preload="auto">
             </video>
         </div>
     </div>
-    <button type="button" id="filepicker-button-js-{{clientid}}" class="visibleifjs btn btn-secondary" style="margin-right:70%;margin-top:5px;">
+    <button type="button" id="filepicker-button-js-{{clientid}}" class="visibleifjs btn btn-secondary selectzatukvideobuttonstyles">
     {{#str}}selectvideo, zatuk{{/str}}
     </button>'
 </div>

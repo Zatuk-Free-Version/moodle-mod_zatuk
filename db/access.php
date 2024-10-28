@@ -43,32 +43,6 @@ $capabilities = [
         ],
         'clonepermissionsfrom' => 'moodle/course:manageactivities',
     ],
-    'mod/zatuk:create' => [
-        'riskbitmask' => RISK_XSS,
-        'captype' => 'write',
-        'contextlevel' => CONTEXT_MODULE,
-        'archetypes' => [
-            'manager' => CAP_ALLOW,
-            'editingteacher' => CAP_ALLOW,
-        ],
-    ],
-    'mod/zatuk:viewuploadedvideos' => [
-        'riskbitmask' => RISK_XSS,
-        'captype' => 'read',
-        'contextlevel' => CONTEXT_MODULE,
-        'archetypes' => [
-            'manager' => CAP_ALLOW,
-            'editingteacher' => CAP_ALLOW,
-        ],
-    ],
-    'mod/zatuk:viewasmanager' => [
-        'riskbitmask' => RISK_XSS,
-        'captype' => 'read',
-        'contextlevel' => CONTEXT_MODULE,
-        'archetypes' => [
-            'manager' => CAP_ALLOW,
-        ],
-    ],
     'mod/zatuk:deletevideo' => [
         'riskbitmask' => RISK_SPAM | RISK_XSS,
         'captype' => 'write',
