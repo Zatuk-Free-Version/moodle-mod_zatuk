@@ -113,7 +113,6 @@ class mod_zatuk_mod_form extends moodleform_mod {
         if (!$data) {
             return $data;
         }
-
         return $data;
     }
 }

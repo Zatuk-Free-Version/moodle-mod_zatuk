@@ -54,6 +54,6 @@ class mod_zatuk_generator extends testing_module_generator {
         if (!isset($record->videoid)) {
             $record->videoid = file_get_unused_draft_itemid();
         }
-        return parent::create_instance($record, (array)$options);
+        return parent::create_instance($record, $options);
     }
 }

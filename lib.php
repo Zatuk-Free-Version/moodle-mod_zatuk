@@ -163,7 +163,7 @@ function zatuk_delete_instance($id) {
  */
 function zatuk_get_coursemodule_info($coursemodule) {
     global $CFG, $DB;
-    require_once("$CFG->dirroot/mod/zatuk/locallib.php");
+    require_once($CFG->dirroot.'/mod/zatuk/locallib.php');
 
     $dbparams = ['id' => $coursemodule->instance];
     $fields = 'id, name, display, externalurl, parameters, intro, introformat';
@@ -206,7 +206,7 @@ function zatuk_page_type_list($pagetype, $parentcontext, $currentcontext) {
  */
 function zatuk_export_contents($cm, $baseurl) {
     global $CFG, $DB;
-    require_once("$CFG->dirroot/mod/zatuk/locallib.php");
+    require_once($CFG->dirroot.'/mod/zatuk/locallib.php');
     $contents = [];
     $context = context_module::instance($cm->id);
 
@@ -271,19 +271,10 @@ function zatuk_extend_settings_navigation(settings_navigation $settings, navigat
 
     // We want to add these new nodes after the Edit settings node, and before the
     // Locally assigned roles node. Of course, both of those are controlled by capabilities.
-    $keys = $navref->get_children_key_list();
-    $beforekey = null;
-    $i = array_search('modedit', $keys);
-    if ($i === false && array_key_exists(zc::DEFAULTSTATUS, $keys)) {
-        $beforekey = $keys[0];
-    } else if (array_key_exists($i + zc::STATUSA, $keys)) {
-        $beforekey = $keys[$i + zc::STATUSA];
-    }
     $cm = $PAGE->cm;
     if (!$cm) {
         return;
     }
-    $context = $cm->context;
     $course = $PAGE->course;
 
     if (!$course) {
@@ -360,11 +351,26 @@ function mod_zatuk_coursemodule_standard_elements($formwrapper, $mform) {
  * @param context         $context    The context of the course
  */
 function mod_zatuk_extend_navigation_course($navigation, $course, $context) {
-    if (has_capability('mod/zatuk:viewzatukmodule', $context)) {
-        $url = new moodle_url('/mod/zatuk/index.php', ['courseid' => $course->id]);
-        $name = get_string('pluginname', 'mod_zatuk');
-        $navigation->add($name, $url, navigation_node::TYPE_SETTING, null, null, new pix_icon('i/settings', ''));
+
+    $apikey = trim(get_config('repository_zatuk', 'zatuk_key'));
+    if ($apikey) {
+        if (has_capability('mod/zatuk:viewzatukmodule', $context)) {
+            $url = new moodle_url('/mod/zatuk/index.php', ['courseid' => $course->id]);
+            $name = get_string('pluginname', 'mod_zatuk');
+            $navigation->add($name, $url, navigation_node::TYPE_SETTING, null, null, new pix_icon('i/settings', ''));
+        }
+
+    } else {
+
+        if (is_siteadmin()) {
+
+            $url = new moodle_url('/mod/zatuk/index.php', ['courseid' => $course->id]);
+            $name = get_string('pluginname', 'mod_zatuk');
+            $navigation->add($name, $url, navigation_node::TYPE_SETTING, null, null, new pix_icon('i/settings', ''));
+        }
+
     }
+
 }
 
 

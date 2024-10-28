@@ -103,7 +103,7 @@ class zatuk {
         if (is_null($params) || empty($params['sort'])) {
             $sortvideosql = " ORDER BY uv.id DESC ";
         }
-        $total = $this->db->count_records_sql($countsql . $uploadedvideossql, $queryparams);
+        $total = $this->db->count_records_sql($countsql . $uploadedvideossql.$sortvideosql, $queryparams);
         if ($onlycount) {
             return ['data' => [], 'length' => $total];
         }
@@ -122,6 +122,7 @@ class zatuk {
             $content['data'] = array_combine(range(1, count($content['data'])), array_values($content['data']));
         }
         $returndata = [];
+
         foreach ($uploadedvideos as $data) {
             if (!empty($content['data'])) {
                 $contentvideoids = array_column($content['data'], 'videoid');
@@ -229,7 +230,6 @@ class zatuk {
      */
     public function update_zatuk_content($sdata) {
         global $USER;
-        $systemcontext = context_system::instance();
         try {
             $insertdata = new stdClass();
             $insertdata->id = $sdata->id;

@@ -39,8 +39,8 @@ class upload extends dynamic_form {
      * Define this form - called by the parent constructor
      */
     public function definition() {
-        global $CFG;
         $mform = $this->_form;
+
         $id = $this->optional_param('id', 0, PARAM_INT);
 
         $mform->addElement('hidden', 'id', $id);
@@ -163,7 +163,6 @@ class upload extends dynamic_form {
      * @return \moodle_url
      */
     protected function get_page_url_for_dynamic_submission(): moodle_url {
-        $id = $this->optional_param('id', 0, PARAM_INT);
         return new moodle_url('/mod/zatuk/index.php');
     }
 

@@ -56,21 +56,21 @@ $PAGE->requires->js_call_amd('mod_zatuk/player', 'load', [$params]);
 // Completion.
 $completion = new completion_info($course);
 $completion->set_module_viewed($cm);
-   echo $OUTPUT->header();
-    $params = [
-        'context' => $context,
-        'objectid' => $cm->id,
-    ];
-    $event = \mod_zatuk\event\zatuk_instance_viewed::create($params);
-    $event->trigger();
-    $exturl = trim($zatuk->externalurl);
-    if (empty($exturl) || $exturl === 'http://') {
-        notice(get_string('invalidstoredurl', 'zatuk'), new moodle_url('/course/view.php', ['id' => $cm->course]));
-        die;
-    }
-    unset($exturl);
-    zatuk_view($zatuk, $course, $cm, $context);
-    $player = new mod_zatuk\output\player($cm);
-    echo $OUTPUT->render($player);
-    echo $OUTPUT->footer();
+echo $OUTPUT->header();
+$params = [
+    'context' => $context,
+    'objectid' => $cm->id,
+];
+$event = \mod_zatuk\event\zatuk_instance_viewed::create($params);
+$event->trigger();
+$exturl = trim($zatuk->externalurl);
+if (empty($exturl) || $exturl === 'http://') {
+    notice(get_string('invalidstoredurl', 'zatuk'), new moodle_url('/course/view.php', ['id' => $cm->course]));
+    die;
+}
+unset($exturl);
+zatuk_view($zatuk, $course, $cm, $context);
+$player = new mod_zatuk\output\player($cm);
+echo $OUTPUT->render($player);
+echo $OUTPUT->footer();
 
