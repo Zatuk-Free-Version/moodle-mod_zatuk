@@ -95,15 +95,13 @@ class zatuk {
             $queryparams['pstatus'] = zc::STATUSA;
         }
         if (!is_null($params) && !empty($params['sort']) && $params['sort'] == 'fullname') {
-            $uploadedvideossql .= " ORDER BY uv.title ASC, uv.id DESC ";
-        }
-        if (!is_null($params) && !empty($params['sort']) && $params['sort'] == 'uploadeddate') {
-            $uploadedvideossql .= " ORDER BY uv.timecreated DESC, uv.id DESC ";
-        }
-        if (is_null($params) || empty($params['sort'])) {
+            $sortvideosql = " ORDER BY uv.title ASC, uv.id DESC ";
+        } else if (!is_null($params) && !empty($params['sort']) && $params['sort'] == 'uploadeddate') {
+            $sortvideosql = " ORDER BY uv.timecreated DESC, uv.id DESC ";
+        } else if (is_null($params) || empty($params['sort'])) {
             $sortvideosql = " ORDER BY uv.id DESC ";
         }
-        $total = $this->db->count_records_sql($countsql . $uploadedvideossql.$sortvideosql, $queryparams);
+        $total = $this->db->count_records_sql($countsql . $uploadedvideossql, $queryparams);
         if ($onlycount) {
             return ['data' => [], 'length' => $total];
         }

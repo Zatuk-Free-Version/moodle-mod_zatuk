@@ -139,7 +139,7 @@ class uploader {
         $mimetype = mimeinfo('type', $filename);
         $mediatype = explode('/', $mimetype);
         if (!in_array($filetype, $mediatype)) {
-            throw new moodle_exception(get_string('wrongmimetypedetected', 'mod_zatuk'));
+            throw new moodle_exception('Wrong mime type selected');
         }
         $fileinfo->postname = $filename;
         $fileinfo->mime = $mimetype;

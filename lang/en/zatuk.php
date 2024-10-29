@@ -106,7 +106,6 @@ $string['videoplayed'] = 'The user with id {$a->userid} plays the video having r
 $string['videoupdated'] = 'Zatuk video updated successfully.';
 $string['videouploaded'] = 'Zatuk video uploaded successfully.';
 $string['videouploadedby'] = 'Video is uploaded by userid {$a->userid} with status {$a->objectid}';
-$string['wrongmimetypedetected'] = 'Wrong mime type selected.';
 $string['zatuk'] = 'Zatuk';
 $string['zatuk:accessedbyfaculty'] = 'Accessed by editing teacher';
 $string['zatuk:addinstance'] = 'Add a new zatuk module';
