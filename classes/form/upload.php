@@ -57,6 +57,8 @@ class upload extends dynamic_form {
             $mform->addElement('filepicker', 'filepath', get_string('filepath', 'mod_zatuk'), null, $videoformats);
             $mform->addHelpButton('filepath', 'filepathhelp', 'mod_zatuk');
             $mform->addRule('filepath', get_string('filepathrequired', 'mod_zatuk'), 'required', null, 'client');
+            $mform->addElement('static', 'filepathstatic', '', get_string('videocannotbeupdated', 'mod_zatuk'));
+
         }
         $pstring = get_string('public', 'mod_zatuk');
         $mform->addElement('checkbox', 'public', $pstring, null, [zc::DEFAULTSTATUS, zc::STATUSA]);
