@@ -98,6 +98,7 @@ $string['uploadedon'] = 'Uploaded on';
 $string['uploadedvideos'] = 'Uploaded videos';
 $string['uploadvideo'] = 'Upload video';
 $string['uploadzatukvideo'] = 'Please upload zatuk video to create an activity.';
+$string['videocannotbeupdated'] = 'Note: Video can not be updated.';
 $string['videocompleted'] = 'The user with id {$a->userid} completely viewed the zatuk activity having reportid {$a->objectid}.';
 $string['videodeleted'] = 'Video deleted successfully.';
 $string['videodeletedby'] = 'Video is deleted by userid {$a->userid} with status {$a->objectid}';
