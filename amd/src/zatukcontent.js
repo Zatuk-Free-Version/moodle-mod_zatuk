@@ -296,8 +296,8 @@ function(
         var config = $.extend({}, DEFAULT_PAGED_CONTENT_CONFIG, additionalConfig);
 
         return Str.get_string(
-                'ariaeventlistpagelimit',
-                'mod_timeline',
+                'pagelimit',
+                'mod_zatuk',
                 $.isArray(pageLimit) ? pageLimit[0].value : pageLimit
             )
             .then(function(string) {

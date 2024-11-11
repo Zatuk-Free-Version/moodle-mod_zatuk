@@ -203,7 +203,7 @@ class zatuk {
             $insertdata = new stdClass();
             $insertdata->videoid = uniqid();
             $insertdata->title = $sdata->title;
-            $insertdata->public = $sdata->public;
+            $insertdata->public = (isset($sdata->public)) ? $sdata->public : 0;
             $insertdata->description = $sdata->description['text'];
             $insertdata->filepath = $sdata->filepath;
             $insertdata->filename = $this->db->get_field_sql("SELECT filename FROM {files} WHERE
@@ -232,7 +232,7 @@ class zatuk {
             $insertdata = new stdClass();
             $insertdata->id = $sdata->id;
             $insertdata->title = $sdata->title;
-            $insertdata->public = $sdata->public;
+            $insertdata->public = (isset($sdata->public)) ? $sdata->public : 0;
             $insertdata->description = $sdata->description['text'];
             if (empty($insertdata->title)) {
                 $insertdata->title = preg_replace('/\\.[^.\\s]{3,4}$/', '', $insertdata->filename);
@@ -241,7 +241,7 @@ class zatuk {
             $insertdata->usercreated = $USER->id;
             $insertdata->status = zc::DEFAULTSTATUS;
             $uploadid = $this->db->update_record('zatuk_uploaded_videos', $insertdata);
-            return $uploadid;
+            return $sdata->id;
         } catch (Exception $e) {
             throw new moodle_exception($e->getMessage());
         }
