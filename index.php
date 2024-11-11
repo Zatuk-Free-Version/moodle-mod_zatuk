@@ -24,7 +24,6 @@
 
 require('../../config.php');
 require_once('../../course/format/lib.php');
-use moodle_url;
 global $OUTPUT, $PAGE;
 $courseid = required_param('courseid', PARAM_INT);
 require_login();
@@ -40,11 +39,9 @@ $PAGE->set_pagelayout('course');
 $PAGE->add_body_class('limitedwidth');
 $format = course_get_format($course);
 $course->format = $format->get_format();
-
 $PAGE->set_pagetype('course-view-' . $course->format);
 $PAGE->set_context(context_course::instance($courseid));
 $PAGE->set_course(get_course($courseid));
-
 echo $OUTPUT->header();
     $uploadedvideos = new \mod_zatuk\output\uploadedvideos($systemcontext);
     $zatukoutput = $PAGE->get_renderer('mod_zatuk');

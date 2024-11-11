@@ -255,6 +255,10 @@ function zatuk_view($zatuk, $course, $cm, $context) {
     $event->add_record_snapshot('course', $course);
     $event->add_record_snapshot('zatuk', $zatuk);
     $event->trigger();
+
+    // Completion.
+    $completion = new completion_info($course);
+    $completion->set_module_viewed($cm);
 }
 /**
  * Extends the settings navigation with the zatuk settings

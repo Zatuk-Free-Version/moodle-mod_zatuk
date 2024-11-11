@@ -25,8 +25,6 @@
 require('../../config.php');
 require_once("$CFG->dirroot/mod/zatuk/lib.php");
 require_once("$CFG->dirroot/mod/zatuk/locallib.php");
-use moodle_url;
-use completion_info;
 $id = optional_param('id', 0, PARAM_INT);
 $u  = optional_param('u', 0, PARAM_INT);
 global $DB, $PAGE, $OUTPUT;
@@ -53,9 +51,7 @@ $PAGE->set_heading($zatuk->name);
 $PAGE->requires->jquery();
 $params = json_encode(['identifier' => 'my_video_1', 'src' => $zatuk->externalurl, 'cm' => $cm->id, 'course' => $cm->course]);
 $PAGE->requires->js_call_amd('mod_zatuk/player', 'load', [$params]);
-// Completion.
-$completion = new completion_info($course);
-$completion->set_module_viewed($cm);
+zatuk_view($zatuk, $course, $cm, $context);
 echo $OUTPUT->header();
 $params = [
     'context' => $context,
@@ -65,11 +61,10 @@ $event = \mod_zatuk\event\zatuk_instance_viewed::create($params);
 $event->trigger();
 $exturl = trim($zatuk->externalurl);
 if (empty($exturl) || $exturl === 'http://') {
-    notice(get_string('invalidstoredurl', 'zatuk'), new moodle_url('/course/view.php', ['id' => $cm->course]));
+    notice(get_string('invalidstoredurl', 'zatuk'), "$CFG->wwwroot/course/view.php?id=$cm->course");
     die;
 }
 unset($exturl);
-zatuk_view($zatuk, $course, $cm, $context);
 $player = new mod_zatuk\output\player($cm);
 echo $OUTPUT->render($player);
 echo $OUTPUT->footer();
