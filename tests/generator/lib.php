@@ -32,7 +32,7 @@ class mod_zatuk_generator extends testing_module_generator {
      * @param array $options
      * @return stdClass
      */
-    public function create_instance($record = [], array $options = []) {
+    public function create_instance($record = [], $options = []) {
         global $CFG;
 
         require_once($CFG->dirroot.'/lib/resourcelib.php');
