@@ -176,7 +176,7 @@ function zatuk_get_coursemodule_info($coursemodule) {
     // Note: there should be a way to differentiate links from normal resources.
     $info->icon = zatuk_guess_icon($zatuk->externalurl, zc::GUESS_ICON_SIZE);
 
-    $display = zatuk_get_final_display_type($zatuk);
+    zatuk_get_final_display_type($zatuk);
 
     if ($coursemodule->showdescription) {
         // Convert intro to html. Do not filter cached version, filters run at display time.
