@@ -64,14 +64,18 @@
                                     {{/status}}
                                 {{/ canviewvideo}}
                                 {{^ canviewvideo}}
-                                   {{# str}} inprogress {{/ str}}
+                                   {{# str}}uploadedon, mod_zatuk {{/ str}}: {{{timecreated}}}<br>
+                                   <small>{{# str}} inprogress {{/ str}}</small>
                                 {{/ canviewvideo}}
                             </div>
                         </div>
                     </div>
-                    {{^status}}
+
                         <div class="ml-auto dropdown">
-                            <i class="icon fa fa-clock-o fa-fw " aria-hidden="true"></i>
+                            {{^ canviewvideo}}
+                              <i class="icon fa fa-clock-o fa-fw " aria-hidden="true"></i>
+                            {{/ canviewvideo}}
+                            {{^status}}
                             <button class="btn btn-link btn-icon icon-size-3 coursemenubtn"
                                 type="button"
                                 data-toggle="dropdown"
@@ -101,7 +105,7 @@
                                     data-id="{{ id }}"
                                     aria-controls="favorite-icon-{{ id }}-{{ uniqid }}"
                                     >
-                                    {{#str}} editvideo, mod_zatuk {{/str}}
+                                    {{#str}} edit {{/str}}
                                     <div class="sr-only">
                                         {{#str}} editvideo, mod_zatuk {{/str}} {{{fullname}}}
                                     </div>
@@ -118,8 +122,8 @@
                                 </a>
                                 {{/ iszatukrepoenabled}}
                             </div>
+                             {{/status}}
                         </div>
-                    {{/status}}
                 </div>
             </div>
         </div>
