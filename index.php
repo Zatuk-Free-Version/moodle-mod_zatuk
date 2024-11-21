@@ -42,8 +42,13 @@ $course->format = $format->get_format();
 $PAGE->set_pagetype('course-view-' . $course->format);
 $PAGE->set_context(context_course::instance($courseid));
 $PAGE->set_course(get_course($courseid));
+$isrepositoryenabled = (new \repository_zatuk\video_service)->isrepositoryenabled();
 echo $OUTPUT->header();
+if ($isrepositoryenabled) {
     $uploadedvideos = new \mod_zatuk\output\uploadedvideos($systemcontext);
     $zatukoutput = $PAGE->get_renderer('mod_zatuk');
     echo $zatukoutput->render($uploadedvideos);
+} else {
+    redirect(new moodle_url($CFG->wwwroot .'/admin/repository.php'));
+}
 echo $OUTPUT->footer();

@@ -356,25 +356,23 @@ function mod_zatuk_coursemodule_standard_elements($formwrapper, $mform) {
  */
 function mod_zatuk_extend_navigation_course($navigation, $course, $context) {
 
-    $apikey = trim(get_config('repository_zatuk', 'zatuk_key'));
-    if ($apikey) {
-        if (has_capability('mod/zatuk:viewzatukmodule', $context)) {
-            $url = new moodle_url('/mod/zatuk/index.php', ['courseid' => $course->id]);
-            $name = get_string('pluginname', 'mod_zatuk');
-            $navigation->add($name, $url, navigation_node::TYPE_SETTING, null, null, new pix_icon('i/settings', ''));
+    $isrepositoryenabled = (new \repository_zatuk\video_service)->isrepositoryenabled();
+    if ($isrepositoryenabled) {
+        $apikey = trim(get_config('repository_zatuk', 'zatuk_key'));
+        if ($apikey) {
+            if (has_capability('mod/zatuk:viewzatukmodule', $context)) {
+                $url = new moodle_url('/mod/zatuk/index.php', ['courseid' => $course->id]);
+                $name = get_string('pluginname', 'mod_zatuk');
+                $navigation->add($name, $url, navigation_node::TYPE_SETTING, null, null, new pix_icon('i/settings', ''));
+            }
+        } else {
+            if (is_siteadmin()) {
+                $url = new moodle_url('/mod/zatuk/index.php', ['courseid' => $course->id]);
+                $name = get_string('pluginname', 'mod_zatuk');
+                $navigation->add($name, $url, navigation_node::TYPE_SETTING, null, null, new pix_icon('i/settings', ''));
+            }
         }
-
-    } else {
-
-        if (is_siteadmin()) {
-
-            $url = new moodle_url('/mod/zatuk/index.php', ['courseid' => $course->id]);
-            $name = get_string('pluginname', 'mod_zatuk');
-            $navigation->add($name, $url, navigation_node::TYPE_SETTING, null, null, new pix_icon('i/settings', ''));
-        }
-
     }
-
 }
 
 
