@@ -37,7 +37,7 @@ export const init = () => {
             const zatukid = uploadvideo.getAttribute('data-id');
             if (zatukrepositorystatus == 1) {
                 const title = uploadvideo.getAttribute('data-id') ?
-                    getString('uploadvideo', 'mod_zatuk', uploadvideo.getAttribute('data-name')) :
+                    getString('editvideo', 'mod_zatuk', uploadvideo.getAttribute('data-name')) :
                     getString('uploadvideo', 'mod_zatuk');
                 const form = new ModalForm({
                     formClass: 'mod_zatuk\\form\\upload',
@@ -59,7 +59,7 @@ export const init = () => {
                     });
                     setTimeout(function() {
                         window.location.reload();
-                    },3500);
+                    },5000);
                 });
                 form.show();
 
