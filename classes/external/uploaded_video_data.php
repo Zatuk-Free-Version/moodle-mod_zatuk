@@ -58,6 +58,7 @@ class uploaded_video_data extends external_api {
             'args' => $args,
         ]);
         self::validate_context(context_system::instance());
+        require_capability('mod/zatuk:viewuploadedvideo', context_system::instance());
         $params = json_decode($args);
         if ($params->args->action == "updatePreferences") {
             $countonly = true;

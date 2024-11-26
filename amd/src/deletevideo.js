@@ -38,15 +38,15 @@ export const init = () => {
         let deletevideo = e.target.closest(Selectors.actions.deletevideo);
         if (deletevideo) {
             const id = deletevideo.getAttribute('data-id');
-                const deleteVideo = async () => {
+            const deleteVideo = async () => {
                 const modal = await ModalSaveCancel.create({
-                    title: getString('deletevideo', 'mod_zatuk'),
-                    body: getString('deleteconfirm', 'mod_zatuk')
+                    title: getString('deleteconfirm', 'mod_zatuk'),
+                    body: getString('deleteconfirmmessage', 'mod_zatuk')
                 });
                 modal.show();
                 modal.getRoot().on(ModalEvents.save, (e) => {
                     e.preventDefault();
-                    Templates.render('mod_zatuk/loader', {}).then(({html, js}) => {
+                    Templates.render('mod_zatuk/loader', {}).then(function(html, js) {
                         Templates.appendNodeContents('.modal-content', html, js);
                     });
                     var params = {};
@@ -56,17 +56,15 @@ export const init = () => {
                         args: params
                     }]);
                     promise[0].done(function() {
+                        modal.hide();
                         getString('videodeleted' ,'mod_zatuk').then((str) => {
-                          MessageModal.confirmbox(getString('finalzatuksmessage','mod_zatuk',str));
+                          MessageModal.confirmbox(getString('finalzatuksmessage','mod_zatuk',str), true);
                         });
-                        setTimeout(function() {
-                            window.location.reload();
-                        },3500);
                     }).fail(function() {
                     });
                 });
             };
-          deleteVideo();
+            deleteVideo();
         }
 
         let movetozatuk = e.target.closest(Selectors.actions. movetozatuk);
@@ -74,13 +72,13 @@ export const init = () => {
             const id = movetozatuk.getAttribute('data-id');
             const publishZatukVideoo = async () => {
                 const modal = await ModalSaveCancel.create({
-                    title: getString('movetozatuk', 'mod_zatuk'),
-                    body: getString('movetozatukconfirm', 'mod_zatuk')
+                    title: getString('publishconfirm', 'mod_zatuk'),
+                    body: getString('publishconfirmmessage', 'mod_zatuk')
                 });
                 modal.show();
                 modal.getRoot().on(ModalEvents.save, (e) => {
                     e.preventDefault();
-                    Templates.render('mod_zatuk/loader', {}).then(({html, js}) => {
+                    Templates.render('mod_zatuk/loader', {}).then(function(html, js) {
                         Templates.appendNodeContents('.modal-content', html, js);
                     });
                     var params = {};
@@ -93,11 +91,8 @@ export const init = () => {
                         if(resp.result === true) {
                             modal.hide();
                             getString('publishedtoserver' ,'mod_zatuk').then((str) => {
-                              MessageModal.confirmbox(getString('finalzatuksmessage','mod_zatuk',str));
+                              MessageModal.confirmbox(getString('finalzatuksmessage','mod_zatuk',str), true);
                             });
-                            setTimeout(function() {
-                                window.location.reload();
-                            },3500);
 
                         } else {
                             modal.hide();
@@ -111,7 +106,7 @@ export const init = () => {
                     });
                 });
             };
-          publishZatukVideoo();
+            publishZatukVideoo();
         }
     });
 };

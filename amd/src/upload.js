@@ -36,8 +36,8 @@ export const init = () => {
             const zatukrepositorystatus = uploadvideo.getAttribute('data-zatukrepoenabled');
             const zatukid = uploadvideo.getAttribute('data-id');
             if (zatukrepositorystatus == 1) {
-                const title = uploadvideo.getAttribute('data-id') ?
-                    getString('editvideo', 'mod_zatuk', uploadvideo.getAttribute('data-name')) :
+                const title = zatukid > 0 ?
+                    getString('edit') :
                     getString('uploadvideo', 'mod_zatuk');
                 const form = new ModalForm({
                     formClass: 'mod_zatuk\\form\\upload',
@@ -45,7 +45,6 @@ export const init = () => {
                     modalConfig: {title},
                     returnFocus: uploadvideo,
                 });
-                form.addEventListener(form.events.FORM_SUBMITTED, () => window.location.reload());
                 form.addEventListener(form.events.FORM_SUBMITTED, (event) => {
                     event.preventDefault();
                     e.preventDefault();
@@ -54,12 +53,10 @@ export const init = () => {
                     } else {
                         var messageString = getString('videouploaded' ,'mod_zatuk');
                     }
+                    form.modal.destroy();
                     messageString.then((str) => {
-                      MessageModal.confirmbox(getString('finalzatuksmessage','mod_zatuk',str));
+                      MessageModal.confirmbox(getString('finalzatuksmessage','mod_zatuk',str), true);
                     });
-                    setTimeout(function() {
-                        window.location.reload();
-                    },5000);
                 });
                 form.show();
 

@@ -30,10 +30,6 @@ namespace mod_zatuk;
 class zatuk_constants {
 
     /**
-     * @var int indicates accepted video types.
-     */
-    public const ACCEPTED_VIDEO_TYPES = ['.mp4', '.m4v', '.mov'];
-    /**
      * @var int default page limit.
      */
     public const DEFAULTPAGELIMIT = 10;
@@ -61,7 +57,6 @@ class zatuk_constants {
      * @var int indicates the status-e value as 5.
      */
     public const STATUSE = 5;
-
     /**
      * @var int indicates the element max length value as 255.
      */

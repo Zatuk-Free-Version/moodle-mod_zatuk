@@ -21,8 +21,9 @@
  */
 import {get_string as getString} from 'core/str';
 import ModalCancel from "core/modal_cancel";
+import ModalEvents from 'core/modal_events';
 export default class MessageModal {
-    confirmbox(message) {
+    confirmbox(message, canReload) {
         const messageModal = async () => {
             const modal = await ModalCancel.create({
                 body: message,
@@ -31,6 +32,16 @@ export default class MessageModal {
                 buttons: {
                     cancel: getString('ok'),
                 },
+            });
+            modal.getRoot().on(ModalEvents.cancel, (e) => {
+                if (canReload) {
+                    window.location.reload();
+                }
+            });
+            modal.getRoot().on(ModalEvents.hidden, (e) => {
+                if (canReload) {
+                    window.location.reload();
+                }
             });
             modal.show();
         };

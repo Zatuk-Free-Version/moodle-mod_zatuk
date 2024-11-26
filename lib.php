@@ -315,8 +315,9 @@ function mod_zatuk_get_browsevideo_form_html($mform) {
     $args->env = zc::FILEPICKER;
     $fp = new file_picker($args);
     $options = $fp->options;
+    $apikey = trim(get_config('repository_zatuk', 'zatuk_key'));
     $zatukingid = array_search('zatuk', array_column($options->repositories, 'type', 'id'));
-    if (!$zatukingid) {
+    if (!$zatukingid || !$apikey) {
         $sdata = ['url' => $CFG->wwwroot .'/admin/repository.php'];
         return $OUTPUT->render_from_template('mod_zatuk/nozatukrepository', $sdata);
     }
@@ -361,13 +362,13 @@ function mod_zatuk_extend_navigation_course($navigation, $course, $context) {
         $apikey = trim(get_config('repository_zatuk', 'zatuk_key'));
         if ($apikey) {
             if (has_capability('mod/zatuk:viewzatukmodule', $context)) {
-                $url = new moodle_url('/mod/zatuk/index.php', ['courseid' => $course->id]);
+                $url = new moodle_url('/mod/zatuk/index.php');
                 $name = get_string('pluginname', 'mod_zatuk');
                 $navigation->add($name, $url, navigation_node::TYPE_SETTING, null, null, new pix_icon('i/settings', ''));
             }
         } else {
             if (is_siteadmin()) {
-                $url = new moodle_url('/mod/zatuk/index.php', ['courseid' => $course->id]);
+                $url = new moodle_url('/mod/zatuk/index.php');
                 $name = get_string('pluginname', 'mod_zatuk');
                 $navigation->add($name, $url, navigation_node::TYPE_SETTING, null, null, new pix_icon('i/settings', ''));
             }
