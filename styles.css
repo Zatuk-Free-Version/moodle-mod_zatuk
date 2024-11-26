@@ -1,3 +1,16 @@
+
+@media (min-width: 840px) {
+    .dashboard-card-deck:not(.fixed-width-cards) .dashboard-card {
+      width: calc(48%) !important;
+    }
+}
+#page-mod-zatuk-view .dashboard-card-deck .dashboard-card {
+    margin-bottom: .5rem;
+    flex-basis: auto;
+    width: 100% !important;
+    flex-grow: 0;
+    flex-shrink: 0;
+}
 #page-mod-zatuk-view div[role="main"] .khost-loaded.kplayer-loaded {
     float: none;margin: 30px auto;
 }
@@ -40,37 +53,6 @@
     color: #fff !important;
     background-image: none;
 }
-
-@media only screen and (max-width: 766px) {
-    #page-mod-zatuk-view .mdl-align {
-        margin-top: 15px;
-        margin-bottom: 15px;
-    }
-
-    #page-mod-zatuk-view .activity-navigation .float-left{
-        float: none !important;
-        text-align: center;
-    }
-
-    #page-mod-zatuk-view .activity-navigation .float-right{
-        float: none !important;
-        text-align: center;
-    }
-
-    #page-mod-zatuk-view a#action-menu-toggle-3 {
-        position: relative;
-        top: -30px;
-    }
-
-    #page-mod-zatuk-view .course_detail_container .like_unlike.disable_pointer {
-        margin-left: 10px;
-    }
-
-    #page-mod-zatuk-view .course_detail_container {
-        font-size: 14px;
-    }
-}
-
 #page-mod-zatuk-view .mytooltip:hover .mytooltiptext, .overall_users.mt-10:hover .mytooltip .mytooltiptext {
     display: none;
 }
@@ -212,37 +194,6 @@
     background-color: #f6f7fa;
     color: #535561;
 }
-@media only screen and (max-width: 767px) {
-    #zatuk_uploaded_videos_data tbody td,
-    #get_zatuk_data tbody td {
-        width: 100%;
-    }
-    #page-mod-zatuk-index #zatuk_uploaded_videos_data .main_card .te_mt, #get_zatuk_data .main_card .te_mt {
-        padding: 0px 0 0 0;
-        line-height: 1.6;
-    }
-    #page-mod-zatuk-index #zatuk_uploaded_videos_data_wrapper #zatuk_uploaded_videos_data_filter, #get_zatuk_data_wrapper #get_zatuk_data_filter {
-        position: static;
-    }
-
-    #page-mod-zatuk-index .upload_btn {
-        margin-bottom: 15px;
-    }
-    #page-mod-zatuk-index #region-main .nav-tabs .nav-item {
-        width: 100%;
-    }
-    #page-mod-zatuk-index #region-main .nav-tabs {
-        width: 100%;
-        margin: auto;
-    }
-}
-
-@media only screen and (min-device-width : 768px) and (max-device-width : 1023px) {
-    #zatuk_uploaded_videos_data tbody td,
-    #get_zatuk_data tbody td {
-        width: 50%;
-    }
-}
 #page-mod-zatuk-index .zatuk_video {
     margin:0 auto;
 }
@@ -268,7 +219,6 @@
     bottom: 0;
     z-index: 99;
 }
-
 .zatuknodatadialogue_content .icon {
     background-image: url('[[pix:mod_zatuk|icon]]');
     background-position: center;

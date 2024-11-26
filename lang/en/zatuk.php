@@ -29,8 +29,8 @@ $string['courseactions'] = 'Actions for course';
 $string['courseimage'] = 'Course image';
 $string['coursename'] = 'Course name';
 $string['courseshortname'] = 'Course short name';
-$string['deleteconfirm'] = 'Are you sure to delete this video?';
-$string['deletevideo'] = 'Delete video';
+$string['deleteconfirm'] = 'Delete confirm';
+$string['deleteconfirmmessage'] = 'Are you sure you want to delete this record?';
 $string['descriptionhelp'] = 'Description';
 $string['descriptionhelp_help'] = 'Zatuk video description';
 $string['editvideo'] = 'Edit video';
@@ -66,8 +66,6 @@ Use the tool on-premises or on the cloud.
 One of the top advantages of this tool is to reduce the load on your browser while fetching the videos. It has a repository from where you can upload files for streaming. And the contents are super safe as there is no scope for data sharing.';
 $string['modulename_link'] = 'mod/zatuk/view';
 $string['modulenameplural'] = 'Zatuk';
-$string['movetozatuk'] = 'Move to zatuk';
-$string['movetozatukconfirm'] = 'Are you sure you want to move it to Zatuk?';
 $string['norecordsmessage'] = 'No Records Found.';
 $string['not_synced'] = 'Not synced';
 $string['notsynced'] = 'Not synced';
@@ -91,6 +89,9 @@ $string['privacy:metadata:zatuk_uploaded_videos:videoid'] = 'Uploaded video id.'
 $string['public'] = 'Public';
 $string['publichelp'] = 'public';
 $string['publichelp_help'] = 'If the “public” option is selected, the video will be accessible to all users on the platform. If unchecked, only the uploading teacher, admin can have the access to see the video  and students will have access to the video after published.';
+$string['publish'] = 'Publish';
+$string['publishconfirm'] = 'Publish confirm';
+$string['publishconfirmmessage'] = 'Are you sure you want to publish this record into streaming application?';
 $string['published'] = 'Published videos';
 $string['publishedon'] = 'Published on';
 $string['publishedtoserver'] = 'Successfully published to the zatuk application.';
@@ -112,7 +113,7 @@ $string['uploadedon'] = 'Uploaded on';
 $string['uploadedvideos'] = 'Uploaded videos';
 $string['uploadvideo'] = 'Upload video';
 $string['uploadzatukvideo'] = 'Please upload zatuk video to create an activity.';
-$string['videocannotbeupdated'] = 'Note: Video can not be updated.';
+$string['videocannotbeupdated'] = 'Note: Video is not editable.';
 $string['videocompleted'] = 'The user with id {$a->userid} completely viewed the zatuk activity having reportid {$a->objectid}.';
 $string['videodeleted'] = 'Video deleted successfully.';
 $string['videodeletedby'] = 'Video is deleted by userid {$a->userid} with status {$a->objectid}';
@@ -137,4 +138,7 @@ $string['zatukingapp'] = 'Zatuk app';
 $string['zatukingnotyetset'] = 'No video available in zatuk application, Please make sure zatuk application settings are correct';
 $string['zatukinstance'] = 'The user with id {$a->userid} viewed the zatuk activity with course moduleid {$a->objectid}.';
 $string['zatukpaused'] = 'The user with id {$a->userid} paused the video having reportid {$a->objectid}.';
+$string['zatukuploadedvideos'] = 'Zatuk uploaded videos';
+$string['zatukusersuggestmessage'] = 'The options to Edit Video or Delete Video are only available untill the video is published to Zatuk.';
+
 

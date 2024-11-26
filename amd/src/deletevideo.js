@@ -39,15 +39,15 @@ export const init = () => {
         if (deletevideo) {
             const id = deletevideo.getAttribute('data-id');
             ModalFactory.create({
-                title: getString('deletevideo', 'mod_zatuk'),
+                title: getString('deleteconfirm', 'mod_zatuk'),
                 type: ModalFactory.types.SAVE_CANCEL,
-                body: getString('deleteconfirm', 'mod_zatuk')
+                body: getString('deleteconfirmmessage', 'mod_zatuk')
             }).done(function(modal) {
                 this.modal = modal;
                 modal.setSaveButtonText(getString('delete'));
                 modal.getRoot().on(ModalEvents.save, function(e) {
                     e.preventDefault();
-                    Templates.renderForPromise('mod_zatuk/loader', {}).then(({html, js}) => {
+                    Templates.render('mod_zatuk/loader', {}).then(function(html, js) {
                         Templates.appendNodeContents('.modal-content', html, js);
                     });
                     var params = {};
@@ -57,12 +57,10 @@ export const init = () => {
                         args: params
                     }]);
                     promise[0].done(function() {
+                        modal.hide();
                         getString('videodeleted' ,'mod_zatuk').then((str) => {
-                          MessageModal.confirmbox(getString('finalzatuksmessage','mod_zatuk',str));
+                          MessageModal.confirmbox(getString('finalzatuksmessage','mod_zatuk',str), true);
                         });
-                        setTimeout(function() {
-                            window.location.reload();
-                        },3500);
                     }).fail(function() {
                     });
                 }.bind(this));
@@ -73,15 +71,15 @@ export const init = () => {
         if (movetozatuk) {
             const id = movetozatuk.getAttribute('data-id');
             ModalFactory.create({
-                title: getString('movetozatuk', 'mod_zatuk'),
+                title: getString('publishconfirm', 'mod_zatuk'),
                 type: ModalFactory.types.SAVE_CANCEL,
-                body: getString('movetozatukconfirm', 'mod_zatuk')
+                body: getString('publishconfirmmessage', 'mod_zatuk')
             }).done(function(modal) {
                 this.modal = modal;
-                modal.setSaveButtonText(getString('movetozatuk', 'mod_zatuk'));
+                modal.setSaveButtonText(getString('publish', 'mod_zatuk'));
                 modal.getRoot().on(ModalEvents.save, function(e) {
                     e.preventDefault();
-                     Templates.renderForPromise('mod_zatuk/loader', {}).then(({html, js}) => {
+                    Templates.render('mod_zatuk/loader', {}).then(function(html, js) {
                         Templates.appendNodeContents('.modal-content', html, js);
                     });
                     var params = {};
@@ -94,11 +92,8 @@ export const init = () => {
                         if(resp.result === true) {
                             modal.hide();
                             getString('publishedtoserver' ,'mod_zatuk').then((str) => {
-                              MessageModal.confirmbox(getString('finalzatuksmessage','mod_zatuk',str));
+                              MessageModal.confirmbox(getString('finalzatuksmessage','mod_zatuk',str), true);
                             });
-                            setTimeout(function() {
-                                window.location.reload();
-                            },3500);
                         } else {
                             modal.hide();
                             getString('servererror').then((str) => {

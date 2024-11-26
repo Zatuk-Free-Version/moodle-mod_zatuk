@@ -53,7 +53,7 @@ class upload extends dynamic_form {
 
         if ((int)$id <= zc::DEFAULTSTATUS || is_null($id)) {
 
-            $videoformats = ['accepted_types' => zc::ACCEPTED_VIDEO_TYPES];
+            $videoformats = ['accepted_types' => ['.mp4', '.m4v', '.mov']];
             $mform->addElement('filepicker', 'filepath', get_string('filepath', 'mod_zatuk'), null, $videoformats);
             $mform->addHelpButton('filepath', 'filepathhelp', 'mod_zatuk');
             $mform->addRule('filepath', get_string('filepathrequired', 'mod_zatuk'), 'required', null, 'client');

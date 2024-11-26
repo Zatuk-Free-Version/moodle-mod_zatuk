@@ -25,7 +25,7 @@
 require('../../config.php');
 require_once('../../course/format/lib.php');
 global $OUTPUT, $PAGE;
-$courseid = required_param('courseid', PARAM_INT);
+use context_system;
 require_login();
 $systemcontext = context_system::instance();
 require_capability('mod/zatuk:viewuploadedvideo', context_system::instance());
@@ -33,16 +33,13 @@ $PAGE->requires->js_call_amd('mod_zatuk/zatukcontent', 'init', ['[data-region="z
 $PAGE->requires->js_call_amd('mod_zatuk/zatukcontent', 'registerSelector');
 $PAGE->requires->js_call_amd('mod_zatuk/upload', 'init');
 $PAGE->requires->js_call_amd('mod_zatuk/renderzatuk', 'init');
-$course = $DB->get_record('course', ['id' => $courseid], '*', MUST_EXIST);
-$PAGE->set_url('/mod/zatuk/index.php', ['courseid' => $courseid]);
-$PAGE->set_pagelayout('course');
-$PAGE->add_body_class('limitedwidth');
-$format = course_get_format($course);
-$course->format = $format->get_format();
-$PAGE->set_pagetype('course-view-' . $course->format);
-$PAGE->set_context(context_course::instance($courseid));
-$PAGE->set_course(get_course($courseid));
+$PAGE->set_url('/mod/zatuk/index.php');
+$PAGE->set_context($systemcontext);
+$PAGE->add_body_classes(['limitedwidth']);
+$PAGE->set_title(get_string('zatukuploadedvideos', 'mod_zatuk'));
+$PAGE->set_heading(get_string('zatukuploadedvideos', 'mod_zatuk'));
 $isrepositoryenabled = (new \repository_zatuk\video_service)->isrepositoryenabled();
+\core\notification::add(get_string('zatukusersuggestmessage', 'mod_zatuk'), \core\notification::INFO);
 echo $OUTPUT->header();
 if ($isrepositoryenabled) {
     $uploadedvideos = new \mod_zatuk\output\uploadedvideos($systemcontext);

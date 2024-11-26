@@ -21,9 +21,10 @@
  */
 import {get_string as getString} from 'core/str';
 import ModalFactory from 'core/modal_factory';
+import ModalEvents from 'core/modal_events';
 
 export default class MessageModal {
-    confirmbox(message) {
+    confirmbox(message, canReload) {
         ModalFactory.create({
             body: message,
             type: ModalFactory.types.ALERT,
@@ -32,6 +33,16 @@ export default class MessageModal {
             },
             removeOnClose: true,
         }).done(function(modal) {
+            modal.getRoot().on(ModalEvents.cancel, (e) => {
+                if (canReload) {
+                    window.location.reload();
+                }
+            });
+            modal.getRoot().on(ModalEvents.hidden, (e) => {
+                if (canReload) {
+                    window.location.reload();
+                }
+            });
             modal.show();
         });
     }
