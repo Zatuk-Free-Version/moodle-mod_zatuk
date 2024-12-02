@@ -194,7 +194,7 @@ function zatuk_get_coursemodule_info($coursemodule) {
  * @return array
  */
 function zatuk_page_type_list($pagetype, $parentcontext, $currentcontext) {
-    $modulepagetype = ['mod-url-*' => get_string('page-mod-url-x', 'url')];
+    $modulepagetype = ['mod-zatuk-*' => get_string('page-mod-zatuk-x', 'zatuk')];
     return $modulepagetype;
 }
 
