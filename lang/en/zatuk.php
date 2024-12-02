@@ -73,6 +73,7 @@ $string['notyetstarted'] = 'Not yet started';
 $string['novideosuploadedyet'] = 'No video uploaded yet, please upload!';
 $string['nozatukrepository'] = 'Please enable zatuk repository to <u><a href="{$a}">continue</a></u>';
 $string['on'] = 'On';
+$string['page-mod-zatuk-x'] = 'Any zatuk module page';
 $string['pagelimit'] = 'Page limit {$a}';
 $string['pluginadministration'] = 'Zatuk module administration';
 $string['pluginname'] = 'Zatuk';
