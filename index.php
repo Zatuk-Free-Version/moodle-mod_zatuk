@@ -39,13 +39,14 @@ $PAGE->add_body_classes(['limitedwidth']);
 $PAGE->set_title(get_string('zatukuploadedvideos', 'mod_zatuk'));
 $PAGE->set_heading(get_string('zatukuploadedvideos', 'mod_zatuk'));
 $isrepositoryenabled = (new \repository_zatuk\video_service)->isrepositoryenabled();
-\core\notification::add(get_string('zatukusersuggestmessage', 'mod_zatuk'), \core\notification::INFO);
-echo $OUTPUT->header();
-if ($isrepositoryenabled) {
-    $uploadedvideos = new \mod_zatuk\output\uploadedvideos($systemcontext);
-    $zatukoutput = $PAGE->get_renderer('mod_zatuk');
-    echo $zatukoutput->render($uploadedvideos);
-} else {
+if (!$isrepositoryenabled) {
     redirect(new moodle_url($CFG->wwwroot .'/admin/repository.php'));
+} else {
+    \core\notification::add(get_string('zatukusersuggestmessage', 'mod_zatuk'), \core\notification::INFO);
 }
+echo $OUTPUT->header();
+$uploadedvideos = new \mod_zatuk\output\uploadedvideos($systemcontext);
+$zatukoutput = $PAGE->get_renderer('mod_zatuk');
+echo $zatukoutput->render($uploadedvideos);
+
 echo $OUTPUT->footer();
