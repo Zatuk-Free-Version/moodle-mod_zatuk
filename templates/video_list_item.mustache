@@ -38,7 +38,7 @@
             <a href="#" tabindex="-1">
 
 
-                <div class="card-img dashboard-card-img {{#status}} {{# canviewvideo}} renderervideo {{/canviewvideo}} {{/status}} zatukimagecard" style='background-image: url("{{{thumbnail}}}");' data-id="{{videoid}}" data-zatukurl="{{path}}" data-title="{{title}}">
+                <div class="card-img dashboard-card-img {{#status}} {{# canviewvideo}} renderervideo {{/canviewvideo}} {{/status}} zatukimagecard  {{^ canviewvideo}} canimageclickable {{/canviewvideo}}" style='background-image: url("{{{thumbnail}}}");' data-id="{{videoid}}" data-zatukurl="{{path}}" data-title="{{title}}">
                     <span class="sr-only">{{#str}}courseimage, mod_zatuk{{/str}}</span>
                 </div>
             </a>
@@ -70,7 +70,6 @@
                             </div>
                         </div>
                     </div>
-
                         <div class="ml-auto dropdown">
                             {{^ canviewvideo}}
                               <i class="icon fa fa-clock-o fa-fw " aria-hidden="true"></i>
@@ -133,6 +132,13 @@
 </div>
 
 {{#js}}
+
+{{#js}}
+    require(['jquery'], function($) {
+        $('.canimageclickable').click(function() { return false; });
+    });
+{{/js}}
+
 require(['mod_zatuk/upload'], function(s) {
     s.init();
 });
