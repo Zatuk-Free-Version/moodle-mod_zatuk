@@ -1,10 +1,16 @@
 /**
  * videojs-hls-quality-selector
  */
-(function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('media_videojs/video-lazy')) :
-	typeof define === 'function' && define.amd ? define(['media_videojs/video-lazy'], factory) :
-	(global.videojsHlsQualitySelector = factory(global.videojs));
+define(function (global, factory, module) {
+  if(typeof exports === 'object' && typeof module !== 'undefined') {
+    module.exports = factory(require('media_videojs/video-lazy'));
+  } else if (typeof define === 'function' && define.amd ) {
+    define(['media_videojs/video-lazy'], factory);
+
+  } else {
+
+(global.videojsHlsQualitySelector = factory(global.videojs));
+}
 }(this, (function (videojs) { 'use strict';
 
 videojs = videojs && videojs.hasOwnProperty('default') ? videojs['default'] : videojs;
@@ -18,121 +24,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 };
 
 
-
-
-
-var asyncGenerator = function () {
-  function AwaitValue(value) {
-    this.value = value;
-  }
-
-  function AsyncGenerator(gen) {
-    var front, back;
-
-    function send(key, arg) {
-      return new Promise(function (resolve, reject) {
-        var request = {
-          key: key,
-          arg: arg,
-          resolve: resolve,
-          reject: reject,
-          next: null
-        };
-
-        if (back) {
-          back = back.next = request;
-        } else {
-          front = back = request;
-          resume(key, arg);
-        }
-      });
-    }
-
-    function resume(key, arg) {
-      try {
-        var result = gen[key](arg);
-        var value = result.value;
-
-        if (value instanceof AwaitValue) {
-          Promise.resolve(value.value).then(function (arg) {
-            resume("next", arg);
-          }, function (arg) {
-            resume("throw", arg);
-          });
-        } else {
-          settle(result.done ? "return" : "normal", result.value);
-        }
-      } catch (err) {
-        settle("throw", err);
-      }
-    }
-
-    function settle(type, value) {
-      switch (type) {
-        case "return":
-          front.resolve({
-            value: value,
-            done: true
-          });
-          break;
-
-        case "throw":
-          front.reject(value);
-          break;
-
-        default:
-          front.resolve({
-            value: value,
-            done: false
-          });
-          break;
-      }
-
-      front = front.next;
-
-      if (front) {
-        resume(front.key, front.arg);
-      } else {
-        back = null;
-      }
-    }
-
-    this._invoke = send;
-
-    if (typeof gen.return !== "function") {
-      this.return = undefined;
-    }
-  }
-
-  if (typeof Symbol === "function" && Symbol.asyncIterator) {
-    AsyncGenerator.prototype[Symbol.asyncIterator] = function () {
-      return this;
-    };
-  }
-
-  AsyncGenerator.prototype.next = function (arg) {
-    return this._invoke("next", arg);
-  };
-
-  AsyncGenerator.prototype.throw = function (arg) {
-    return this._invoke("throw", arg);
-  };
-
-  AsyncGenerator.prototype.return = function (arg) {
-    return this._invoke("return", arg);
-  };
-
-  return {
-    wrap: function (fn) {
-      return function () {
-        return new AsyncGenerator(fn.apply(this, arguments));
-      };
-    },
-    await: function (value) {
-      return new AwaitValue(value);
-    }
-  };
-}();
 
 
 
@@ -167,7 +58,14 @@ var inherits = function (subClass, superClass) {
       configurable: true
     }
   });
-  if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+
+  if (superClass) {
+    if(Object.setPrototypeOf) {
+
+      Object.setPrototypeOf(subClass, superClass);
+
+    }
+  }
 };
 
 
@@ -211,7 +109,7 @@ function toTitleCase(string) {
  * Extend vjs button class for quality button.
  */
 
-var ConcreteButton = function (_VideoJsButtonClass) {
+var ConcreteButton = (function (_VideoJsButtonClass) {
   inherits(ConcreteButton, _VideoJsButtonClass);
 
   /**
@@ -278,7 +176,7 @@ var ConcreteButton = function (_VideoJsButtonClass) {
   };
 
   return ConcreteButton;
-}(VideoJsButtonClass);
+})(VideoJsButtonClass);
 
 // Concrete classes
 var VideoJsMenuItemClass = videojs.getComponent('MenuItem');
@@ -287,7 +185,7 @@ var VideoJsMenuItemClass = videojs.getComponent('MenuItem');
  * Extend vjs menu item class.
  */
 
-var ConcreteMenuItem = function (_VideoJsMenuItemClass) {
+var ConcreteMenuItem = (function (_VideoJsMenuItemClass) {
   inherits(ConcreteMenuItem, _VideoJsMenuItemClass);
 
   /**
@@ -331,7 +229,7 @@ var ConcreteMenuItem = function (_VideoJsMenuItemClass) {
   };
 
   return ConcreteMenuItem;
-}(VideoJsMenuItemClass);
+})(VideoJsMenuItemClass);
 
 // Default options for the plugin.
 var defaults = {};
@@ -344,7 +242,7 @@ var registerPlugin = videojs.registerPlugin || videojs.plugin;
  * VideoJS HLS Quality Selector Plugin class.
  */
 
-var HlsQualitySelectorPlugin = function () {
+var HlsQualitySelectorPlugin = (function () {
 
   /**
    * Plugin Constructor.
@@ -399,7 +297,9 @@ var HlsQualitySelectorPlugin = function () {
     this._qualityButton = new ConcreteButton(player);
 
     var placementIndex = player.controlBar.children().length - 2;
-    var concreteButtonInstance = player.controlBar.addChild(this._qualityButton, { componentClass: 'qualitySelector' }, this.config.placementIndex || placementIndex);
+    var concreteButtonInstance = player.controlBar.addChild(this._qualityButton,
+                                                            { componentClass: 'qualitySelector' },
+                                                            this.config.placementIndex || placementIndex);
 
     concreteButtonInstance.addClass('vjs-quality-selector');
     if (!this.config.displayCurrentQuality) {
@@ -468,7 +368,9 @@ var HlsQualitySelectorPlugin = function () {
     }
 
     levelItems.sort(function (current, next) {
-      if ((typeof current === 'undefined' ? 'undefined' : _typeof(current)) !== 'object' || (typeof next === 'undefined' ? 'undefined' : _typeof(next)) !== 'object') {
+      if ((typeof current === 'undefined' ?
+           'undefined' : _typeof(current)) !== 'object' || (typeof next === 'undefined' ?
+           'undefined' : _typeof(next)) !== 'object') {
         return -1;
       }
       if (current.item.value < next.item.value) {
@@ -531,7 +433,7 @@ var HlsQualitySelectorPlugin = function () {
   };
 
   return HlsQualitySelectorPlugin;
-}();
+})();
 
 /**
  * Function to invoke when the player is ready.

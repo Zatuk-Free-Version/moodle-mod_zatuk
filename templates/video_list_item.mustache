@@ -100,7 +100,7 @@
                                 {{/deleteoption}}
                                 {{# iszatukrepoenabled}}
                                 <a class="dropdown-item edituploadedvideo"  href="#"
-                                    data-action="uploadvideo" data-zatukrepoenabled = "{{iszatukrepoenabled}}"
+                                    data-action="uploadvideo" id ='uploadzatukvideoaction' data-zatukrepoenabled = "{{iszatukrepoenabled}}"
                                     data-id="{{ id }}"
                                     aria-controls="favorite-icon-{{ id }}-{{ uniqid }}"
                                     >
@@ -133,11 +133,9 @@
 
 {{#js}}
 
-{{#js}}
-    require(['jquery'], function($) {
-        $('.canimageclickable').click(function() { return false; });
-    });
-{{/js}}
+require(['jquery'], function($) {
+    $('.canimageclickable').click(function() { return false; });
+});
 
 require(['mod_zatuk/upload'], function(s) {
     s.init();
