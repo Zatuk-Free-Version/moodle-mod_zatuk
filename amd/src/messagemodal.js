@@ -33,12 +33,12 @@ export default class MessageModal {
             },
             removeOnClose: true,
         }).done(function(modal) {
-            modal.getRoot().on(ModalEvents.cancel, (e) => {
+            modal.getRoot().on(ModalEvents.cancel, () => {
                 if (canReload) {
                     window.location.reload();
                 }
             });
-            modal.getRoot().on(ModalEvents.hidden, (e) => {
+            modal.getRoot().on(ModalEvents.hidden, () => {
                 if (canReload) {
                     window.location.reload();
                 }

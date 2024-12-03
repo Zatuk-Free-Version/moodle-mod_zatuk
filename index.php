@@ -40,7 +40,12 @@ $PAGE->set_title(get_string('zatukuploadedvideos', 'mod_zatuk'));
 $PAGE->set_heading(get_string('zatukuploadedvideos', 'mod_zatuk'));
 $isrepositoryenabled = (new \repository_zatuk\video_service)->isrepositoryenabled();
 if (!$isrepositoryenabled) {
-    redirect(new moodle_url($CFG->wwwroot .'/admin/repository.php'));
+    if (is_siteadmin()) {
+        redirect(new moodle_url($CFG->wwwroot .'/admin/repository.php'));
+    } else {
+        redirect(new moodle_url($CFG->wwwroot));
+    }
+
 } else {
     \core\notification::add(get_string('zatukusersuggestmessage', 'mod_zatuk'), \core\notification::INFO);
 }

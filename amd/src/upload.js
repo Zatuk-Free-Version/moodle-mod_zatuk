@@ -19,6 +19,7 @@
  * @copyright  2023 Moodle India
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+import $ from 'jquery';
 import ModalForm from 'core_form/modalform';
 import {get_string as getString} from 'core/str';
 import messagemodal from 'mod_zatuk/messagemodal';
@@ -29,42 +30,40 @@ const Selectors = {
 };
 let MessageModal = new messagemodal();
 export const init = () => {
-    document.addEventListener('click', function(e) {
+    $(document).on('click','#uploadzatukvideoaction', function(e){
         let uploadvideo = e.target.closest(Selectors.actions. uploadvideo);
-        if (uploadvideo) {
-            e.stopImmediatePropagation();
-            const zatukrepositorystatus = uploadvideo.getAttribute('data-zatukrepoenabled');
-            const zatukid = uploadvideo.getAttribute('data-id');
-            if (zatukrepositorystatus == 1) {
-                const title = zatukid > 0 ?
-                    getString('edit') :
-                    getString('uploadvideo', 'mod_zatuk');
-                const form = new ModalForm({
-                    formClass: 'mod_zatuk\\form\\upload',
-                    args: {id: zatukid},
-                    modalConfig: {title},
-                    returnFocus: uploadvideo,
+        e.stopImmediatePropagation();
+        const zatukrepositorystatus = uploadvideo.getAttribute('data-zatukrepoenabled');
+        const zatukid = uploadvideo.getAttribute('data-id');
+        if (zatukrepositorystatus == 1) {
+            const title = zatukid > 0 ?
+                getString('edit') :
+                getString('uploadvideo', 'mod_zatuk');
+            const form = new ModalForm({
+                formClass: 'mod_zatuk\\form\\upload',
+                args: {id: zatukid},
+                modalConfig: {title},
+                returnFocus: uploadvideo,
+            });
+            form.addEventListener(form.events.FORM_SUBMITTED, (event) => {
+                event.preventDefault();
+                e.preventDefault();
+                if (zatukid > 0) {
+                    var messageString = getString('videoupdated' ,'mod_zatuk');
+                } else {
+                    var messageString = getString('videouploaded' ,'mod_zatuk');
+                }
+                form.modal.destroy();
+                messageString.then((str) => {
+                  MessageModal.confirmbox(getString('finalzatuksmessage','mod_zatuk',str), true);
                 });
-                form.addEventListener(form.events.FORM_SUBMITTED, (event) => {
-                    event.preventDefault();
-                    e.preventDefault();
-                    if (zatukid > 0) {
-                        var messageString = getString('videoupdated' ,'mod_zatuk');
-                    } else {
-                        var messageString = getString('videouploaded' ,'mod_zatuk');
-                    }
-                    form.modal.destroy();
-                    messageString.then((str) => {
-                      MessageModal.confirmbox(getString('finalzatuksmessage','mod_zatuk',str), true);
-                    });
-                });
-                form.show();
+            });
+            form.show();
 
-            } else {
-                getString('enablezatuk' ,'mod_zatuk').then((str) => {
-                    MessageModal.confirmbox(getString('finalzatuksmessage','mod_zatuk',str));
-                });
-            }
+        } else {
+            getString('enablezatuk' ,'mod_zatuk').then((str) => {
+                MessageModal.confirmbox(getString('finalzatuksmessage','mod_zatuk',str));
+            });
         }
     });
 };
