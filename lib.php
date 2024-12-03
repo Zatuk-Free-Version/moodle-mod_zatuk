@@ -358,10 +358,12 @@ function mod_zatuk_coursemodule_standard_elements($formwrapper, $mform) {
 function mod_zatuk_extend_navigation_course($navigation, $course, $context) {
 
     $isrepositoryenabled = (new \repository_zatuk\video_service)->isrepositoryenabled();
+    $systemcontext = context_system::instance();
     if ($isrepositoryenabled) {
         $apikey = trim(get_config('repository_zatuk', 'zatuk_key'));
         if ($apikey) {
-            if (has_capability('mod/zatuk:viewzatukmodule', $context)) {
+            if (is_siteadmin() || has_capability('mod/zatuk:viewuploadedvideo', $systemcontext)) {
+
                 $url = new moodle_url('/mod/zatuk/index.php');
                 $name = get_string('pluginname', 'mod_zatuk');
                 $navigation->add($name, $url, navigation_node::TYPE_SETTING, null, null, new pix_icon('i/settings', ''));
