@@ -23,14 +23,10 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, Ajax, Notificat
 
     var DEFAULT_LIMIT = 10;
     var uploadedVideos = function(args) {
-        // if (!args.hasOwnProperty('limit')) {
-            args.limit = DEFAULT_LIMIT;
-        // }
-        args.action = 'zatuk_uploaded_videos_data';
-        // args.lastId = args.aftereventid;
-        let arg = {args: JSON.stringify({args})};
-        // delete args.limit;
 
+        args.limit = DEFAULT_LIMIT;
+        args.action = 'zatuk_uploaded_videos_data';
+        let arg = {args: JSON.stringify({args})};
         var request = {
             methodname: 'mod_zatuk_view_zatuk_uploaded_video_data',
             args: arg
@@ -39,10 +35,8 @@ define(['jquery', 'core/ajax', 'core/notification'], function($, Ajax, Notificat
         return promise;
     };
     var updatePreferences = function(args) {
-        // if (!args.hasOwnProperty('limit')) {
-            // This is intentionally smaller than the default limit.
-            args.limit = DEFAULT_LIMIT;
-        // }
+
+        args.limit = DEFAULT_LIMIT;
         args.action = 'updatePreferences';
         args.limitnum = args.limit;
         delete args.limit;

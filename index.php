@@ -22,35 +22,47 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require('../../config.php');
-require_once('../../course/format/lib.php');
+ require(__DIR__.'/../../config.php');
+
 global $OUTPUT, $PAGE;
-use context_system;
-require_login();
-$systemcontext = context_system::instance();
-require_capability('mod/zatuk:viewuploadedvideo', context_system::instance());
-$PAGE->requires->js_call_amd('mod_zatuk/zatukcontent', 'init', ['[data-region="zatuk-list-container"]', 10]);
+$id = required_param('id', PARAM_INT); // Course Id.
+
+$course = get_course($id);
+require_course_login($course, false);
+
+$context = context_course::instance($course->id);
+require_capability('mod/zatuk:managezatukactivity', $context);
+
+$pagetitle = get_string('zatukuploadedvideos', 'mod_zatuk');
+$pageurl = new moodle_url('/mod/zatuk/index.php', ['id' => $course->id]);
+$PAGE->set_pagetype('mod-zatuk-incourse');
+$PAGE->add_body_classes(['limitedwidth']);
+$PAGE->set_context($context);
+$PAGE->set_url($pageurl);
+$PAGE->set_title($pagetitle);
+$PAGE->set_heading(format_string($course->fullname, true, ['context' => $context]));
+
+
+$PAGE->requires->js_call_amd('mod_zatuk/zatukcontent', 'init');
 $PAGE->requires->js_call_amd('mod_zatuk/zatukcontent', 'registerSelector');
 $PAGE->requires->js_call_amd('mod_zatuk/upload', 'init');
 $PAGE->requires->js_call_amd('mod_zatuk/renderzatuk', 'init');
-$PAGE->set_url('/mod/zatuk/index.php');
-$PAGE->set_context($systemcontext);
-$PAGE->add_body_classes(['limitedwidth']);
-$PAGE->set_title(get_string('zatukuploadedvideos', 'mod_zatuk'));
-$PAGE->set_heading(get_string('zatukuploadedvideos', 'mod_zatuk'));
+
 $isrepositoryenabled = (new \repository_zatuk\video_service)->isrepositoryenabled();
-if (!$isrepositoryenabled) {
+$apikey = trim(get_config('repository_zatuk', 'zatuk_key'));
+
+if (!$isrepositoryenabled || !$apikey) {
     if (is_siteadmin()) {
         redirect(new moodle_url($CFG->wwwroot .'/admin/repository.php'));
     } else {
         redirect(new moodle_url($CFG->wwwroot));
     }
-
 } else {
     \core\notification::add(get_string('zatukusersuggestmessage', 'mod_zatuk'), \core\notification::INFO);
 }
+
 echo $OUTPUT->header();
-$uploadedvideos = new \mod_zatuk\output\uploadedvideos($systemcontext);
+$uploadedvideos = new \mod_zatuk\output\uploadedvideos($context);
 $zatukoutput = $PAGE->get_renderer('mod_zatuk');
 echo $zatukoutput->render($uploadedvideos);
 

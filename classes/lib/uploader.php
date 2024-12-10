@@ -28,7 +28,7 @@ use moodle_exception;
 use mod_zatuk\zatuk_constants as zc;
 use Exception;
 use stdClass;
-use context_system;
+use context_course;
 /**
  * class uploader
  */
@@ -52,7 +52,8 @@ class uploader {
      * @return bool|null|array
      */
     public function publish_video() {
-        $videoinfosql = "SELECT uv.*, f.id as fileid FROM {zatuk_uploaded_videos} uv
+
+        $videoinfosql = "SELECT uv.*, f.id AS fileid, uv.course AS courseid FROM {zatuk_uploaded_videos} uv
                             JOIN {files} f ON f.itemid = uv.id
                             WHERE f.filename != '.' AND
                             uv.status = :filestatus AND
@@ -94,7 +95,7 @@ class uploader {
                 } else {
                     throw new moodle_exception(get_string('servererror'));
                 }
-                $context = context_system::instance();
+                $context = context_course::instance($videoinfo->courseid);
                 $error = (!isset($content)) ? get_string('servererror') :
                 ((!empty($content['error']) && !is_null($content['error'])) ? $content['error'] : '');
                 $message = (!isset($content)) ? get_string('servererror') :
@@ -141,16 +142,15 @@ class uploader {
         if (!in_array($filetype, $mediatype)) {
             throw new moodle_exception('Wrong mime type selected.');
         }
-        $fileinfo->postname = $filename;
-        $fileinfo->mime = $mimetype;
         return $fileinfo;
     }
     /**
      * Publish zatuk video based on video id
      * @param int $id
+     * @param int $courseid
      * @return bool|null|array
      */
-    public function publish_video_by_id($id) {
+    public function publish_video_by_id($id, $courseid) {
 
         $videoinfosql = " SELECT uv.*, f.id as fileid FROM {zatuk_uploaded_videos} uv
                           JOIN {files} f ON f.itemid = uv.id
@@ -195,7 +195,7 @@ class uploader {
             } else {
                 $response = 0;
             }
-            $context = context_system::instance();
+            $context = context_course::instance($courseid);
             $error = (!isset($content)) ? get_string('servererror') :
             ((!empty($content['error']) && !is_null($content['error'])) ? $content['error'] : '');
             $message = (!isset($content)) ? get_string('servererror') :

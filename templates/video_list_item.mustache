@@ -88,7 +88,7 @@
                                 {{#deleteoption}}
                                 <a class="dropdown-item deleteuploadedvideo"  href="#"
                                     data-action="deletevideo"
-                                    data-id="{{ id }}"
+                                    data-id="{{ id }}" data-courseid="{{ courseid }}"
                                     aria-controls="favorite-icon-{{ id }}-{{ uniqid }}"
                                     >
                                     {{#str}} delete {{/str}}
@@ -99,8 +99,8 @@
                                 {{/deleteoption}}
                                 {{# iszatukrepoenabled}}
                                 <a class="dropdown-item edituploadedvideo"  href="#"
-                                    data-action="uploadvideo" id ='uploadzatukvideoaction' data-zatukrepoenabled = "{{iszatukrepoenabled}}"
-                                    data-id="{{ id }}"
+                                    data-action="uploadvideo" id ='uploadzatukvideoaction' data-zatukrepoenabled = "{{iszatukrepoenabled}}" data-courseid="{{ courseid }}"
+                                    data-id="{{id}}"
                                     aria-controls="favorite-icon-{{ id }}-{{ uniqid }}"
                                     >
                                     {{#str}} edit {{/str}}
@@ -110,7 +110,7 @@
                                 </a>
                                 <a class="dropdown-item movetozatuk"  href="#"
                                     data-action="movetozatuk"
-                                    data-id="{{ id }}"
+                                    data-id="{{ id }}" data-courseid="{{ courseid }}"
                                     aria-controls="favorite-icon-{{ id }}-{{ uniqid }}"
                                     >
                                     {{#str}} publish, mod_zatuk {{/str}}

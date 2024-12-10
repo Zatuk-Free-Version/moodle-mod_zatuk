@@ -29,6 +29,7 @@ use renderer_base;
 use templatable;
 use mod_zatuk\zatuk_constants as zc;
 use stdClass;
+use context_course;
 /**
  * Class uploadedvideos.
  *
@@ -51,7 +52,7 @@ class uploadedvideos implements renderable, templatable {
     /**
      * Export this data so it can be used as the context for a mustache template.
      *
-     * @param \renderer_base $output
+     * @param renderer_base $output
      * @return stdClass
      */
     public function export_for_template(renderer_base $output) {
@@ -59,11 +60,14 @@ class uploadedvideos implements renderable, templatable {
         $data = new stdClass();
         $apikey = trim(get_config('repository_zatuk', 'zatuk_key'));
         $data->all = true;
-        $datalength = (new \mod_zatuk\zatuk)->zatuk_uploaded_video_data();
+        $datalength = (new \mod_zatuk\zatuk)->zatuk_uploaded_video_data(['courseid' => $this->context->instanceid]);
         $data->length = $datalength['length'];
         $data->statusfilter = zc::ALL;
-        $data->addcapability = (is_siteadmin() || has_capability('mod/zatuk:uploadvideo', $this->context)) ? true : false;
+        $data->addcapability = (is_siteadmin() ||
+                                has_capability('mod/zatuk:uploadvideo', context_course::instance($this->context->instanceid))
+                              ) ? true : false;
         $data->zatukrepoenabled = $apikey ? true : false;
+        $data->courseid = $this->context->instanceid;
         return $data;
     }
 }

@@ -38,6 +38,7 @@ export const init = () => {
         let deletevideo = e.target.closest(Selectors.actions.deletevideo);
         if (deletevideo) {
             const id = deletevideo.getAttribute('data-id');
+            const courseid = deletevideo.getAttribute('data-courseid');
             ModalFactory.create({
                 title: getString('deleteconfirm', 'mod_zatuk'),
                 type: ModalFactory.types.SAVE_CANCEL,
@@ -52,6 +53,7 @@ export const init = () => {
                     });
                     var params = {};
                     params.id = id;
+                    params.courseid = courseid;
                     var promise = Ajax.call([{
                         methodname: 'mod_zatuk_delete_video',
                         args: params
@@ -67,9 +69,11 @@ export const init = () => {
                 modal.show();
             }.bind(this));
         }
+
         let movetozatuk = e.target.closest(Selectors.actions. movetozatuk);
         if (movetozatuk) {
             const id = movetozatuk.getAttribute('data-id');
+            const courseid = movetozatuk.getAttribute('data-courseid');
             ModalFactory.create({
                 title: getString('publishconfirm', 'mod_zatuk'),
                 type: ModalFactory.types.SAVE_CANCEL,
@@ -84,6 +88,7 @@ export const init = () => {
                     });
                     var params = {};
                     params.id = id;
+                    params.courseid = courseid;
                     var promise = Ajax.call([{
                         methodname: 'mod_zatuk_move_to_zatuk',
                         args: params
@@ -94,12 +99,14 @@ export const init = () => {
                             getString('publishedtoserver' ,'mod_zatuk').then((str) => {
                               MessageModal.confirmbox(getString('finalzatuksmessage','mod_zatuk',str), true);
                             });
+
                         } else {
                             modal.hide();
                             getString('servererror').then((str) => {
                                MessageModal.confirmbox(getString('failedwarningmessage','mod_zatuk',str));
                             });
                         }
+
                     }).fail(function() {
 
                     });

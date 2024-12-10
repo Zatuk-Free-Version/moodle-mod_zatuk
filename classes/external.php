@@ -28,6 +28,7 @@ defined('MOODLE_INTERNAL') || die;
 require_once($CFG->libdir.'/externallib.php');
 require_once($CFG->dirroot.'/lib/completionlib.php');
 use mod_zatuk\zatuk as mz;
+use context_course;
 
 /**
  * class mod_zatuk_external
@@ -57,9 +58,9 @@ class mod_zatuk_external extends external_api {
                                             [
                                                 'args' => $args,
                                             ]);
-        self::validate_context(context_system::instance());
-        require_capability('mod/zatuk:viewuploadedvideo', context_system::instance());
         $params = json_decode($args);
+        self::validate_context(context_course::instance($params->args->courseid));
+        require_capability('mod/zatuk:viewuploadedvideo', context_course::instance($params->args->courseid));
         if ($params->args->action == "updatePreferences") {
             $countonly = true;
         } else {
@@ -91,6 +92,7 @@ class mod_zatuk_external extends external_api {
                          'videoid' => new external_value(PARAM_RAW, 'Video unique id'),
                          'status' => new external_value(PARAM_BOOL, 'Video publish status'),
                          'deleteoption' => new external_value(PARAM_BOOL, 'Delete option'),
+                         'courseid' => new external_value(PARAM_INT, 'Course id'),
                          'iszatukrepoenabled' => new external_value(PARAM_INT, 'Is zatuk repository enabled'),
                          'canviewvideo' => new external_value(PARAM_INT, 'Is video plublished to streaming application.'),
                         ]
@@ -109,22 +111,25 @@ class mod_zatuk_external extends external_api {
         return new external_function_parameters(
             [
                 'id' => new external_value(PARAM_INT, 'The id of the video uploaded'),
+                'courseid' => new external_value(PARAM_INT, 'The id of the current course'),
             ]
         );
     }
     /**
      * Delete zatuk video.
      * @param int $id
+     * @param int $courseid
      * @return array
      */
-    public static function delete_zatuk_video($id) {
+    public static function delete_zatuk_video($id, $courseid) {
         $params = self::validate_parameters(self::delete_zatuk_video_parameters(),
                                             [
                                                 'id' => $id,
+                                                'courseid' => $courseid,
                                             ]);
-        self::validate_context(context_system::instance());
-        require_capability('mod/zatuk:deletevideo', context_system::instance());
-        $response = (new mz)->delete_zatuk_content($id);
+        self::validate_context(context_course::instance($courseid));
+        require_capability('mod/zatuk:deletevideo', context_course::instance($courseid));
+        $response = (new mz)->delete_zatuk_content($id, $courseid);
         $result = ($response) ? true : false;
         return ['result' => $result];
     }
@@ -146,24 +151,27 @@ class mod_zatuk_external extends external_api {
     public static function publish_to_zatuk_server_parameters() {
         return new external_function_parameters(
             [
-               'id' => new external_value(PARAM_INT, 'The id of the video uploaded', VALUE_DEFAULT, 0),
+               'id' => new external_value(PARAM_INT, 'The id of the video uploaded'),
+               'courseid' => new external_value(PARAM_INT, 'The id of the current course'),
             ]
         );
     }
     /**
      * Move zatuk video from lms to zatuk site based on id.
      * @param int $id
+     * @param int $courseid
      * @return array
      */
-    public static function publish_to_zatuk_server($id) {
+    public static function publish_to_zatuk_server($id, $courseid) {
         $params = self::validate_parameters(self::publish_to_zatuk_server_parameters(),
                                             [
                                                 'id' => $id,
+                                                'courseid' => $courseid,
                                             ]);
-        self::validate_context(context_system::instance());
-        require_capability('mod/zatuk:uploadvideo', context_system::instance());
+        self::validate_context(context_course::instance($courseid));
+        require_capability('mod/zatuk:uploadvideo', context_course::instance($courseid));
         $uploader = new mod_zatuk\lib\uploader();
-        $response = $uploader->publish_video_by_id($id);
+        $response = $uploader->publish_video_by_id($id, $courseid);
         $result = ($response) ? true : false;
         return ['result' => $result];
     }

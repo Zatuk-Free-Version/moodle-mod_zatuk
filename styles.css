@@ -57,61 +57,40 @@
     display: none;
 }
 
-#page-mod-zatuk-index .nav-tabs {
-    border: solid 1px #c4a9e7;
-    display: inline-flex;
-    border-radius:5px;
-    overflow: hidden;
-}
-#page-mod-zatuk-index .nav-tabs .nav-link {
-    color: #a89b9b;
-    background-color: #fff;
-    -webkit-box-shadow: none;
-    box-shadow: none;
-    border:none;
-    margin-right: .0rem;
-    margin-bottom: .0rem;
-    padding: .7em 1.5em !important;
-}
-#page-mod-zatuk-index .dataTables_wrapper .dataTables_paginate .paginate_button {
+#page-mod-zatuk-incourse .dataTables_wrapper .dataTables_paginate .paginate_button {
     border-radius:5px !important;
     padding: 1px 7px !important;
 }
-#page-mod-zatuk-index .nav-tabs .nav-link.active {
-    border-bottom: none;
-    background-color: #0e4ca3;
-    color:#fff;
-}
-#page-mod-zatuk-index .card.main_card h6 {
+#page-mod-zatuk-incourse .card.main_card h6 {
     font-weight: 600;
     padding: 10px 0px 0px 0px;
 }
-#page-mod-zatuk-index h1 {
+#page-mod-zatuk-incourse h1 {
     font-size: 18px;
     font-weight: 500;
 }
-#page-mod-zatuk-index .te_mt .upload {
+#page-mod-zatuk-incourse .te_mt .upload {
     color: #6598ca;
 }
-#page-mod-zatuk-index .te_mt {
+#page-mod-zatuk-incourse .te_mt {
     font-size:12px;
     line-height: 0.6;
     color: #baa3a3;
 }
-#page-mod-zatuk-index .extended_menu_list {
+#page-mod-zatuk-incourse .extended_menu_list {
     list-style-type: none;
 }
-#page-mod-zatuk-index .upload_btn {
+#page-mod-zatuk-incourse .upload_btn {
     font-size: 13px;
     background-color: #0e4ca3;
 }
-#page-mod-zatuk-index #zatuk_uploaded_videos_data .card-body,
-#page-mod-zatuk-index #get_zatuk_data .card-body {
+#page-mod-zatuk-incourse #zatuk_uploaded_videos_data .card-body,
+#page-mod-zatuk-incourse #get_zatuk_data .card-body {
     flex: 1 1 auto;
     padding: .5rem;
 }
-#page-mod-zatuk-index #zatuk_uploaded_videos_data_filter,
-#page-mod-zatuk-index #get_zatuk_data_filter {
+#page-mod-zatuk-incourse #zatuk_uploaded_videos_data_filter,
+#page-mod-zatuk-incourse #get_zatuk_data_filter {
     float: right;
 }
 #zatuk_uploaded_videos_data, #get_zatuk_data {
@@ -135,7 +114,7 @@
     border: 1px solid #0e4ca3;
     border-radius: 6px;
 }
-#page-mod-zatuk-index [type="search"],[type="search"]:focus {
+#page-mod-zatuk-incourse [type="search"],[type="search"]:focus {
     outline-offset: -2px;
     padding: 5px 5px 5px 10px;
     overflow: hidden;
@@ -145,34 +124,34 @@
     border: none;
     border-radius: 20px;
 }
-#page-mod-zatuk-index #page{
+#page-mod-zatuk-incourse #page{
     background-color: #f6f7fa;
 }
-#page-mod-zatuk-index #region-main {
+#page-mod-zatuk-incourse #region-main {
     background-color: #f6f7fa;
 }
-#page-mod-zatuk-index #zatuk_uploaded_videos_data tr:nth-child(odd) td, tr:nth-child(odd) td {
+#page-mod-zatuk-incourse #zatuk_uploaded_videos_data tr:nth-child(odd) td, tr:nth-child(odd) td {
     background: transparent !important;
 }
-#page-mod-zatuk-index #get_zatuk_data tr:nth-child(odd) td {
+#page-mod-zatuk-incourse #get_zatuk_data tr:nth-child(odd) td {
     background: #f6f7fa!important;
 }
-#page-mod-zatuk-index #zatuk_uploaded_videos_data .card, #get_zatuk_data .card {
+#page-mod-zatuk-incourse #zatuk_uploaded_videos_data .card, #get_zatuk_data .card {
     background-color: #f6f7fa;
 }
-#page-mod-zatuk-index #zatuk_uploaded_videos_data .main_card .card-title, #get_zatuk_data .main_card .card-title {
+#page-mod-zatuk-incourse #zatuk_uploaded_videos_data .main_card .card-title, #get_zatuk_data .main_card .card-title {
     font-size: 16px;
     color: #000;
     padding: 15px 0px 0px 0px;
 }
-#page-mod-zatuk-index #get_zatuk_data .main_card .card-block {
+#page-mod-zatuk-incourse #get_zatuk_data .main_card .card-block {
     min-height: 100px;
 }
-#page-mod-zatuk-index #zatuk_uploaded_videos_data .main_card .card-block, #get_zatuk_data .main_card .card-block {
+#page-mod-zatuk-incourse #zatuk_uploaded_videos_data .main_card .card-block, #get_zatuk_data .main_card .card-block {
     padding: 0px 0px 0px 3px;
 }
 
-#page-mod-zatuk-index #zatuk_uploaded_videos_data .main_card .te_mt, #get_zatuk_data .main_card .te_mt {
+#page-mod-zatuk-incourse #zatuk_uploaded_videos_data .main_card .te_mt, #get_zatuk_data .main_card .te_mt {
     font-size: 13px;
     color: #a09cab;
     padding: 8px 0px 0px 0px;
@@ -181,20 +160,20 @@
 .zatuk_upload_by_clr {
     color: #4b79ba;
 }
-#page-mod-zatuk-index #zatuk_uploaded_videos_data_wrapper #zatuk_uploaded_videos_data_filter, #get_zatuk_data_wrapper #get_zatuk_data_filter {
+#page-mod-zatuk-incourse #zatuk_uploaded_videos_data_wrapper #zatuk_uploaded_videos_data_filter, #get_zatuk_data_wrapper #get_zatuk_data_filter {
     position: absolute;
     top: -34px;
     right: 33px;
 }
-#page-mod-zatuk-index #zatuk_uploaded_videos_data_wrapper #zatuk_uploaded_videos_data_filter [type="search"], [type="search"]:focus, #get_zatuk_data_wrapper #get_zatuk_data_filter [type="search"], [type="search"]:focus {
+#page-mod-zatuk-incourse #zatuk_uploaded_videos_data_wrapper #zatuk_uploaded_videos_data_filter [type="search"], [type="search"]:focus, #get_zatuk_data_wrapper #get_zatuk_data_filter [type="search"], [type="search"]:focus {
     margin-left: 5px;
     box-shadow: 1px 3px 3px #dbdcdfed;
 }
-#page-mod-zatuk-index .dataTables_wrapper .dataTables_paginate .paginate_button:active {
+#page-mod-zatuk-incourse .dataTables_wrapper .dataTables_paginate .paginate_button:active {
     background-color: #f6f7fa;
     color: #535561;
 }
-#page-mod-zatuk-index .zatuk_video {
+#page-mod-zatuk-incourse .zatuk_video {
     margin:0 auto;
 }
 .zatuk-list{
@@ -204,13 +183,13 @@
 .zatuk-list .dashboard-card-deck .dashboard-card .dashboard-card-img {
     height: 12rem;
 }
-#page-mod-zatuk-index div[data-region="page-loader"] > div {
+#page-mod-zatuk-incourse div[data-region="page-loader"] > div {
     text-align: center;
     position: absolute;
     left: calc(50% - 30px);
     top: calc(50% - 30px);
 }
-#page-mod-zatuk-index div[data-region="page-loader"] {
+#page-mod-zatuk-incourse div[data-region="page-loader"] {
     background: #a5a5a54d;
     position: absolute;
     left: 0;
@@ -242,7 +221,7 @@
     min-height: 152px;
 }
 
-#page-mod-zatuk-index .zatukimagecard {
+#page-mod-zatuk-incourse .zatukimagecard {
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;

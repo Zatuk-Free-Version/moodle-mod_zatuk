@@ -34,6 +34,7 @@ export const init = () => {
         let uploadvideo = e.target.closest(Selectors.actions. uploadvideo);
         e.stopImmediatePropagation();
         const zatukrepositorystatus = uploadvideo.getAttribute('data-zatukrepoenabled');
+        const courseid = uploadvideo.getAttribute('data-courseid');
         const zatukid = uploadvideo.getAttribute('data-id');
         if (zatukrepositorystatus == 1) {
             const title = zatukid > 0 ?
@@ -41,7 +42,7 @@ export const init = () => {
                 getString('uploadvideo', 'mod_zatuk');
             const form = new ModalForm({
                 formClass: 'mod_zatuk\\form\\upload',
-                args: {id: zatukid},
+                args: {id: zatukid, courseid: courseid},
                 modalConfig: {title},
                 returnFocus: uploadvideo,
             });
