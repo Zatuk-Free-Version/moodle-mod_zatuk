@@ -128,6 +128,7 @@ $string['zatuk:accessedbyfaculty'] = 'Accessed by editing teacher';
 $string['zatuk:addinstance'] = 'Add a new zatuk module';
 $string['zatuk:deletevideo'] = 'Delete video';
 $string['zatuk:editvideo'] = 'Edit video';
+$string['zatuk:managezatukactivity'] = 'Manage zatuk activity.';
 $string['zatuk:uploadvideo'] = 'Upload video';
 $string['zatuk:view'] = 'View zatuk module';
 $string['zatuk:viewuploadedvideo'] = 'View uploaded video';

@@ -25,9 +25,8 @@
 namespace mod_zatuk;
 use stdClass;
 use moodle_exception;
-use context_system;
+use context_course;
 use repository_zatuk\phpzatuk;
-use curl;
 use Exception;
 use mod_zatuk\zatuk_constants as zc;
 /**
@@ -62,22 +61,27 @@ class zatuk {
      */
     public function zatuk_uploaded_video_data($params = [], $onlycount = false) {
         global $OUTPUT, $USER;
-        $systemcontext = context_system::instance();
+
         $curlparams = [];
+        $queryparams = [];
         $videossql = "SELECT uv.id, uv.title, uv.timecreated,uv.videoid,
-                      uv.public,uv.status,uv.filepath AS itemid,
+                      uv.public,uv.status,uv.filepath AS itemid, uv.course AS courseid,
                       u.id AS userid";
         $videoidsql = "SELECT uv.videoid ";
         $countsql = "SELECT count(uv.id) ";
 
         $uploadedvideossql = " FROM {zatuk_uploaded_videos} uv
                                JOIN {user} u on u.id = uv.usercreated WHERE 1=1 ";
-        $queryparams = [];
+
+        $courseid = (int)$params['courseid'];
+        $uploadedvideossql .= " AND uv.course = :courseid ";
+        $queryparams['courseid'] = $courseid;
+
         $sortvideosql = '';
-        if (!is_siteadmin() && has_capability('mod/zatuk:accessedbyfaculty', $systemcontext)) {
+        if (!is_siteadmin() && has_capability('mod/zatuk:accessedbyfaculty', context_course::instance($courseid))) {
 
             $uploadedvideossql .= " AND CASE
-                                       WHEN  uv.public IS NULL THEN uv.usercreated = :usercreated
+                                       WHEN  uv.public <= 0 THEN uv.usercreated = :usercreated
                                        ELSE  uv.id  <> -1
                                     END ";
             $queryparams['usercreated'] = $USER->id;
@@ -135,8 +139,8 @@ class zatuk {
                 $image = $this->zatuklib->apiurl.$content['data'][$thumb]['thumbnail'];
                 $videopath = $content['data'][$thumb]['path'];
             }
-            if (!is_siteadmin() && has_capability('mod/zatuk:accessedbyfaculty', $systemcontext)) {
-                if ($data->public == "0" || $data->public == "") {
+            if (!is_siteadmin() && has_capability('mod/zatuk:accessedbyfaculty', context_course::instance($courseid))) {
+                if ($data->public == 0) {
                     $deleteoption = true;
                 } else {
                     $deleteoption = false;
@@ -157,40 +161,13 @@ class zatuk {
                              'status' => $data->status,
                              'public' => $data->public,
                              'deleteoption' => $deleteoption,
+                             'courseid' => $data->courseid,
                              'iszatukrepoenabled' => $iszatukrepoenabled,
                              'canviewvideo' => ($thumb > zc::DEFAULTSTATUS) ? zc::STATUSA : zc::DEFAULTSTATUS,
                          ];
 
         }
         return ['data' => $returndata, 'length' => $total];
-    }
-    /**
-     * get module content from api.
-     * @return array
-     */
-    public function mod_content() {
-        $searchurl = $this->zatuklib->createsearchapiurl();
-        $curlparams = $this->zatuklib->get_listing_params();
-        $curlparams['q'] = '';
-        $curlparams['perpage'] = zc::STATUSA;
-        $curlparams['page'] = zc::STATUSA;
-        $c = new curl();
-        try {
-            $content = $c->post($searchurl, $curlparams);
-            $content = json_decode($content, true);
-            $totalvideos = $content['meta']['total'];
-            $uploadedvideos = $this->db->count_records('zatuk_uploaded_videos');
-            $syncedvideos = $this->db->count_records('zatuk_uploaded_videos', ['status' => zc::STATUSA]);
-            $systemcontext = context_system::instance();
-            $viewcap = is_siteadmin() || has_capability('mod/zatuk:viewuploadedvideo', $systemcontext);
-            return ['totalVideos' => $totalvideos,
-            'uploadedVideos' => $uploadedvideos,
-            'syncedVideos' => $syncedvideos,
-            'viewcap' => $viewcap];
-        } catch (Exception $e) {
-            throw new moodle_exception($e->getMessage());
-        }
-
     }
     /**
      * Add zatuk content
@@ -201,6 +178,7 @@ class zatuk {
         global $USER;
         try {
             $insertdata = new stdClass();
+            $insertdata->course = $sdata->courseid;
             $insertdata->videoid = uniqid();
             $insertdata->title = $sdata->title;
             $insertdata->public = (isset($sdata->public)) ? $sdata->public : 0;
@@ -229,18 +207,19 @@ class zatuk {
     public function update_zatuk_content($sdata) {
         global $USER;
         try {
-            $insertdata = new stdClass();
-            $insertdata->id = $sdata->id;
-            $insertdata->title = $sdata->title;
-            $insertdata->public = (isset($sdata->public)) ? $sdata->public : 0;
-            $insertdata->description = $sdata->description['text'];
-            if (empty($insertdata->title)) {
-                $insertdata->title = preg_replace('/\\.[^.\\s]{3,4}$/', '', $insertdata->filename);
+            $updatedata = new stdClass();
+            $updatedata->id = $sdata->id;
+            $updatedata->course = $sdata->courseid;
+            $updatedata->title = $sdata->title;
+            $updatedata->public = (isset($sdata->public)) ? $sdata->public : 0;
+            $updatedata->description = $sdata->description['text'];
+            if (empty($updatedata->title)) {
+                $updatedata->title = preg_replace('/\\.[^.\\s]{3,4}$/', '', $updatedata->filename);
             }
-            $insertdata->timecreated = time();
-            $insertdata->usercreated = $USER->id;
-            $insertdata->status = zc::DEFAULTSTATUS;
-            $uploadid = $this->db->update_record('zatuk_uploaded_videos', $insertdata);
+            $updatedata->timecreated = time();
+            $updatedata->usercreated = $USER->id;
+            $updatedata->status = zc::DEFAULTSTATUS;
+            $uploadid = $this->db->update_record('zatuk_uploaded_videos', $updatedata);
             return $sdata->id;
         } catch (Exception $e) {
             throw new moodle_exception($e->getMessage());
@@ -250,15 +229,17 @@ class zatuk {
     /**
      * Delete uploaded zatuk content.
      * @param int $id
+     * @param int $courseid
      * @return bool
      */
-    public function delete_zatuk_content($id) {
+    public function delete_zatuk_content($id, $courseid) {
+
         try {
             $zatukdata = $this->db->get_record('zatuk_uploaded_videos', ['id' => $id], 'id, filepath', MUST_EXIST);
             if ($zatukdata->filepath) {
                 $this->delete_file_instance($zatukdata->filepath, 'video');
             }
-            $context = context_system::instance();
+            $context = context_course::instance($courseid);
             $params = [
                 'context' => $context,
                 'objectid' => $id,

@@ -26,7 +26,7 @@ namespace mod_zatuk\form;
 use core_form\dynamic_form;
 use moodle_url;
 use context;
-use context_system;
+use context_course;
 use mod_zatuk\zatuk as mz;
 use mod_zatuk\zatuk_constants as zc;
 
@@ -42,9 +42,13 @@ class upload extends dynamic_form {
         $mform = $this->_form;
 
         $id = $this->optional_param('id', 0, PARAM_INT);
+        $courseid = $this->optional_param('courseid', 0, PARAM_INT);
 
         $mform->addElement('hidden', 'id', $id);
         $mform->setType('id', PARAM_INT);
+
+        $mform->addElement('hidden', 'courseid', $courseid);
+        $mform->setType('courseid', PARAM_INT);
 
         $mform->addElement('text', 'title', get_string('title', 'mod_zatuk'));
         $mform->addHelpButton('title', 'titlehelp', 'mod_zatuk');
@@ -79,8 +83,8 @@ class upload extends dynamic_form {
      * @return array
      */
     public function validation($data, $files) {
-        $errors = parent::validation($data, $files);
 
+        $errors = parent::validation($data, $files);
         return $errors;
 
     }
@@ -90,10 +94,13 @@ class upload extends dynamic_form {
      * If context depends on the form data, it is available in $this->_ajaxformdata or
      * by calling $this->optional_param()
      *
-     * @return \context
+     * @return context
      */
     protected function get_context_for_dynamic_submission(): context {
-        return context_system::instance();
+
+        $courseid = $this->optional_param('courseid', 0, PARAM_INT);
+        $context = context_course::instance($courseid);
+        return $context;
     }
 
     /**
@@ -120,8 +127,7 @@ class upload extends dynamic_form {
      */
     public function process_dynamic_submission() {
         $data = $this->get_data();
-        $systemcontext = context_system::instance();
-        $context = context::instance_by_id($systemcontext->id, MUST_EXIST);
+        $context = context_course::instance($data->courseid);
         if (!empty($data)) {
             if ((int)$data->id <= zc::DEFAULTSTATUS || is_null($data->id)) {
                 $id = (new mz)->add_zatuk_content($data);
@@ -165,7 +171,9 @@ class upload extends dynamic_form {
      * @return \moodle_url
      */
     protected function get_page_url_for_dynamic_submission(): moodle_url {
-        return new moodle_url('/mod/zatuk/index.php');
+
+        $courseid = $this->optional_param('courseid', 0, PARAM_INT);
+        return new moodle_url('/mod/zatuk/inde.php', ['id' => $courseid]);
     }
 
 }

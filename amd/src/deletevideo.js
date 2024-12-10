@@ -38,6 +38,7 @@ export const init = () => {
         let deletevideo = e.target.closest(Selectors.actions.deletevideo);
         if (deletevideo) {
             const id = deletevideo.getAttribute('data-id');
+            const courseid = deletevideo.getAttribute('data-courseid');
             const deleteVideo = async () => {
                 const modal = await ModalSaveCancel.create({
                     title: getString('deleteconfirm', 'mod_zatuk'),
@@ -51,6 +52,7 @@ export const init = () => {
                     });
                     var params = {};
                     params.id = id;
+                    params.courseid = courseid;
                     var promise = Ajax.call([{
                         methodname: 'mod_zatuk_delete_video',
                         args: params
@@ -70,6 +72,7 @@ export const init = () => {
         let movetozatuk = e.target.closest(Selectors.actions. movetozatuk);
         if (movetozatuk) {
             const id = movetozatuk.getAttribute('data-id');
+            const courseid = movetozatuk.getAttribute('data-courseid');
             const publishZatukVideoo = async () => {
                 const modal = await ModalSaveCancel.create({
                     title: getString('publishconfirm', 'mod_zatuk'),
@@ -83,6 +86,7 @@ export const init = () => {
                     });
                     var params = {};
                     params.id = id;
+                    params.courseid = courseid;
                     var promise = Ajax.call([{
                         methodname: 'mod_zatuk_move_to_zatuk',
                         args: params

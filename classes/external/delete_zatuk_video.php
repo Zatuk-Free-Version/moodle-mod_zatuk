@@ -20,7 +20,7 @@ use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
 use core_external\external_value;
-use context_system;
+use context_course;
 use mod_zatuk\zatuk;
 
 /**
@@ -39,27 +39,32 @@ class delete_zatuk_video extends external_api {
     public static function execute_parameters(): external_function_parameters {
         return new external_function_parameters([
             'id' => new external_value(PARAM_INT, 'The id of the video uploaded'),
+            'courseid' => new external_value(PARAM_INT, 'The id of the current course'),
         ]);
     }
 
     /**
      * Delete zatuk video.
      * @param int $id
+     * @param int $courseid
      * @return array
      */
     public static function execute(
-        $id
+        $id,
+        $courseid
     ): array {
 
         [
             'id' => $id,
+            'courseid' => $courseid,
         ] = self::validate_parameters(self::execute_parameters(), [
             'id' => $id,
+            'courseid' => $courseid,
         ]);
-        self::validate_context(context_system::instance());
-        require_capability('mod/zatuk:deletevideo', context_system::instance());
+        self::validate_context(context_course::instance($courseid));
+        require_capability('mod/zatuk:deletevideo', context_course::instance($courseid));
         $zatuk = new zatuk();
-        $response = $zatuk->delete_zatuk_content($id);
+        $response = $zatuk->delete_zatuk_content($id, $courseid);
         $result = ($response) ? true : false;
         return ['result' => $result];
 

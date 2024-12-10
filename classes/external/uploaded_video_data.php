@@ -21,7 +21,7 @@ use core_external\external_function_parameters;
 use core_external\external_single_structure;
 use core_external\external_multiple_structure;
 use core_external\external_value;
-use context_system;
+use context_course;
 use mod_zatuk\zatuk;
 
 /**
@@ -57,9 +57,10 @@ class uploaded_video_data extends external_api {
         ] = self::validate_parameters(self::execute_parameters(), [
             'args' => $args,
         ]);
-        self::validate_context(context_system::instance());
-        require_capability('mod/zatuk:viewuploadedvideo', context_system::instance());
         $params = json_decode($args);
+        self::validate_context(context_course::instance($params->args->courseid));
+        require_capability('mod/zatuk:viewuploadedvideo', context_course::instance($params->args->courseid));
+
         if ($params->args->action == "updatePreferences") {
             $countonly = true;
         } else {
@@ -91,6 +92,7 @@ class uploaded_video_data extends external_api {
                          'videoid' => new external_value(PARAM_RAW, 'Video unique id'),
                          'status' => new external_value(PARAM_BOOL, 'Video publish status'),
                          'deleteoption' => new external_value(PARAM_BOOL, 'Delete option'),
+                         'courseid' => new external_value(PARAM_INT, 'Course id'),
                          'iszatukrepoenabled' => new external_value(PARAM_INT, 'Is zatuk repository enabled'),
                          'canviewvideo' => new external_value(PARAM_INT, 'Is video plublished to streaming application.'),
                         ]

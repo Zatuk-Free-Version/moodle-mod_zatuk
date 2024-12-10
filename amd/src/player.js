@@ -20,10 +20,8 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 define(['jquery',
-        'core/str',
-        'media_videojs/video-lazy',
-        'mod_zatuk/videojs-hls-quality-selector'],
-function($, Str,videojs){
+        'media_videojs/video-lazy'],
+function($, videojs){
     return {
         load: function(args){
             var values = JSON.parse(args);
@@ -32,9 +30,6 @@ function($, Str,videojs){
             player.src({
                 src: values.src,
                 type: 'application/x-mpegURL'
-            });
-             player.hlsQualitySelector({
-               displayCurrentQuality: true,
             });
             if(typeof(myVideoPlayer) != 'undefined'  && myVideoPlayer !== null){
                 myVideoPlayer.onloadedmetadata = function() {

@@ -138,7 +138,8 @@ function(
           sort: SortFilter,
           limit: limit,
           search: SearchFilter,
-          offset: videosOffset
+          offset: videosOffset,
+          courseid : $(SELECTORS.ROOT).attr('data-courseid')
         });
     };
     var updatePreferences = function() {
@@ -149,7 +150,8 @@ function(
           statusfilter: StatusFilter,
           search: SearchFilter,
           limit: limit,
-          offset: videosOffset
+          offset: videosOffset,
+          courseid : $(SELECTORS.ROOT).attr('data-courseid')
         };
 
 
