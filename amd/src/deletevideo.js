@@ -45,6 +45,7 @@ export const init = () => {
                     body: getString('deleteconfirmmessage', 'mod_zatuk')
                 });
                 modal.show();
+                modal.setSaveButtonText(getString('delete'));
                 modal.getRoot().on(ModalEvents.save, (e) => {
                     e.preventDefault();
                     Templates.render('mod_zatuk/loader', {}).then(function(html, js) {
@@ -79,6 +80,7 @@ export const init = () => {
                     body: getString('publishconfirmmessage', 'mod_zatuk')
                 });
                 modal.show();
+                modal.setSaveButtonText(getString('publish', 'mod_zatuk'));
                 modal.getRoot().on(ModalEvents.save, (e) => {
                     e.preventDefault();
                     Templates.render('mod_zatuk/loader', {}).then(function(html, js) {
