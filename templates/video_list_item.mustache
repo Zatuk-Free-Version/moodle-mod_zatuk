@@ -35,11 +35,18 @@
             data-region="course-content"
             data-course-id="{{{id}}}">
             <a href="#" tabindex="-1">
+                {{# canviewvideo}}
+                    <div class="card-img dashboard-card-img {{#status}}  renderervideo {{/status}} zatukimagecard" style='background-image: url("{{{thumbnail}}}");' data-id="{{videoid}}" data-zatukurl="{{path}}" data-title="{{title}}">
+                       <span class="sr-only">{{#str}}courseimage, mod_zatuk{{/str}}</span>
+                    </div>
+                {{/ canviewvideo}}
 
+                {{^ canviewvideo}}
+                    <div class="card-img dashboard-card-img  zatukimagecard  canimageclickable " style='background-image: url("{{{thumbnail}}}");cursor: default;' data-id="{{videoid}}" data-zatukurl="{{path}}" data-title="{{title}}">
+                        <span class="sr-only">{{#str}}courseimage, mod_zatuk{{/str}}</span>
+                    </div>
+                {{/ canviewvideo}}
 
-                <div class="card-img dashboard-card-img {{#status}} {{# canviewvideo}} renderervideo {{/canviewvideo}} {{/status}} zatukimagecard  {{^ canviewvideo}} canimageclickable {{/canviewvideo}}" style='background-image: url("{{{thumbnail}}}");' data-id="{{videoid}}" data-zatukurl="{{path}}" data-title="{{title}}">
-                    <span class="sr-only">{{#str}}courseimage, mod_zatuk{{/str}}</span>
-                </div>
             </a>
             <div class="card-body pr-1 course-info-container" id="course-info-container-{{id}}-{{uniqid}}">
                 <div class="d-flex align-items-start">
